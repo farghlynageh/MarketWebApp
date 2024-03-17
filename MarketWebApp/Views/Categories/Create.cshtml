@@ -1,33 +1,39 @@
-﻿@model MarketWebApp.Models.Entity.Category
-
+﻿@model MarketWebApp.ViewModel.AddCategoryViewModel
 @{
     ViewData["Title"] = "Create";
+  //  Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>Create</h1>
-
-<h4>Category</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Create New Category</h1>
+                <a class="btn-close" asp-action="Index"></a>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <div class="modal-body p-5 pt-0">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <label asp-for="Name" class="control-label"></label>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Name" class="form-control rounded-4" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                   
+                    <div class="d-grid gap-2">
+                        <input type="submit" value="Create" class="btn btn-primary rounded-3" />
+                        <a class="btn btn-outline-secondary rounded-3" asp-action="Index"> Cancel </a>
+                    </div><br />
+                    <small class="text-body-secondary">Using the Create page, you can add an unlimited number of Categories.</small>
+
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

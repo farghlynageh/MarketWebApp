@@ -1,47 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MarketWebApp.Data;
-using MarketWebApp.Models.Entity;
+using Microsoft.AspNetCore.Authorization;
+using MarketWebApp.Reprository.CategoryReprositry;
+using MarketWebApp.ViewModel;
 
 namespace MarketWebApp.Controllers
 {
+    // sooo
+   // [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICategoryRepository repository;
 
-        public CategoriesController(ApplicationDbContext context)
+        public CategoriesController(ICategoryRepository repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         // GET: Categories
-        public async Task<IActionResult> Index()
+
+        public IActionResult Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            ViewBag.PageCount = (int)Math.Ceiling((decimal)repository.GetAll().Count() / 5m);
+            return View(repository.GetAll());
         }
 
-        // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult GetCategoriess(int pageNumber, int pageSize = 5)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
+            var Categories = repository.GetAll()
+           .OrderBy(p => p.ID)
+           .Skip((pageNumber - 1) * pageSize)
+           .Take(pageSize)
+           .ToList();
+            return PartialView("_CategoryTable", Categories);
         }
+
 
         // GET: Categories/Create
         public IActionResult Create()
@@ -54,31 +47,51 @@ namespace MarketWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name")] Category category)
+        public IActionResult Create(AddCategoryViewModel categoryViewModel)
         {
+
             if (ModelState.IsValid)
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                try
+                {
+                    repository.Insert(categoryViewModel);
+                    repository.Save();
+                    return RedirectToAction("Index");
+
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                    return View(categoryViewModel);
+
+                }
             }
-            return View(category);
+            else
+            {
+                return View(categoryViewModel);
+            }
+
+        }
+
+        public IActionResult CheckCategoryExist(string Name)
+        {
+            if (repository.CheckCategoryExist(Name))
+                return Json(true);
+            else
+                return Json(false);
         }
 
         // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return View(category);
+        [HttpGet]
+        public IActionResult Edit(int Id)
+        {
+            var category = repository.GetCategory(Id);
+            EditCategoryViewModel categoryViewModel = new EditCategoryViewModel();
+            categoryViewModel.ID = category.ID;
+            categoryViewModel.Name = category.Name;
+            return View(categoryViewModel);
         }
 
         // POST: Categories/Edit/5
@@ -86,72 +99,81 @@ namespace MarketWebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Category category)
+        public IActionResult Edit(EditCategoryViewModel categoryViewModel)
         {
-            if (id != category.ID)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
+                    repository.Update(categoryViewModel);
+                    repository.Save();
+                    return RedirectToAction("Index");
+
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!CategoryExists(category.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", ex.Message);
+                    return View(categoryViewModel);
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            else
+            {
+                return View(categoryViewModel);
+            }
         }
 
-        // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+
+        public IActionResult CheckCategoryExistEdit(string Name, int Id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (repository.CheckCategoryExistEdit(Name, Id))
+                return Json(true);
+            else
+                return Json(false);
+        }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
 
-            return View(category);
+        // GET: Categories/Delete/5
+        [HttpGet]
+        public IActionResult Delete(int Id)
+        {
+            var data = repository.GetCategoryWithProducts(Id);
+            ViewBag.flag = data.Products.Count > 0 ? true : false;
+            return View(data);
         }
 
         // POST: Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult ConfirmDelete(int Id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
+
+            if (ModelState.IsValid)
             {
-                _context.Categories.Remove(category);
+                repository.Delete(Id);
+                repository.Save();
+                return RedirectToAction("Index");
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("Delete");
         }
+        
+        //// GET: Categories/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-        private bool CategoryExists(int id)
-        {
-            return _context.Categories.Any(e => e.ID == id);
-        }
+        //    var category = await repository.Categories
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (category == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(category);
+        //}
+    
     }
 }
