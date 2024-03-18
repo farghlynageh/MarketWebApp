@@ -1,32 +1,43 @@
-using MarketWebApp.Models;
+using MarketWebApp.Data;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        ApplicationDbContext context;
+        public HomeController(ApplicationDbContext _context)
         {
-            _logger = logger;
+            context = _context;
         }
-
         public IActionResult Index()
         {
-            return View();
+            var Model = new
+            {
+                Catagory = context.Categories.ToList(),
+                Products = context.Products.ToList(),
+            };
+            return View(Model);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        //[HttpPost]
+        //public IActionResult Search(string searchString)
+        //{
+        //    // Perform search based on the provided searchString
+        //    var searchResults = context.Products
+        //        .Where(m => m.Name.Contains(searchString))
+        //        .ToList();
+
+        //    var Model = new
+        //    {
+        //        Catagory = context.Categories.ToList(),
+        //        SearchResults = searchResults,
+        //    };
+        //    return View(Model);
+        //}
+
+
     }
 }
