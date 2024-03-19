@@ -15,7 +15,6 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        public object Categories => throw new NotImplementedException();
 
         public bool CheckCategoryExist(string Name)
         {
@@ -29,7 +28,16 @@ namespace MarketWebApp.Reprository.CategoryReprositry
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var category = GetCategory(id);
+
+            context.Categories.Remove(category);
+            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+            string uniqueFileName = category.Img;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+            }
         }
 
         public IEnumerable<Category> GetAll()
@@ -49,7 +57,13 @@ namespace MarketWebApp.Reprository.CategoryReprositry
 
         public void Insert(AddCategoryViewModel addCategoryViewModel)
         {
-            throw new NotImplementedException();
+            string uniqueFileName = UploadedFile(addCategoryViewModel.CategoryImage, addCategoryViewModel.Name);
+            var category = new Category();
+            category.Name = addCategoryViewModel.Name;
+            category.Img = uniqueFileName;
+
+
+            context.Categories.Add(category);
         }
 
         public void Save()
@@ -59,12 +73,71 @@ namespace MarketWebApp.Reprository.CategoryReprositry
 
         public void Update(EditCategoryViewModel editCategoryViewModel)
         {
-            throw new NotImplementedException();
-        }
+            var category = GetCategory(editCategoryViewModel.ID);
+            string uniqueFileName = UploadedFile(editCategoryViewModel.CategoryImage, editCategoryViewModel.Name);
+            if (uniqueFileName is null)
+            {
+                // chang name 
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+                string oldPath = Path.Combine(uploadsFolder, category.Img);
+                var extention = System.IO.Path.GetExtension(oldPath).ToString();
+                var imageFullName = editCategoryViewModel.Name + "" + extention;
+                string newPath = Path.Combine(uploadsFolder, imageFullName);
+                category.Name = editCategoryViewModel.Name;
+                category.Img = imageFullName;
+                File.Move(oldPath, newPath);
+            }
+            else if (category.Name != editCategoryViewModel.Name && category.Img != uniqueFileName && uniqueFileName is not null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+                var filePath = Path.Combine(uploadsFolder, category.Img);
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+                category.Name = editCategoryViewModel.Name;
+                category.Img = uniqueFileName;
 
+            }
+            else
+            {
+                //chang img 
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+                var filePath = Path.Combine(uploadsFolder, category.Img);
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    editCategoryViewModel.CategoryImage.CopyTo(fileStream);
+                }
+                category.Name = editCategoryViewModel.Name;
+                category.Img = uniqueFileName;
+            }
+        }
         public string UploadedFile(IFormFile model, string CatName)
         {
-            throw new NotImplementedException();
+            string uniqueFileName = null;
+            if (model != null)
+            {
+
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+                uniqueFileName = CatName + System.IO.Path.GetExtension(model.FileName).ToString();
+
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                //if (System.IO.File.Exists(filePath))
+                //{
+                //    System.IO.File.Delete(filePath);
+                //}
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
     }
 }

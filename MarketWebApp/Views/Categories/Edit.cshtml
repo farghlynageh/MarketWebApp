@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
-    //Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
@@ -22,6 +22,21 @@
                     <div class="form-floating mb-3">
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <label class="control-label" for="inputGroupFile02">Category Image</label>
+                    <div class="row mb-4">
+                        <div class="col-2">
+                            <div class="form-outline">
+                                <img src="~/CategoryImages/@Model.Image" class="rounded-4" height="40" width="40" />
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <div class="form-outline">
+                                <input asp-for="CategoryImage" value="@Model.Image" class="form-control">
+                                <span asp-validation-for="CategoryImage" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-grid gap-2">
                         <input type="submit" value="Edit" class="btn btn-primary rounded-3" />

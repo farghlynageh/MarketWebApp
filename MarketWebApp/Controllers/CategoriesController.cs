@@ -42,9 +42,6 @@ namespace MarketWebApp.Controllers
             return View();
         }
 
-        // POST: Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(AddCategoryViewModel categoryViewModel)
@@ -91,12 +88,11 @@ namespace MarketWebApp.Controllers
             EditCategoryViewModel categoryViewModel = new EditCategoryViewModel();
             categoryViewModel.ID = category.ID;
             categoryViewModel.Name = category.Name;
+            categoryViewModel.Image = category.Img;
             return View(categoryViewModel);
         }
 
         // POST: Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(EditCategoryViewModel categoryViewModel)

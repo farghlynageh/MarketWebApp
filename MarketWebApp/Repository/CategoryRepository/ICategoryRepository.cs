@@ -5,7 +5,6 @@ namespace MarketWebApp.Reprository.CategoryReprositry
 {
     public interface ICategoryRepository
     {
-        object Categories { get; }
 
         IEnumerable<Category> GetAll();
         Category GetCategory(int Id);
@@ -17,6 +16,5 @@ namespace MarketWebApp.Reprository.CategoryReprositry
         string UploadedFile(IFormFile model, string CatName);
         bool CheckCategoryExist(string Name);
         bool CheckCategoryExistEdit(string Name, int Id);
-
     }
 }
