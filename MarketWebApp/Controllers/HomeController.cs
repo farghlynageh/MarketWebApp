@@ -1,43 +1,37 @@
 using MarketWebApp.Data;
+using MarketWebApp.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketWebApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         ApplicationDbContext context;
-        public HomeController(ApplicationDbContext _context)
+
+        public HomeController(ApplicationDbContext _context) : base(_context)
         {
             context = _context;
         }
+
         public IActionResult Index()
         {
-            var Model = new
-            {
-                Catagory = context.Categories.ToList(),
-                Products = context.Products.ToList(),
-            };
-            return View(Model);
+            var Products = context.Products.Where(Product => Product.Discount == 0).ToList();
+            return View(Products);
         }
 
-
-        //[HttpPost]
-        //public IActionResult Search(string searchString)
-        //{
-        //    // Perform search based on the provided searchString
-        //    var searchResults = context.Products
-        //        .Where(m => m.Name.Contains(searchString))
-        //        .ToList();
-
-        //    var Model = new
-        //    {
-        //        Catagory = context.Categories.ToList(),
-        //        SearchResults = searchResults,
-        //    };
-        //    return View(Model);
-        //}
-
+        [HttpPost]
+        public IActionResult Search(string searchString)
+        {
+            // Filter categories and products based on search query
+            var productsQuery = context.Products.Where(p => p.Name.Contains(searchString));
+            var Products = productsQuery.ToList();
+            return View("Index", Products);
+        }
+        public ActionResult Contact()
+        {
+            return View();
+        }
 
     }
 }

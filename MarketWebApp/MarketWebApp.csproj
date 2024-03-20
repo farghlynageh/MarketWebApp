@@ -20,7 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< Updated upstream
     <Folder Include="wwwroot\CategoryImages\" />
+=======
+    <Content Update="Views\Home\Contact.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+>>>>>>> Stashed changes
   </ItemGroup>
 
 </Project>
