@@ -1,11 +1,12 @@
-﻿using MarketWebApp.Models.Entity;
+﻿using MarketWebApp.Models;
+using MarketWebApp.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketWebApp.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -21,5 +22,8 @@ namespace MarketWebApp.Data
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
         public virtual DbSet<OrderProduct> OrderProduct { get; set; }
+       // public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
+
+       // public virtual DbSet<ApplicationRole> ApplicationRole { get; set; }
     }
 }
