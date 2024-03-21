@@ -1,0 +1,41 @@
+﻿@model dynamic;
+
+
+<h2>WishList</h2>
+
+<div class="row featured__filter container">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+            <div class="featured__item">
+                <div class="featured__item__pic set-bg" data-setbg=@Url.Content("~/img/featured/" + item.Img)>
+                    <ul class="featured__item__pic__hover">
+                        @*                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                    *@
+                        <li>
+                            <form method="post" asp-controller="Home" asp-action="AddProductToWish">
+                                <input type="hidden" name="id" value="@item.ID" />
+                                <button type="submit"><i class="fa fa-heart"></i></button>
+                            </form>
+                        </li>
+                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                        <li>
+                            <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart">
+                                <input type="hidden" name="id" value="@item.ID" />
+                                <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                            </form>
+                        </li>
+
+                        @*                                 <li><a id="btnAddToCart" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@item.ID"><i class="fa fa-shopping-cart"></i></a></li>
+                    *@
+                    </ul>
+                </div>
+                <div class="featured__item__text">
+                    <h6><a href="#">@item.Name</a></h6>
+                    <h5>$@item.Price</h5>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

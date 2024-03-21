@@ -7,10 +7,12 @@ namespace MarketWebApp.Controllers
     public class BaseController : Controller
     {
         ApplicationDbContext context;
+
         public BaseController(ApplicationDbContext _context)
         {
             context = _context;
         }
+        
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);

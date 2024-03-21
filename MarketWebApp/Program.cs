@@ -24,6 +24,7 @@ namespace MarketWebApp
 
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddSession();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -40,6 +41,8 @@ namespace MarketWebApp
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

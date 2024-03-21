@@ -2,6 +2,7 @@ using MarketWebApp.Data;
 using MarketWebApp.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace MarketWebApp.Controllers
 {
@@ -9,10 +10,12 @@ namespace MarketWebApp.Controllers
     {
         ApplicationDbContext context;
 
-        public HomeController(ApplicationDbContext _context) : base(_context)
-        {
+
+
+        public HomeController(ApplicationDbContext _context) : base(_context) {
             context = _context;
         }
+        
 
         public IActionResult Index()
         {
@@ -33,5 +36,7 @@ namespace MarketWebApp.Controllers
             return View();
         }
 
+
+       
     }
 }
