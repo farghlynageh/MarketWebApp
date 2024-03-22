@@ -19,7 +19,6 @@
         </div>
     </div>
 </section>
-
 <!-- Categories Section Begin -->
 <section class="categories">
     <div class="container">
@@ -58,13 +57,24 @@
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                     <div class="featured__item">
-                        <div class="featured_item_pic set-bg" data-setbg=@Url.Content("~/img/product/" + item.Img)>
-                            <ul class="featured_itempic_hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                        <div class="featured__item__pic set-bg" data-setbg=@Url.Content("~/img/product/" + item.Img)>
+                            <ul class="featured__item__pic__hover">
+                                <li>
+                                    <form asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@item.ID">
+                                        <button type="submit" class="fa fa-heart">
+                                           
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart">
+                                        <input type="hidden" name="id" value="@item.ID" />
+                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
-                        <div class="featured_item_text">
+                        <div class="featured__item__text">
                             <h6><a href="#">@item.Name</a></h6>
                             <h5>$@item.Price</h5>
                         </div>
