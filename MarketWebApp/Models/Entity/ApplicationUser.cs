@@ -2,7 +2,7 @@
 
 namespace MarketWebApp.Models.Entity
 {
-    public class ApplicationUser:IdentityUser<string>
+    public class ApplicationUser:IdentityUser
     {
       //  public string ApplicationUserId { get; set; }
         public string Address { get; set; }
