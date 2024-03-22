@@ -2,15 +2,15 @@
 
 #nullable disable
 
-namespace MarketWebApp.Data.Migrations
+namespace MarketWebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class New : Migration
+    public partial class Mark : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-                
+
         }
 
         /// <inheritdoc />

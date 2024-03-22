@@ -20,5 +20,13 @@ namespace MarketWebApp.Models.Entity
         [ForeignKey("Location")]
         public int LocationId { get; set; }
         public virtual Location Location { get; set; }
+
+        //[ForeignKey("ApplicationUser")]
+        //public int ApplicationUserId { get; set; }
+        //public virtual ApplicationUser ApplicationUser { get; set; }
+        
+      //  public virtual ShoppingCart ShoppingCart{ get; set; }
+
+
     }
 }
