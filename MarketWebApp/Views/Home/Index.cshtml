@@ -61,15 +61,16 @@
                             <ul class="featured__item__pic__hover">
                                 <li>
                                     <form asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@item.ID">
-                                        <button type="submit" class="fa fa-heart">
-                                           
+                                        <button type="submit" style="border:none; background-color:transparent">
+                                            <a ><i class="fa fa-heart"></i></a>
                                         </button>
                                     </form>
                                 </li>
                                 <li>
-                                    <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart">
-                                        <input type="hidden" name="id" value="@item.ID" />
-                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
+                                    <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@item.ID">
+                                        <button type="submit" style="border:none; background-color:transparent">
+                                            <a><i class="fa fa-shopping-cart"></i></a>
+                                        </button>
                                     </form>
                                 </li>
                             </ul>

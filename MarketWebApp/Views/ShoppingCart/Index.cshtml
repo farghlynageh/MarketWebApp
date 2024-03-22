@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MarketWebApp.Models.Entity.ShoppingCart>
 
 @{
-    ViewData["Title"] = "AddToCart";
+    ViewData["Title"] = "ShoppingCart";
 }
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg=@Url.Content("~/img/breadcrumb.jpg")>
@@ -49,8 +49,8 @@
                                     <td class="shoping__cart__price" id="Price">$@item.Price</td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
-                                            <div class="pro-qty">
-                                                <input type="text" value="1" id="QtyProduct"/>
+                                            <div class="pro-qty" id="quantityInput">
+                                                <input type="text" value="1" >
                                             </div>
                                         </div>
                                     </td>
@@ -85,13 +85,21 @@
         </div>
     </div>
 </section>
-<script>
-    var Qty = document.getElementById("QtyProduct").value;
-    var TotalPrice = document.getElementById("TotalPrice").value;
-    var Price = document.getElementById("Price").value;
 
-    TotalPrice.innerHtml = Price * Qty;
+<script>
+   // var quantityInput = document.getElementById("quantityInput");
+   //  var newValue = document.getElementById("quantity");
+
+   //  // Add an event listener for the input event
+   //  quantityInput.addEventListener("click", function(event) {
+   //      var textValue = newValue.value;
+
+   //      console.log("Quantity changed to: " + textValue);
+   //      // You can perform any action you want with the new quantity value here
+    // });
+
 </script>
+
 @*
 <h1>AddToCart</h1>
 

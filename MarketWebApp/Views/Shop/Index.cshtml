@@ -50,8 +50,20 @@
                                         <div class="product__discount__item__pic set-bg" data-setbg=@Url.Content("~/img/product/" + DProduct.Img)>
                                             <div class="product__discount__percent">-@DProduct.Discount %</div>
                                             <ul class="product__item__pic__hover">
-                                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                                <li>
+                                                    <form asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@DProduct.ID">
+                                                        <button type="submit" style="border:none; background-color:transparent">
+                                                            <a><i class="fa fa-heart"></i></a>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@DProduct.ID">
+                                                        <button type="submit" style="border:none; background-color:transparent">
+                                                            <a><i class="fa fa-shopping-cart"></i></a>
+                                                        </button>
+                                                    </form>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
@@ -82,8 +94,20 @@
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg=@Url.Content("~/img/product/" + product.Img)>
                                     <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li>
+                                            <form asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@product.ID">
+                                                <button type="submit" style="border:none; background-color:transparent">
+                                                    <a><i class="fa fa-heart"></i></a>
+                                                </button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@product.ID">
+                                                <button type="submit" style="border:none; background-color:transparent">
+                                                    <a><i class="fa fa-shopping-cart"></i></a>
+                                                </button>
+                                            </form>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
