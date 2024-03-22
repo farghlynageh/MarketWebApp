@@ -68,5 +68,30 @@ namespace MarketWebApp.Controllers
 
             return View(products);
         }
+
+
+        public ActionResult RemoveProductFromWish(int id)
+        {
+            var existingWishlistData = _contx.HttpContext.Session.GetString("ProductData");
+            List<Product> products = new List<Product>();
+
+            if (!string.IsNullOrEmpty(existingWishlistData))
+            {
+                products = JsonConvert.DeserializeObject<List<Product>>(existingWishlistData);
+
+                var productToRemove = products.FirstOrDefault(p => p.ID == id);
+                if (productToRemove != null)
+                {
+                    products.Remove(productToRemove);
+
+                    string updatedProductString = JsonConvert.SerializeObject(products);
+
+                    _contx.HttpContext.Session.SetString("ProductData", updatedProductString);
+                }
+            }
+
+            return RedirectToAction("WishIndex");
+        }
+
     }
 }
