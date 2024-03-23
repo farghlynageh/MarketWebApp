@@ -22,6 +22,7 @@ namespace MarketWebApp.Data
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
         public virtual DbSet<OrderProduct> OrderProduct { get; set; }
+        public virtual DbSet<ProductCart> ProductCart { get; set; }
        // public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
 
        // public virtual DbSet<ApplicationRole> ApplicationRole { get; set; }

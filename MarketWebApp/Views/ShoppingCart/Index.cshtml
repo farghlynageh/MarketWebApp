@@ -1,5 +1,6 @@
-﻿@model IEnumerable<MarketWebApp.Models.Entity.ShoppingCart>
-
+﻿@* @model IEnumerable<MarketWebApp.Models.Entity.ShoppingCart>
+ *@
+ @model IEnumerable<MarketWebApp.Models.Entity.ProductCart>
 @{
     ViewData["Title"] = "ShoppingCart";
 }
@@ -42,15 +43,15 @@
                                 <tr>
                                     <td class="shoping__cart__item">
                                         <img src=@Url.Content("~/img/product/@item.Img") alt="" />
-@*                                         <div class="hero__item set-bg" data-setbg=@Url.Content("~/img/product/@item.Img")>
- *@
-                                        <h5>@item.Name</h5>
+
+                                        <h5>@item.Product.Name</h5>
                                     </td>
-                                    <td class="shoping__cart__price" id="Price">$@item.Price</td>
+                                    <td class="shoping__cart__price" id="Price">$@item.Product.Price</td>
+
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
                                             <div class="pro-qty" id="quantityInput">
-                                                <input type="text" value="1" >
+                                                <input type="text" value="@item.Quantity">
                                             </div>
                                         </div>
                                     </td>
@@ -87,59 +88,21 @@
 </section>
 
 <script>
-   // var quantityInput = document.getElementById("quantityInput");
-   //  var newValue = document.getElementById("quantity");
 
-   //  // Add an event listener for the input event
-   //  quantityInput.addEventListener("click", function(event) {
-   //      var textValue = newValue.value;
 
-   //      console.log("Quantity changed to: " + textValue);
-   //      // You can perform any action you want with the new quantity value here
-    // });
+<script>
+    // var Qty = document.getElementById("QtyProduct").value;
+    // var TotalPrice = document.getElementById("TotalPrice").value;
+    // var Price = document.getElementById("Price").value;
 
+    // TotalPrice.innerHtml = Price * Qty;
+
+
+    document.getElementById("QtyProduct").addEventListener("input", handleChange);
+
+    function handleChange() {
+        var inputValue = document.getElementById("QtyProduct").value;
+        console.log("Input value changed to: " + inputValue);
+    }
 </script>
 
-@*
-<h1>AddToCart</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Img)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Img)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table> *@

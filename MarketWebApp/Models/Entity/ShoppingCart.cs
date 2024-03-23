@@ -8,13 +8,13 @@ namespace MarketWebApp.Models.Entity
         [Key]
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }
+     
 
-         public string Img { get; set; }
+        [ForeignKey("applicationUser")]
+        public string ApplicationUserID { get; set; }
+        public virtual ApplicationUser applicationUser { get; set; }
+        public virtual ICollection<ProductCart> ProductCarts { get; set; }
 
-        [Required(ErrorMessage = "Price is required")]
-         public int Price { get; set; }
 
         //  public DateTime CreateTime { get; set; }
 
@@ -33,7 +33,7 @@ namespace MarketWebApp.Models.Entity
         //public int? ProductId { get; set; }
         //public virtual Product Product{ get; set; }
 
-    } 
+    }
 
 }
 

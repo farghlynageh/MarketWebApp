@@ -87,7 +87,8 @@ namespace MarketWebApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddSession();
             builder.Services.AddRazorPages();
 
             builder.Services.ConfigureApplicationCookie(options =>
@@ -117,6 +118,8 @@ namespace MarketWebApp
             app.UseRouting();
 
             app.UseAuthorization();
+                    app.UseSession();
+
 
             app.MapControllerRoute(
                 name: "default",

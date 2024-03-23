@@ -31,6 +31,7 @@ namespace MarketWebApp.Models.Entity
 
         // Navigation property to the join entity
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<ProductCart> ProductCarts { get; set; }
        
       //  public virtual ShoppingCart ShoppingCart { get; set; }
 

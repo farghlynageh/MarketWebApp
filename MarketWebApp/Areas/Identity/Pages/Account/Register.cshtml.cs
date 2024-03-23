@@ -293,9 +293,9 @@ namespace MarketWebApp.Areas.Identity.Pages.Account
             
             //public string SSN { get; set; }
 
-            [Required]
-            [Display(Name = "Role")]
-            public string RoleName { get; set; }
+            //[Required]
+            //[Display(Name = "Role")]
+            //public string RoleName { get; set; }
 
 
         }
@@ -329,7 +329,7 @@ namespace MarketWebApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, Input.RoleName);
+                    //await _userManager.AddToRoleAsync(user, Input.RoleName);
 
                     _logger.LogInformation("User created a new account with password.");
 
