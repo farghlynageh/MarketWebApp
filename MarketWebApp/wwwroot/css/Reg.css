@@ -1,0 +1,84 @@
+﻿/* Center align the forms */
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+/* Style for form container */
+.col-md-4 {
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px; /* Add some space around the form */
+}
+
+/* Style for form heading */
+h2 {
+    margin-top: 0; /* Remove default margin */
+    font-size: 24px;
+    color: #333; /* Dark gray text color */
+}
+
+/* Style for form inputs */
+.form-control {
+    margin-bottom: 15px; /* Add some space between inputs */
+    font-size: 18px;
+}
+.form-label{
+    font-size:20px;
+}
+h2{
+font-size:40px;
+
+}
+
+#create{
+font-size:25px;
+}
+
+
+/* Style for form labels */
+.form-label {
+    color: #333; /* Dark gray text color */
+}
+
+/* Style for form buttons */
+.btn-primary {
+    background-color: #007bff; /* Primary button color */
+    border-color: #007bff; /* Border color */
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker color on hover */
+        border-color: #0056b3;
+    }
+
+/* Optional: Adjust styling for smaller screens */
+@media (max-width: 768px) {
+    .col-md-4 {
+        width: 100%; /* Take full width on smaller screens */
+    }
+}
+
+.container {
+    background-color: olivedrab;
+    darkseagreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Adjust to your preference */
+}
+#login-submit {
+    background-color: darkseagreen;
+}
+#registerSubmit {
+    background-color: olivedrab;
+}
+body{
+    background-color:darkseagreen;
+}
+p{
+    font-family:'Times New Roman', Times, serif;
+
+}
+
