@@ -1,11 +1,17 @@
-﻿@page
-@model LogoutModel
-@{
-    ViewData["Title"] = "";
-}
+﻿<!DOCTYPE html>
 
-<header>
-    <h1>@ViewData["Title"]</h1>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ogani | Template</title>
+
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
@@ -17,41 +23,16 @@
     <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="~/css/style.css" type="text/css">
+
     <link rel="stylesheet" href="~/css/Reg.css" type="text/css">
     <link rel="stylesheet" href="~/css/Logout.css" type="text/css">
-
-</header>
+</head>
 <body>
-
-    
-       
-        
-            <div class="container">
-                
-                    
-           
-       
-    @{
-        
-            if (User.Identity?.IsAuthenticated ?? false)
-            {
-            <form class="logout-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-
-                  
-
-                    <h2>Logout</h2>
-                    <p>Are you sure you want to logout?</p>
-                    <button type="submit" class="">Click here to Logout</button>
-
-                </form>
-            }
-           
-        
-    }
+    <div>
+        @RenderBody()
     </div>
 
 
-       
     <script src="~/js/jquery-3.3.1.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery.nice-select.min.js"></script>
@@ -61,10 +42,5 @@
     <script src="~/js/owl.carousel.min.js"></script>
     <script src="~/js/main.js"></script>
 
-    
-
-
-
-
-
 </body>
+</html>

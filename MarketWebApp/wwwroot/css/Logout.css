@@ -1,0 +1,46 @@
+﻿body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+}
+
+.logout-form {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: darkseagreen;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+    font-family:fantasy;
+    
+}
+
+button {
+    padding: 20px 20px;
+    background-color: darkseagreen;
+    color:black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+}
+
+    button:hover {
+        background-color: olivedrab;
+
+    }
+p {
+    font-size: 30px;
+    color: olivedrab;
+}
