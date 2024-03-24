@@ -2,6 +2,7 @@
 using MarketWebApp.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using NuGet.Protocol;
 
 namespace MarketWebApp.Controllers
 {
@@ -10,7 +11,6 @@ namespace MarketWebApp.Controllers
 
         IHttpContextAccessor _contx;
         ApplicationDbContext context;
-
         List<Product> products;
 
         public WishListController(ApplicationDbContext _context, IHttpContextAccessor contx):base(_context)
@@ -27,7 +27,7 @@ namespace MarketWebApp.Controllers
         public ActionResult AddProductToWish(int id)
         {
             var wish = context.Products.Find(id);
-
+            
             var existingWishlistData = _contx.HttpContext.Session.GetString("ProductData");
             List<Product> products = new List<Product>();
 
@@ -35,8 +35,9 @@ namespace MarketWebApp.Controllers
             {
                 products = JsonConvert.DeserializeObject<List<Product>>(existingWishlistData);
 
-                if (products.Any(p => p.ID == wish.ID))
+                if (products.Any(p => p.ID == wish.ID ))
                 {
+                    TempData["DuplicateMessage"] = "This product is already in your wishlist.";
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -51,7 +52,7 @@ namespace MarketWebApp.Controllers
             string updatedProductString = JsonConvert.SerializeObject(products, serializerSettings);
 
             _contx.HttpContext.Session.SetString("ProductData", updatedProductString);
-
+            TempData["SuccessMessage"] = "Product added to wishlist successfully.";
             return RedirectToAction("Index", "Home");
 
         }
@@ -89,6 +90,7 @@ namespace MarketWebApp.Controllers
                     _contx.HttpContext.Session.SetString("ProductData", updatedProductString);
                 }
             }
+            TempData["DeletedMessage"] = "Product deleted from wishlist successfully.";
 
             return RedirectToAction("WishIndex");
         }

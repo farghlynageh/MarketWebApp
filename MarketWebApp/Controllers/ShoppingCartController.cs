@@ -41,18 +41,19 @@ namespace MarketWebApp.Controllers
 
 
         [HttpPost]
-        // Assuming you have access to your DbContext instance
         public IActionResult AddToCart(int id)
         {
-
             string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            // Find or create a shopping cart associated with the user
-            var shoppingCart = _context.ShoppingCart
-                                        .FirstOrDefault(cart => cart.ApplicationUserID == userId);
+            if (userId == null)
+            {
+                TempData["UserNotFound"] = "Please log in to add items to your cart.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var shoppingCart = _context.ShoppingCart.FirstOrDefault(cart => cart.ApplicationUserID == userId);
 
             if (shoppingCart == null)
             {
-                // If the shopping cart doesn't exist, create a new one
                 shoppingCart = new ShoppingCart
                 {
                     ApplicationUserID = userId,
@@ -61,18 +62,14 @@ namespace MarketWebApp.Controllers
                 _context.ShoppingCart.Add(shoppingCart);
             }
 
-            // Check if the product is already in the cart
-            var existingProductCart = shoppingCart.ProductCarts
-                                                  .FirstOrDefault(pc => pc.ProductId == id);
+            var existingProductCart = shoppingCart.ProductCarts.FirstOrDefault(pc => pc.ProductId == id);
 
             if (existingProductCart != null)
             {
-                // If the product is already in the cart, update the quantity
-                existingProductCart.Quantity += 1;
+                TempData["DuplicateMessage"] = "This product is already in your shopping cart.";
             }
             else
             {
-                // If the product is not in the cart, add it
                 var newProductCart = new ProductCart
                 {
                     ProductId = id,
@@ -81,10 +78,10 @@ namespace MarketWebApp.Controllers
                 shoppingCart.ProductCarts.Add(newProductCart);
             }
 
-            // Save changes to the database
             _context.SaveChanges();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
+
 
 
         public IActionResult Index()

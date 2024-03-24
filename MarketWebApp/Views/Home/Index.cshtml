@@ -2,6 +2,23 @@
 @{
     ViewData["Title"] = "Home";
 }
+@if (TempData["UserNotFound"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["UserNotFound"]
+    </div>
+}@if (TempData["DuplicateMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["DuplicateMessage"]
+    </div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
 <section class="hero">
     <div class="container">
         <div class="row">
@@ -12,7 +29,7 @@
                         <span>FRUIT FRESH</span>
                         <h2>Vegetable <br>100% Organic</h2>
                         <p>Free Pickup and Delivery Available</p>
-                        <a href="#" class="primary-btn">SHOP NOW</a>
+                        <a href="~/Shop" class="primary-btn">SHOP NOW</a>
                     </div>
                 </div>
             </div>
@@ -93,6 +110,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="banner__pic">
                     <img src="img/banner/banner-1.jpg" alt="">
+
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">

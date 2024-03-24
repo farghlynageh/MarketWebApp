@@ -211,7 +211,11 @@
             }
         }
         $button.parent().find('input').val(newVal);
-        console.log(newVal);
+
+        var price = parseFloat(document.getElementById("Price").innerText.replace('$', '')); // Retrieve the price
+        var TotalPrice = newVal * price; // Calculate the total price
+        document.getElementById("TotalPrice").innerText =  TotalPrice.toFixed(2); //
+       
     });
 
 })(jQuery);
