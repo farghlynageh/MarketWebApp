@@ -84,5 +84,21 @@ namespace MarketWebApp.Controllers
         }
 
 
+        public IActionResult OrderHistory()
+        {
+            // Retrieve the user's ID
+            string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            // Find orders associated with the user
+            var orders = _context.Orders
+                                .Include(o => o.OrderProducts)
+                                    .ThenInclude(oi => oi.Product)
+                                .Where(o => o.ApplicationUserID == userId)
+                                .ToList();
+
+            // You can pass orders to a view model or directly to the view for displaying
+            return View(orders);
+        }
+
     }
 }
