@@ -14,7 +14,10 @@ namespace MarketWebApp.Models.Entity
         public string ApplicationUserID { get; set; }
         public virtual ApplicationUser applicationUser { get; set; }
         public virtual ICollection<ProductCart> ProductCarts { get; set; }
-
+        //public ShoppingCart()
+        //{
+        //    ProductCarts = new List<ProductCart>();
+        //}
 
         //  public DateTime CreateTime { get; set; }
 

@@ -25,13 +25,13 @@ namespace MarketWebApp.Controllers
 
         public IActionResult Delete(int? id)
         {
-            var sh = _context.ShoppingCart.Find(id);
+            var sh = _context.ProductCart.FirstOrDefault(s=>s.ID==id);
             if (sh == null)
             {
                 return NotFound();
             }
 
-            _context.ShoppingCart.Remove(sh);
+            _context.ProductCart.Remove(sh);
             _context.SaveChanges();
 
             return RedirectToAction("Index");
@@ -44,6 +44,7 @@ namespace MarketWebApp.Controllers
         public IActionResult AddToCart(int id)
         {
             string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+<<<<<<< Updated upstream
             if (userId == null)
             {
                 TempData["UserNotFound"] = "Please log in to add items to your cart.";
@@ -51,6 +52,11 @@ namespace MarketWebApp.Controllers
             }
 
             var shoppingCart = _context.ShoppingCart.FirstOrDefault(cart => cart.ApplicationUserID == userId);
+=======
+            // Find or create a shopping cart associated with the user
+            var shoppingCart = _context.ShoppingCart.Include(sc => sc.ProductCarts)
+                                        .FirstOrDefault(cart => cart.ApplicationUserID == userId);
+>>>>>>> Stashed changes
 
             if (shoppingCart == null)
             {

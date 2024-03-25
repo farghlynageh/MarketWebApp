@@ -55,9 +55,17 @@
                                             </div>
                                         </div>
                                     </td>
+<<<<<<< Updated upstream
                                     <td class="shoping__cart__total" onclick="TotalFunc(event)" id="TotalPrice"></td>
                                     <td class="shoping__cart__item__close">
                                         <span class="icon_close"></span>
+=======
+                                    <td class="shoping__cart__total" id="TotalPrice"></td>
+                                    <td class="shoping__cart__item__close" asp>
+                                        @* <span class="icon_close"></span> *@
+                                        <a href="@Url.Action("Delete", "ShoppingCart", new { id = item.ID })"><i class="icon_close"></i></a>
+
+>>>>>>> Stashed changes
                                     </td>
                                 </tr>
                             }
