@@ -44,19 +44,19 @@ namespace MarketWebApp.Controllers
         public IActionResult AddToCart(int id)
         {
             string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-<<<<<<< Updated upstream
+
             if (userId == null)
             {
                 TempData["UserNotFound"] = "Please log in to add items to your cart.";
                 return RedirectToAction("Index", "Home");
             }
 
-            var shoppingCart = _context.ShoppingCart.FirstOrDefault(cart => cart.ApplicationUserID == userId);
-=======
+          //  var shoppingCart = _context.ShoppingCart.FirstOrDefault(cart => cart.ApplicationUserID == userId);
+
             // Find or create a shopping cart associated with the user
             var shoppingCart = _context.ShoppingCart.Include(sc => sc.ProductCarts)
                                         .FirstOrDefault(cart => cart.ApplicationUserID == userId);
->>>>>>> Stashed changes
+
 
             if (shoppingCart == null)
             {

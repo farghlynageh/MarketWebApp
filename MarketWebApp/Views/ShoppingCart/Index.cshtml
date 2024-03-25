@@ -55,17 +55,17 @@
                                             </div>
                                         </div>
                                     </td>
-<<<<<<< Updated upstream
+
                                     <td class="shoping__cart__total" onclick="TotalFunc(event)" id="TotalPrice"></td>
                                     <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
-=======
-                                    <td class="shoping__cart__total" id="TotalPrice"></td>
-                                    <td class="shoping__cart__item__close" asp>
+                                        <span class="icon_close"></span></td>
+                                       
+                                    <td class="shoping__cart__total" ></td>
+                                    <td class="shoping__cart__item__close">
                                         @* <span class="icon_close"></span> *@
                                         <a href="@Url.Action("Delete", "ShoppingCart", new { id = item.ID })"><i class="icon_close"></i></a>
 
->>>>>>> Stashed changes
+
                                     </td>
                                 </tr>
                             }
@@ -88,7 +88,7 @@
                         <li>Subtotal <span>$454.98</span></li>
                         <li>Total <span>$454.98</span></li>
                     </ul>
-                    <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a asp-action="PlaceOrder" asp-controller="Order" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
         </div>
