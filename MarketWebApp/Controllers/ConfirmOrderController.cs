@@ -18,16 +18,16 @@ namespace MarketWebApp.Controllers
         //{
         //    // Retrieve the list of users with their orders
         //    var usersWithOrders = _context.Users
-        //        .Include(u => u.Or)
+        //        .Include(u => u.orders)
         //            .ThenInclude(o => o.OrderProducts)
         //                .ThenInclude(op => op.Product)
         //        .ToList();
 
         //    return View(usersWithOrders);
-        //}
+        //   }
 
 
-        [HttpPost]
+            [HttpPost]
         public IActionResult ConfirmOrder(int orderId)
         {
             // Retrieve the order from the database
