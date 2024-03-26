@@ -1,10 +1,14 @@
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using MarketWebApp.Data;
 using MarketWebApp.Models;
 using MarketWebApp.Models.Entity;
 using MarketWebApp.Repository.LocationRepository;
 using MarketWebApp.Repository.ProductRepository;
 using MarketWebApp.Repository.SupplierRepository;
+using MarketWebApp.Reprository;
 using MarketWebApp.Reprository.CategoryReprositry;
+using MarketWebApp.Reprository.OrderReprository;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +22,7 @@ namespace MarketWebApp
     {
         public static void Main(string[] args)
         {
-
+            #region Comments
             //        var builder = WebApplication.CreateBuilder(args);
 
             //        // Add services to the container.
@@ -77,6 +81,8 @@ namespace MarketWebApp
             //        app.Run();
             //    }
             //}
+            #endregion
+          
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -94,6 +100,11 @@ namespace MarketWebApp
             builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
             builder.Services.AddScoped<ILocationRepository, LocationRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IOrderAdminRepository, OrderAdminRepository>();
+            builder.Services.AddScoped<IOrderProductRepository, OrderProductRepository>();
+
+
+            builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             builder.Services.AddSession();
             builder.Services.AddRazorPages();
