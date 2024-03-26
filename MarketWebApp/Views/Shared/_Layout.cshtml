@@ -41,7 +41,7 @@
                 <li><a href="#"><i class="fa fa-heart"></i> <span>@ViewBag.CountWishList</span></a></li>
                 <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>@ViewBag.CountCart</span></a></li>
             </ul>
-            <div class="header__cart__price">item: <span>$150.00</span></div>
+            <div class="header__cart__price">item: <span>150.00 L.E</span></div>
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__auth">
@@ -98,23 +98,22 @@
                             <div class="header__top__right__social">
                                 <a href="https://www.facebook.com/profile.php?id=100046884501118"><i class="fa fa-facebook"></i></a>
                                 <a href="https://api.whatsapp.com/send/?phone=201014403309&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
-                              
                             </div>
-            
-                            @if (User.Identity?.IsAuthenticated == false)
-                            {
-                                <div class="header__top__right__auth">
-                                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                            <div class="header__top__right__auth">
+                                @if (User.Identity?.IsAuthenticated == false)
+                                {
+                                    <div class="header__top__right__auth">
+                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
 
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="header__top__right__auth">
-                                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-                                </div>
-                            }
-
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="header__top__right__auth">
+                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
