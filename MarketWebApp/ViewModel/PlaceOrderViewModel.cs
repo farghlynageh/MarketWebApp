@@ -1,6 +1,6 @@
 ﻿using MarketWebApp.Models.Entity;
 
-namespace MarketWebApp.ViewModel
+namespace MarketWebApp
 {
     public class PlaceOrderViewModel
     {

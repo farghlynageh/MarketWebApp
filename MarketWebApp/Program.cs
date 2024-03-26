@@ -1,6 +1,9 @@
 using MarketWebApp.Data;
 using MarketWebApp.Models;
 using MarketWebApp.Models.Entity;
+using MarketWebApp.Repository.LocationRepository;
+using MarketWebApp.Repository.ProductRepository;
+using MarketWebApp.Repository.SupplierRepository;
 using MarketWebApp.Reprository.CategoryReprositry;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Identity;
@@ -88,6 +91,10 @@ namespace MarketWebApp
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+            builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
             builder.Services.AddSession();
             builder.Services.AddRazorPages();
 

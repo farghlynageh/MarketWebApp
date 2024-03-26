@@ -15,7 +15,11 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             this.webHostEnvironment = webHostEnvironment;
         }
 
-
+        public bool IsCategoryNameUnique(int categoryId, string categoryName)
+        {
+            // Check if there is any other category with the same name but a different ID
+            return !context.Categories.Any(c => c.ID != categoryId && c.Name == categoryName);
+        }
         public bool CheckCategoryExist(string Name)
         {
             return context.Categories.SingleOrDefault(c => c.Name.ToLower() == Name.ToLower()) == null;
@@ -61,8 +65,6 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             var category = new Category();
             category.Name = addCategoryViewModel.Name;
             category.Img = uniqueFileName;
-
-
             context.Categories.Add(category);
         }
 
@@ -126,11 +128,6 @@ namespace MarketWebApp.Reprository.CategoryReprositry
                 uniqueFileName = CatName + System.IO.Path.GetExtension(model.FileName).ToString();
 
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                //if (System.IO.File.Exists(filePath))
-                //{
-                //    System.IO.File.Delete(filePath);
-                //}
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {

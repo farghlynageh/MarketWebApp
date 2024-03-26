@@ -1,0 +1,67 @@
+﻿@model IEnumerable<MarketWebApp.Models.Entity.Supplier>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+   // Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+<div class="container ">
+    <div class="row">
+        <div class="col ">
+            <h1>All Supplier </h1>
+        </div>
+        <div class="col-2">
+
+            <a asp-action="Create" class="btn btn-outline-light custom-btn-style"><i class="fa fa-plus-square"></i> Add New Supplier</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="container mt-4" style="padding-bottom: 40px;">
+        <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location)
+                </th>
+                    <th>Update</th>
+                    <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i> Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-outline-danger">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
+                        </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

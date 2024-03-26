@@ -16,5 +16,6 @@ namespace MarketWebApp.Reprository.CategoryReprositry
         string UploadedFile(IFormFile model, string CatName);
         bool CheckCategoryExist(string Name);
         bool CheckCategoryExistEdit(string Name, int Id);
+        bool IsCategoryNameUnique(int categoryId, string categoryName);
     }
 }

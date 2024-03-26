@@ -8,170 +8,209 @@ using Microsoft.EntityFrameworkCore;
 using MarketWebApp.Data;
 using MarketWebApp.Models.Entity;
 using Microsoft.AspNetCore.Authorization;
+using MarketWebApp.Reprository.CategoryReprositry;
+using MarketWebApp.Repository.ProductRepository;
+using NuGet.Protocol.Core.Types;
+using MarketWebApp.Repository.SupplierRepository;
+using MarketWebApp.ViewModel.Product;
 
 namespace MarketWebApp.Controllers
 {
-    [Authorize]
+   // [Authorize(Roles = "Admin")]
+
     public class ProductsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProductRepository repository;
+        private readonly ICategoryRepository repositorycaty;
+        private readonly ISupplierRepository repositorySupplier;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(IProductRepository repository, ICategoryRepository repositorycaty ,ISupplierRepository repositorySupplier)
         {
-            _context = context;
+            this.repository = repository;
+            this.repositorycaty = repositorycaty;
+            this.repositorySupplier = repositorySupplier;
+
         }
 
         // GET: Products
-        [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category).Include(p => p.Supplier);
-            return View(await applicationDbContext.ToListAsync());
+            ViewBag.PageCount = (int)Math.Ceiling((decimal)repository.GetAll().Count() / 5m);
+            return View(this.repository.GetAll());
         }
 
-        // GET: Products/Details/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult GetProducts(int pageNumber, int pageSize = 5)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
+            var products = repository.GetAll()
+           .OrderBy(p => p.ID)
+           .Skip((pageNumber - 1) * pageSize)
+           .Take(pageSize)
+           .ToList();
+            return PartialView("_ProductTable", products);
         }
-        [Authorize(Roles = "Admin")]
+
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "ID", "Name");
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "ID", "Name");
+            ViewData["CategoryID"] = new SelectList(repositorycaty.GetAll(), "ID", "Name");
+            ViewData["SupplierId"] = new SelectList(repositorySupplier.GetAll(), "ID", "Name");
             return View();
         }
 
         // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ID,Name,Price,Discount,Img,Stock,SupplierId,CategoryId")] Product product)
+        public IActionResult Create(AddProductViewModel addProductViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "ID", "Name", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "ID", "Name", product.SupplierId);
-            return View(product);
-        }
-
-        // GET: Products/Edit/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "ID", "Name", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "ID", "Name", product.SupplierId);
-            return View(product);
-        }
-
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Price,Discount,Img,Stock,SupplierId,CategoryId")] Product product)
-        {
-            if (id != product.ID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    // Insert the new product into the repository
+                    repository.Insert(addProductViewModel);
+                    repository.Save();
+
+                    // Redirect to the index action after successful creation
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!ProductExists(product.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", ex.Message);
+
+                    // Repopulate dropdown lists for categories and suppliers
+                    PopulateDropdowns();
+                    return View(addProductViewModel);
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "ID", "Name", product.CategoryId);
-            ViewData["SupplierId"] = new SelectList(_context.Suppliers, "ID", "Name", product.SupplierId);
-            return View(product);
+            else
+            {
+                // If the model state is not valid, return the view with the model to display validation errors
+                return View(addProductViewModel);
+            }
+        }
+
+        private void PopulateDropdowns()
+        {
+            // Populate dropdown lists for categories and suppliers
+            ViewData["CategoryID"] = new SelectList(repositorycaty.GetAll(), "ID", "Name");
+            ViewData["SupplierId"] = new SelectList(repositorySupplier.GetAll(), "ID", "Name");
+        }
+
+
+        // GET: Products/Edit/5
+        [HttpGet]
+       public IActionResult Edit(int Id)
+        {
+            var product = repository.GetProduct(Id);
+            EditProductViewModel editProductViewModel = new EditProductViewModel();
+
+            editProductViewModel.ID = product.ID;
+            editProductViewModel.Name = product.Name;
+            editProductViewModel.Img = product.Img;
+            editProductViewModel.Price = product.Price;
+            editProductViewModel.Discount = product.Discount;
+            editProductViewModel.Stock = product.Stock;
+            editProductViewModel.CategoryID = product.CategoryId;
+            editProductViewModel.SupplierId = product.SupplierId;
+            ViewData["CategoryID"] = new SelectList(repositorycaty.GetAll(), "ID", "Name", repositorycaty.GetCategory(editProductViewModel.CategoryID));
+            ViewData["SupplierId"] = new SelectList(repositorySupplier.GetAll(), "ID", "Name", repositorySupplier.GetSupplier(editProductViewModel.SupplierId));
+
+            return View(editProductViewModel);
+        }
+
+        // POST: Products/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(EditProductViewModel editProductViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Check if a product with the same name already exists for the same supplier and category
+                    if (!repository.IsProductUnique(editProductViewModel.ID, editProductViewModel.Name, editProductViewModel.SupplierId, editProductViewModel.CategoryID))
+                    {
+                        ModelState.AddModelError("Name", "Product name already exists for the same supplier and category.");
+                        PopulateDropdowns(editProductViewModel); // Populate dropdowns again for the view
+                        return View(editProductViewModel);
+                    }
+
+                    repository.Update(editProductViewModel);
+                    repository.Save();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                    PopulateDropdowns(editProductViewModel); // Populate dropdowns again for the view
+                    return View(editProductViewModel);
+                }
+            }
+            else
+            {
+                PopulateDropdowns(editProductViewModel); // Populate dropdowns again for the view
+                return View(editProductViewModel);
+            }
+        }
+
+        private void PopulateDropdowns(EditProductViewModel editProductViewModel)
+        {
+            ViewData["CategoryID"] = new SelectList(repositorycaty.GetAll(), "ID", "Name", editProductViewModel.CategoryID);
+            ViewData["SupplierId"] = new SelectList(repositorySupplier.GetAll(), "ID", "Name", editProductViewModel.SupplierId);
+        }
+
+
+        public IActionResult CheckProductExist(string Name)
+        {
+            if (repository.CheckProductExist(Name))
+                return Json(true);
+            else
+                return Json(false);
+        }
+        public IActionResult CheckProductExistEdit(string Name, int Id)
+        {
+            if (repository.CheckProductExistEdit(Name, Id))
+                return Json(true);
+            else
+                return Json(false);
         }
 
         // GET: Products/Delete/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet]
+        public IActionResult Delete(int Id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            return View(repository.GetProduct(Id));
 
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
         }
 
         // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult ConfirmDelete(int Id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+
+            if (ModelState.IsValid)
             {
-                _context.Products.Remove(product);
+                repository.Delete(Id);
+                repository.Save();
+                return RedirectToAction("Index");
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View("Delete", repository.GetProduct(Id));
         }
 
-        private bool ProductExists(int id)
+        [HttpGet]
+        public IActionResult GetProduct(int Id)
         {
-            return _context.Products.Any(e => e.ID == id);
+            var allProducts = repository.GetAll();
+            var currentProduct = allProducts.FirstOrDefault(p => p.ID == Id);
+
+
+            var randomProducts = allProducts.Except(new List<Product> { currentProduct }).OrderBy(x => Guid.NewGuid()).Take(4);
+
+            ViewData["Products"] = randomProducts.ToList();
+            var product = repository.GetProduct(Id);
+            return View(product);
         }
+
     }
 }

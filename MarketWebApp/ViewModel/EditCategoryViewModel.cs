@@ -6,14 +6,19 @@ namespace MarketWebApp.ViewModel
     public class EditCategoryViewModel
     {
         public int ID { get; set; }
-       
-        [Display(Name = "Category Name")] // Change the display name to match the Category class
-        [StringLength(100, MinimumLength = 3, ErrorMessage = "Name length must be between 3 and 100 characters")] // Update the length constraints
-        [Remote(action: "CheckCategoryExist", controller: "Category", ErrorMessage = "Category Name oready Exists ")]
+
+        [Display(Name = "Department Name")]
+        [Required(ErrorMessage = "Department Name is required")]
+        [MaxLength(50, ErrorMessage = "Department Name must be less than or equal to 50 characters.")]
+        [MinLength(3, ErrorMessage = "Department Name must be at least 3 characters.")]
+        [RegularExpression("^[a-zA-Z ]+$", ErrorMessage = "Department name can only contain letters and spaces")]
+
         public string Name { get; set; }
 
         public string? Image { get; set; }
-        [Display(Name = "Category Picture")]
+        [Display(Name = "Department Picture")]
+        [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" }, ErrorMessage = "Invalid file format. Only JPG, JPEG, and PNG are allowed.")]
+
         public IFormFile? CategoryImage { get; set; }
     }
 

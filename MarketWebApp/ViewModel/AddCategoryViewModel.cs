@@ -5,24 +5,46 @@ namespace MarketWebApp.ViewModel
 {
     public class AddCategoryViewModel
     {
-        [Display(Name = "Category Name")]
-        [Required(ErrorMessage = "Category Name is required")]
-        [MaxLength(50, ErrorMessage = "Category Name Must Be Less Than 50 Char ")]
-        [MinLength(3, ErrorMessage = "Category Name Must Be Greater Than 3 Char")]
-        [Remote(action: "CheckCategoryExistEdit", controller: "Category", AdditionalFields = "Id", ErrorMessage = "Category Name oready Exists ")]
-        public string Name { get; set; }
+        [Display(Name = "Department Name")]
+        [Required(ErrorMessage = "Department Name is required")]
+        [MaxLength(50, ErrorMessage = "Department Name must be less than or equal to 50 characters.")]
+        [MinLength(3, ErrorMessage = "Department Name must be at least 3 characters.")]
+        [RegularExpression("^[a-zA-Z ]+$", ErrorMessage = "Department name can only contain letters and spaces")]
 
-        [Required(ErrorMessage = "Please choose Category Picture ")]
-        [Display(Name = "Category Picture")]
-        public IFormFile CategoryImage { get; set; }
+        public string? Name { get; set; }
+
+        [Required(ErrorMessage = "Please choose Department Picture ")]
+        [Display(Name = "Department Picture")]
+        [AllowedExtensions([".jpg", ".jpeg", ".png"], ErrorMessage = "Invalid file format. Only JPG, JPEG, and PNG are allowed.")]
+        public IFormFile? CategoryImage { get; set; }
     }
 
     public class CategoryViewModel
     {
         public int ID { get; set; }
-        public string Name { get; set; }
-        public IFormFile CategoryImage { get; set; }
+        public string? Name { get; set; }
+        public IFormFile? CategoryImage { get; set; }
 
     }
 
+    public class AllowedExtensionsAttribute : ValidationAttribute
+    {
+        private readonly string[] _extensions;
+
+        public AllowedExtensionsAttribute(string[] extensions)
+        {
+            _extensions = extensions;
+        }
+
+        public override bool IsValid(object value)
+        {
+            if (value is IFormFile file)
+            {
+                var extension = System.IO.Path.GetExtension(file.FileName).ToLowerInvariant();
+                return _extensions.Contains(extension);
+            }
+            return false;
+        }
+
+    }
 }

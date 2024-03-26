@@ -2,17 +2,19 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
-                <h1 class="fw-bold mb-0 fs-2">Edit Category</h1>
+                <h1 class="fw-bold mb-0 fs-3">Edit Department</h1>
+                <a class="btn-close" asp-action="Index"></a>
             </div>
-
-            <div class="modal-body p-5 pt-0">
+            <hr />
+            <div class="modal-body p-3 pt-0 mb-2">
+                <!-- Added mb-2 for margin bottom -->
                 <form asp-action="Edit" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -24,7 +26,7 @@
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
-                    <label class="control-label" for="inputGroupFile02">Category Image</label>
+                    <label class="control-label" for="inputGroupFile02">Department Image</label>
                     <div class="row mb-4">
                         <div class="col-2">
                             <div class="form-outline">
@@ -33,7 +35,8 @@
                         </div>
                         <div class="col-10">
                             <div class="form-outline">
-                                <input asp-for="CategoryImage" value="@Model.Image" class="form-control">
+                                @* accept=".png, .jpg, .jpeg" *@
+                                <input asp-for="CategoryImage" value="@Model.Image" class="form-control" >
                                 <span asp-validation-for="CategoryImage" class="text-danger"></span>
                             </div>
                         </div>
@@ -42,7 +45,7 @@
                         <input type="submit" value="Edit" class="btn btn-primary rounded-3" />
                         <a class="btn btn-outline-secondary rounded-3" asp-action="Index"> Cancel </a>
                     </div><br />
-                    <small class="text-body-secondary">Using the Edit page, you can Edit any Categories.</small>
+                    <small class="text-body-secondary">Using the Edit page, you can Edit any Department.</small>
 
                 </form>
             </div>

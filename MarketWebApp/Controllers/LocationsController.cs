@@ -7,159 +7,144 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MarketWebApp.Data;
 using MarketWebApp.Models.Entity;
-using Microsoft.AspNetCore.Authorization;
+using MarketWebApp.Repository.LocationRepository;
+using MarketWebApp.Repository.SupplierRepository;
+using MarketWebApp.ViewModel;
+using MarketWebApp.ViewModel.Location;
+using NuGet.Protocol.Core.Types;
 
 namespace MarketWebApp.Controllers
 {
-    [Authorize]
     public class LocationsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ILocationRepository locationRepository;
 
-        public LocationsController(ApplicationDbContext context)
+        public LocationsController(ILocationRepository locationRepository)
         {
-            _context = context;
+            this.locationRepository = locationRepository;
         }
 
         // GET: Locations
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await _context.Locations.ToListAsync());
+            ViewBag.PageCount = (int)Math.Ceiling((decimal)locationRepository.GetAll().Count() / 5m);
+
+            return View(locationRepository.GetAll());
         }
-
-        // GET: Locations/Details/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var location = await _context.Locations
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (location == null)
-            {
-                return NotFound();
-            }
-
-            return View(location);
-        }
-
+      
         // GET: Locations/Create
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Locations/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ID,Name")] Location location)
+        public IActionResult Create(AddLocationViewModel locationViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(location);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                string locationNameToLower = locationViewModel.Name.ToLower(); // Convert input name to lowercase
+
+                if (locationRepository.GetAll().Any(c => c.Name.ToLower() == locationNameToLower))
+                {
+                    ModelState.AddModelError("", "Location with the same name already exists.");
+                    return View(locationViewModel);
+                }
+
+                try
+                {
+                    locationRepository.Insert(locationViewModel);
+                    locationRepository.Save();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                    return View(locationViewModel);
+                }
             }
-            return View(location);
+            else
+            {
+                return View(locationViewModel);
+            }
         }
 
-        // GET: Locations/Edit/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var location = await _context.Locations.FindAsync(id);
-            if (location == null)
-            {
-                return NotFound();
-            }
-            return View(location);
+        // GET: Locations/Edit/5
+        [HttpGet]
+        public IActionResult Edit(int Id)
+        {
+            var location = locationRepository.GetLocation(Id);
+            EditLocationViewModel locationViewModel = new EditLocationViewModel();
+            locationViewModel.ID = location.ID;
+            locationViewModel.Name = location.Name;
+            return View(locationViewModel);
         }
 
         // POST: Locations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Location location)
+        public IActionResult Edit(EditLocationViewModel locationViewModel)
         {
-            if (id != location.ID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(location);
-                    await _context.SaveChangesAsync();
+                    string locationNameToLower = locationViewModel.Name.ToLower(); // Convert input name to lowercase
+
+                    if (!locationRepository.IsLocationNameUnique(locationViewModel.ID, locationNameToLower))
+                    {
+                        ModelState.AddModelError("Name", "Location name already exists.");
+                        return View(locationViewModel);
+                    }
+
+                    locationRepository.Update(locationViewModel);
+                    locationRepository.Save();
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
-                    if (!LocationExists(location.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", ex.Message);
+                    return View(locationViewModel);
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(location);
+            else
+            {
+                return View(locationViewModel);
+            }
+        }
+
+        public IActionResult GetLocation(int pageNumber, int pageSize = 5)
+        {
+            var locations = locationRepository.GetAll()
+           .OrderBy(p => p.ID)
+           .Skip((pageNumber - 1) * pageSize)
+           .Take(pageSize)
+           .ToList();
+            return PartialView("_LocationTable", locations);
         }
 
         // GET: Locations/Delete/5
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet]
+        public IActionResult Delete(int Id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var location = await _context.Locations
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (location == null)
-            {
-                return NotFound();
-            }
-
-            return View(location);
+            return View(locationRepository.GetLocation(Id));
         }
 
         // POST: Locations/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult ConfirmDelete(int Id)
         {
-            var location = await _context.Locations.FindAsync(id);
-            if (location != null)
+            if (ModelState.IsValid)
             {
-                _context.Locations.Remove(location);
+                locationRepository.Delete(Id);
+                locationRepository.Save();
+                return RedirectToAction("Index");
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool LocationExists(int id)
-        {
-            return _context.Locations.Any(e => e.ID == id);
+            return View("Delete");
         }
     }
 }

@@ -8,6 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Views\Categories\Create.cshtml" />
+    <None Include="Views\Categories\Delete.cshtml" />
+    <None Include="Views\Categories\Edit.cshtml" />
+    <None Include="Views\Categories\Index.cshtml" />
+    <None Include="Views\Categories\_CategoryTable.cshtml" />
+    <None Include="Views\Locations\Create.cshtml" />
+    <None Include="Views\Locations\Delete.cshtml" />
+    <None Include="Views\Locations\Details.cshtml" />
+    <None Include="Views\Locations\Edit.cshtml" />
+    <None Include="Views\Locations\Index.cshtml" />
+    <None Include="Views\Products\Create.cshtml" />
+    <None Include="Views\Products\Delete.cshtml" />
+    <None Include="Views\Products\Details.cshtml" />
+    <None Include="Views\Products\Edit.cshtml" />
+    <None Include="Views\Products\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />

@@ -19,7 +19,7 @@ namespace MarketWebApp.Controllers
         }
 
         // GET: Categories
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             ViewBag.PageCount = (int)Math.Ceiling((decimal)repository.GetAll().Count() / 5m);
@@ -36,7 +36,7 @@ namespace MarketWebApp.Controllers
             return PartialView("_CategoryTable", Categories);
         }
 
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         // GET: Categories/Create
         public IActionResult Create()
         {
@@ -45,46 +45,42 @@ namespace MarketWebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        //  [Authorize(Roles = "Admin")]
         public IActionResult Create(AddCategoryViewModel categoryViewModel)
         {
-
             if (ModelState.IsValid)
             {
+                string categoryNameToLower = categoryViewModel.Name.ToLower(); // Convert input name to lowercase
+
+                if (repository.GetAll().Any(c => c.Name.ToLower() == categoryNameToLower))
+                {
+                    ModelState.AddModelError("", "Department with the same name already exists.");
+                    return View(categoryViewModel);
+                }
 
                 try
                 {
                     repository.Insert(categoryViewModel);
                     repository.Save();
                     return RedirectToAction("Index");
-
                 }
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);
                     return View(categoryViewModel);
-
                 }
             }
             else
             {
                 return View(categoryViewModel);
             }
-
         }
 
-        public IActionResult CheckCategoryExist(string Name)
-        {
-            if (repository.CheckCategoryExist(Name))
-                return Json(true);
-            else
-                return Json(false);
-        }
-
+  
         // GET: Categories/Edit/5
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public IActionResult Edit(int Id)
         {
             var category = repository.GetCategory(Id);
@@ -100,15 +96,21 @@ namespace MarketWebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(EditCategoryViewModel categoryViewModel)
         {
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    string categoryNameToLower = categoryViewModel.Name.ToLower(); // Convert input name to lowercase
+
+                    if (!repository.IsCategoryNameUnique(categoryViewModel.ID, categoryNameToLower))
+                    {
+                        ModelState.AddModelError("Name", "Department name already exists.");
+                        return View(categoryViewModel);
+                    }
+
                     repository.Update(categoryViewModel);
                     repository.Save();
                     return RedirectToAction("Index");
-
                 }
                 catch (Exception ex)
                 {
@@ -123,18 +125,12 @@ namespace MarketWebApp.Controllers
         }
 
 
-        public IActionResult CheckCategoryExistEdit(string Name, int Id)
-        {
-            if (repository.CheckCategoryExistEdit(Name, Id))
-                return Json(true);
-            else
-                return Json(false);
-        }
+
 
 
         // GET: Categories/Delete/5
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public IActionResult Delete(int Id)
         {
             var data = repository.GetCategoryWithProducts(Id);
@@ -157,23 +153,7 @@ namespace MarketWebApp.Controllers
             return View("Delete");
         }
         
-        //// GET: Categories/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var category = await repository.Categories
-        //        .FirstOrDefaultAsync(m => m.ID == id);
-        //    if (category == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(category);
-        //}
     
     }
 }
