@@ -194,28 +194,53 @@
     /*-------------------
 		Quantity change
 	--------------------- */
-    var proQty = $('.pro-qty');
-    proQty.prepend('<span class="dec qtybtn">-</span>');
-    proQty.append('<span class="inc qtybtn">+</span>');
-    proQty.on('click', '.qtybtn', function () {
-        var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
-        if ($button.hasClass('inc')) {
-            var newVal = parseFloat(oldValue) +1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
-        }
-        $button.parent().find('input').val(newVal);
+    var sum = 0;
+    document.addEventListener('DOMContentLoaded', function () {
+        var proQtyElements = document.querySelectorAll('.pro-qty');
 
-        var price = parseFloat(document.getElementById("Price").innerText.replace('$', '')); // Retrieve the price
-        var TotalPrice = newVal * price; // Calculate the total price
-        document.getElementById("TotalPrice").innerText =  TotalPrice.toFixed(2); //
-       
+        proQtyElements.forEach(function (proQtyElement) {
+            var inputElement = proQtyElement.querySelector('input');
+            var price = parseFloat(proQtyElement.closest('tr').querySelector('.shoping__cart__price').textContent.replace('L.E', ''));
+
+            proQtyElement.insertAdjacentHTML('afterbegin', '<span class="dec qtybtn">-</span>');
+            proQtyElement.insertAdjacentHTML('beforeend', '<span class="inc qtybtn">+</span>');
+
+            proQtyElement.addEventListener('click', function (event) {
+                var button = event.target;
+                var oldValue = parseFloat(inputElement.value);
+                var newVal;
+
+                if (button.classList.contains('inc')) {
+                    newVal = oldValue + 1;
+                } else if (button.classList.contains('dec') && oldValue > 1) {
+                    newVal = oldValue - 1;
+                } else {
+                    newVal = 1;
+                }
+
+                inputElement.value = newVal;
+                sum = totalPrice;
+
+                var totalPriceElement = proQtyElement.closest('tr').querySelector('.total-price');
+                var totalPrice = newVal * price;
+                totalPriceElement.textContent = totalPrice.toFixed(2) + 'L.E';
+                calculateSum(); // Calculate sum initially
+
+            });
+
+        });
+      
     });
+    function calculateSum() {
+        sum = 0;
+        var totalPrices = document.querySelectorAll('.total-price');
+
+        totalPrices.forEach(function (priceElement) {
+            sum += parseFloat(priceElement.textContent.replace('L.E', ''));
+        });
+
+        document.getElementById('Total').innerHTML = "<li>Total <span>" + sum + "L.E </span></li>";
+    }
+    calculateSum(); // Calculate sum initially
 
 })(jQuery);

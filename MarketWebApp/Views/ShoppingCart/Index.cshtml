@@ -38,23 +38,23 @@
                             </tr>
                         </thead>
                         <tbody>
+
                             @foreach (var item in Model)
                             {
                                 <tr>
                                     <td class="shoping__cart__item">
-                                        <img src=@Url.Content("~/img/product/@item.Img") alt="" />
-
+                                        <img width="100px" height="101px" src="@Url.Content("~/img/product/" + item.Product.Img)" alt="" />
                                         <h5>@item.Product.Name</h5>
                                     </td>
-                                    <td class="shoping__cart__price" id="Price">$@item.Product.Price</td>
-
+                                    <td  class="shoping__cart__price">@(item.Product.Price - (item.Product.Price * item.Product.Discount / 100)) L.E </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
-                                            <div class="pro-qty" id="quantityInput">
-                                                <input type="text" value="@item.Quantity">
+                                            <div class="pro-qty">
+                                                <input readonly type="text" value="@item.Quantity">
                                             </div>
                                         </div>
                                     </td>
+<<<<<<< Updated upstream
 
                                     <td class="shoping__cart__total" onclick="TotalFunc(event)" id="TotalPrice"></td>
                                     <td class="shoping__cart__item__close">
@@ -66,9 +66,16 @@
                                         <a href="@Url.Action("Delete", "ShoppingCart", new { id = item.ID })"><i class="icon_close"></i></a>
 
 
+=======
+                                    <td class="shoping__cart__total total-price">@((item.Product.Price - (item.Product.Price * item.Product.Discount / 100)) * item.Quantity) L.E</td>
+                                    <td class="shoping__cart__item__close">
+                                        <span class="icon_close"></span>
+                                        <a href="@Url.Action("Delete", "ShoppingCart", new { id = item.ID })"><i class="icon_close"></i></a>
+>>>>>>> Stashed changes
                                     </td>
                                 </tr>
                             }
+
                         </tbody>
                     </table>
                 </div>
@@ -77,7 +84,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                    <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    <a href="~/shop/" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
                 </div>
             </div>
 
@@ -85,8 +92,7 @@
                 <div class="shoping__checkout">
                     <h5>Cart Total</h5>
                     <ul>
-                        <li>Subtotal <span>$454.98</span></li>
-                        <li>Total <span>$454.98</span></li>
+                        <li id="Total">Total <span></span></li>
                     </ul>
                     <a asp-action="PlaceOrder" asp-controller="Order" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
@@ -94,23 +100,4 @@
         </div>
     </div>
 </section>
-
-<script>
-
-
-<script>
-    // var Qty = document.getElementById("QtyProduct").value;
-    // var TotalPrice = document.getElementById("TotalPrice").value;
-    // var Price = document.getElementById("Price").value;
-
-    // TotalPrice.innerHtml = Price * Qty;
-
-
-    document.getElementById("QtyProduct").addEventListener("input", handleChange);
-
-    function handleChange() {
-        var inputValue = document.getElementById("QtyProduct").value;
-        console.log("Input value changed to: " + inputValue);
-    }
-</script>
 
