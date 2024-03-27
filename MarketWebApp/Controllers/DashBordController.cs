@@ -1,6 +1,7 @@
 ﻿using MarketWebApp.Repository.ProductRepository;
 using MarketWebApp.Repository.SupplierRepository;
 using MarketWebApp.Reprository.CategoryReprositry;
+using MarketWebApp.Reprository.OrderReprository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,24 +13,24 @@ namespace MarketWebApp.Controllers
         private readonly IProductRepository productReprository;
         private readonly ICategoryRepository categoryReprository;
         private readonly ISupplierRepository supplierRepository;
-      //  private readonly IOrderRepository orderRepository;
+        private readonly IOrderAdminRepository orderRepository;
 
 
         public DashBordController(IProductRepository productReprository,
             ICategoryRepository categoryReprository, ISupplierRepository supplierRepository
-            /*, IOrderReprository orderReprository*/)
+            , IOrderAdminRepository orderReprository)
         {
             this.productReprository = productReprository;
             this.categoryReprository = categoryReprository;
             this.supplierRepository = supplierRepository;
-         //   this.orderReprository = orderReprository;
+            this.orderRepository = orderReprository;
         }
         public IActionResult Index()
         {
             ViewBag.productCount = productReprository.GetAll().Count();
             ViewBag.CategoryCount = categoryReprository.GetAll().Count();
             ViewBag.SupplierCount = supplierRepository.GetAll().Count();
-            //ViewBag.orderCount = orderReprository.GetAll().Count();
+            ViewBag.orderCount = orderRepository.GetAll().Count();
             return View();
         }
     }

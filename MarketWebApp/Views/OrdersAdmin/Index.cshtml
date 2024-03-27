@@ -14,8 +14,8 @@
                 <th scope="col">
                     @Html.DisplayNameFor(model => model.Date)
                 </th>
-           @*      <th scope="col">
-                    @Html.DisplayNameFor(model => model.Price)
+                @*      <th scope="col">
+                @Html.DisplayNameFor(model => model.Price)
                 </th> *@
                 <th scope="col">
                     @Html.DisplayNameFor(model => model.Location)
@@ -38,10 +38,10 @@
                     <td>
                         @item.Date.Date.Day/@item.Date.Date.Month/@item.Date.Date.Year
                     </td>
-                   
+
                     @* <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td> *@
+                @Html.DisplayFor(modelItem => item.Price)
+                </td> *@
                     <td>
                         @Html.DisplayFor(modelItem => item.Location)
                     </td>

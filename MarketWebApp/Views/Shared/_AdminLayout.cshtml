@@ -107,7 +107,7 @@
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__auth">
-                <a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-user"></i>Welcome @User.Identity.Name</a>
+                <a asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-user"></i>Welcome @User.Identity?.Name!</a>
                 @* <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a> *@
 
             </div>
@@ -115,6 +115,9 @@
         <nav class="humberger__menu__nav mobile-menu" >
                 <ul>
                     <li ><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li>
+                    <a class="nav-link" asp-area="" asp-controller="DashBord" asp-action="Index">DashBord</a>
+                </li>
                     <li>
                         <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Department</a>
                     </li>
@@ -131,13 +134,12 @@
                 </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
-        <div class="header__top__right__social">
-         </div>
+        <div class="header__top__right__social"></div>
         <div class="humberger__menu__contact">
             <ul>
-                <li><i class="fa fa-envelope"></i> S7teenW3fya@gmail.com</li>
-@*                 <li>Free Shipping for all Order </li>
- *@            </ul>
+                <li><i class="fa fa-envelope"></i>Welcome @User.Identity?.Name!</li>
+                <li>Ramadan Kareem 🌙</li>
+            </ul>
         </div>
     </div>
 
@@ -152,26 +154,27 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__left">
                             <ul>
-                                <li><i class="fa fa-envelope"></i> S7teenW3fya@gmail.com</li>
-@*                                 <li>Free Shipping for all Order </li>
- *@                            </ul>
+                                <li><i class="fa fa-envelope"></i> Welcome @User.Identity?.Name!</li>
+                                <li>Ramadan Kareem 🌙</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__right">
-                          
-                            <div class="header__top__right__language">
-                            
-                            </div>
                             <div class="header__top__right__auth">
-                                <ul class="navbar-nav">
-                                    <li class="nav-item">
-                                        <a asp-area="  " asp-controller="Account" asp-action="Logout"><i class="fa fa-user"></i>Welcome @User.Identity.Name</a>
-                                    </li>
-                                 @*    <li class="nav-item">
-                                        <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
-                                    </li> *@
-                                </ul>
+                                @if (User.Identity?.IsAuthenticated == false)
+                                {
+                                    <div class="header__top__right__auth">
+                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="header__top__right__auth">
+                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -182,15 +185,18 @@
  
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="header__logo">
                         <a class="nav-link" asp-area="" asp-controller="Home"  asp-action="Index"><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <nav class="header__menu">
                         <ul>
-                            <li ><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li>
+                                <a class="nav-link" asp-area="" asp-controller="DashBord" asp-action="Index">DashBord</a>
+                            </li>
                             <li>
                                 <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Department</a>
                             </li>
@@ -199,7 +205,7 @@
                                 <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Product</a>
                             </li>
                             <li>
-                                <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index">Order</a>
+                                <a class="nav-link" asp-area="" asp-controller="OrdersAdmin" asp-action="Index">Order</a>
                             </li>
                             <li>
                                 <a class="nav-link" asp-area="" asp-controller="Locations" asp-action="Index">Location</a>

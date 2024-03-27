@@ -27,7 +27,7 @@ namespace MarketWebApp.Controllers
         public IActionResult Index()
         {
             var orderreport = context.Orders.ToList();
-            ViewBag.productCount = productRepository.GetAll().Count();
+           // ViewBag.productCount = productRepository.GetAll().Count();
             ViewBag.CategoryCount = categoryRepository.GetAll().Count();
             ViewBag.SupplierCount = supplierRepository.GetAll().Count();
             ViewBag.orderCount = orderRepository.GetAll().Count();
