@@ -1,4 +1,5 @@
 ﻿using MarketWebApp.Data;
+using MarketWebApp.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,21 +14,57 @@ namespace MarketWebApp.Controllers
             _context = context;
         }
 
+        public IActionResult GetUserList()
+        {
+            // Retrieve users who have placed orders
+            var usersWithOrders = _context.Orders
+                .Select(o => o.applicationUser) // Select the ApplicationUser associated with each order
+                .Distinct() // Ensure unique users
+                .ToList();
 
-        //public IActionResult UsersAndOrders()
-        //{
-        //    // Retrieve the list of users with their orders
-        //    var usersWithOrders = _context.Users
-        //        .Include(u => u.orders)
-        //            .ThenInclude(o => o.OrderProducts)
-        //                .ThenInclude(op => op.Product)
-        //        .ToList();
-
-        //    return View(usersWithOrders);
-        //   }
+            return View(usersWithOrders);
+        }
 
 
-            [HttpPost]
+
+        public IActionResult Index(string userId)
+        {
+            if (userId == null)
+            {
+                // Handle case where userId is not provided
+                return BadRequest();
+            }
+
+            // Retrieve the user by ID
+            var user = _context.Users
+                               .Include(u => u.Orders)
+                                   .ThenInclude(o => o.OrderProducts)
+                                       .ThenInclude(op => op.Product)
+                               .FirstOrDefault(u => u.Id == userId);
+
+            if (user == null)
+            {
+                // Handle case where user is not found
+                return NotFound();
+            }
+
+            // Create a list with a single UserOrdersViewModel instance
+            var viewModelList = new List<UserOrdersViewModel>
+    {
+        new UserOrdersViewModel
+        {
+            User = user,
+            Orders = user.Orders.ToList()
+        }
+    };
+
+            return View(viewModelList);
+        }
+
+
+
+
+        [HttpPost]
         public IActionResult ConfirmOrder(int orderId)
         {
             // Retrieve the order from the database

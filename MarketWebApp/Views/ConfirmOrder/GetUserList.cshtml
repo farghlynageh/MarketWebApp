@@ -1,0 +1,13 @@
+﻿@model List<MarketWebApp.Models.Entity.ApplicationUser>
+
+<h2>Users with Orders</h2>
+
+<ul>
+    @foreach (var user in Model)
+    {
+        <li>@user.UserName</li>
+        <a href="@Url.Action("Index", "ConfirmOrder", new { userId = user.Id })">View Orders</a>
+
+
+    }
+</ul>

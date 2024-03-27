@@ -1,0 +1,33 @@
+﻿@model List<MarketWebApp.ViewModel.UserOrdersViewModel>
+
+<table>
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Order State</th>
+            <!-- Add other table headers for additional order details -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userOrdersViewModel in Model)
+        {
+            <tr>
+                <td>@userOrdersViewModel.User.UserName</td>
+                <td colspan="3"></td> <!-- Leave space for user name in the first column -->
+                <!-- Display order details in subsequent columns -->
+                @foreach (var order in userOrdersViewModel.Orders)
+                {
+                <tr>
+                    <td></td> <!-- Leave space for user name in the first column -->
+                    <td>@order.ID</td>
+                    <td>@order.Date</td>
+                    <td>@order.State</td>
+                    <!-- Add other columns for additional order details -->
+                </tr>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
