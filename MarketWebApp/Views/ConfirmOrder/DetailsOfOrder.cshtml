@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MarketWebApp.Models.Entity.OrderProduct>
+
+@{
+    ViewData["Title"] = "DetailsOfOrder";
+}
+<div class="container">
+    <h1>DetailsOfOrder</h1>
+
+</div>
+
+<div class="table-responsive container">
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                    <td>@(item.Quantity * item.Price)</td>
+                </tr>
+
+                <a href="@Url.Action("AcceptOrder", "ConfirmOrder", new { Id = item.OrderId })" class="btn btn-success mb-4">Confirm Order</a>
+                <br />
+                <a href="@Url.Action("RejectOrder", "ConfirmOrder", new { Id = item.OrderId })" class="btn btn-danger mb-4">Reject Order</a>
+                <br />
+            }
+        </tbody>
+    </table>
+</div>
+s

@@ -64,11 +64,11 @@ namespace MarketWebApp.Controllers
 
 
 
-        [HttpPost]
-        public IActionResult ConfirmOrder(int orderId)
+        [HttpGet]
+        public IActionResult AcceptOrder(int Id)
         {
             // Retrieve the order from the database
-            var order = _context.Orders.FirstOrDefault(o => o.ID == orderId);
+            var order = _context.Orders.FirstOrDefault(o => o.ID == Id);
 
             if (order != null)
             {
@@ -77,8 +77,31 @@ namespace MarketWebApp.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("UsersAndOrders");
+            return RedirectToAction("GetUserList", "ConfirmOrder");
         }
+
+        [HttpGet]
+        public IActionResult RejectOrder(int Id)
+        {
+            // Retrieve the order from the database
+            var order = _context.Orders.FirstOrDefault(o => o.ID == Id);
+
+            if (order != null)
+            {
+                // Update the order state to "Confirmed"
+                order.State = "Rejected";
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("GetUserList", "ConfirmOrder");
+        }
+        public IActionResult DetailsOfOrder(int id)
+        {
+            var orderitem = _context.OrderProduct.Include(p => p.Product).Where(o => o.OrderId == id).ToList();
+
+            return View(orderitem);
+        }
+
 
     }
 }
