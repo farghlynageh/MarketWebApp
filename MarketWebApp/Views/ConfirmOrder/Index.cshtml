@@ -1,33 +1,41 @@
 ﻿@model List<MarketWebApp.ViewModel.UserOrdersViewModel>
+<div class="container">
+    <h2 class="text-center mb-4">Users Orders</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>User Name</th>
-            <th>Order ID</th>
-            <th>Order Date</th>
-            <th>Order State</th>
-            <!-- Add other table headers for additional order details -->
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var userOrdersViewModel in Model)
-        {
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
-                <td>@userOrdersViewModel.User.UserName</td>
-                <td colspan="3"></td> <!-- Leave space for user name in the first column -->
-                <!-- Display order details in subsequent columns -->
-                @foreach (var order in userOrdersViewModel.Orders)
-                {
-                <tr>
-                    <td></td> <!-- Leave space for user name in the first column -->
-                    <td>@order.ID</td>
-                    <td>@order.Date</td>
-                    <td>@order.State</td>
-                    <!-- Add other columns for additional order details -->
-                </tr>
-                }
+                <th class="text-center">User Name</th>
+                <th class="text-center">Order ID</th>
+                <th class="text-center">Order Date</th>
+                <th class="text-center">Order State</th>
+                <!-- Add other table headers for additional order details -->
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var userOrdersViewModel in Model)
+            {
+                <tr>
+                    <td rowspan="@userOrdersViewModel.Orders.Count()" class="fw-bold text-center">@userOrdersViewModel.User.UserName</td>
+                    <!-- Display the first order details -->
+                    <td class="text-center">@userOrdersViewModel.Orders[0].ID</td>
+                    <td class="text-center">@userOrdersViewModel.Orders[0].Date</td>
+                    <td class="text-center">@userOrdersViewModel.Orders[0].State</td>
+                </tr>
+
+                <!-- Display the rest of the order details -->
+                @for (int i = 1; i < userOrdersViewModel.Orders.Count(); i++)
+                {
+                    <tr>
+                        <td class="text-center">@userOrdersViewModel.Orders[i].ID</td>
+                        <td class="text-center">@userOrdersViewModel.Orders[i].Date</td>
+                        <td class="text-center">@userOrdersViewModel.Orders[i].State</td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+
+
+    </table>
+</div>
