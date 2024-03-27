@@ -45,8 +45,8 @@
     });
 
     /*------------------
-		Navigation
-	--------------------*/
+        Navigation
+    --------------------*/
     $(".mobile-menu").slicknav({
         prependTo: '#mobile-menu-wrap',
         allowParentLinks: true
@@ -88,7 +88,7 @@
     });
 
 
-    $('.hero__categories__all').on('click', function(){
+    $('.hero__categories__all').on('click', function () {
         $('.hero__categories ul').slideToggle(400);
     });
 
@@ -152,8 +152,8 @@
     });
 
     /*-----------------------
-		Price Range Slider
-	------------------------ */
+        Price Range Slider
+    ------------------------ */
     var rangeSlider = $(".price-range"),
         minamount = $("#minamount"),
         maxamount = $("#maxamount"),
@@ -178,8 +178,8 @@
     $("select").niceSelect();
 
     /*------------------
-		Single Product
-	--------------------*/
+        Single Product
+    --------------------*/
     $('.product__details__pic__slider img').on('click', function () {
 
         var imgurl = $(this).data('imgbigurl');
@@ -192,55 +192,60 @@
     });
 
     /*-------------------
-		Quantity change
-	--------------------- */
+        Quantity change
+    --------------------- */
     var sum = 0;
-    document.addEventListener('DOMContentLoaded', function () {
-        var proQtyElements = document.querySelectorAll('.pro-qty');
+   document.addEventListener('DOMContentLoaded', function () {
+    var proQtyElements = document.querySelectorAll('.pro-qty');
 
-        proQtyElements.forEach(function (proQtyElement) {
-            var inputElement = proQtyElement.querySelector('input');
-            var price = parseFloat(proQtyElement.closest('tr').querySelector('.shoping__cart__price').textContent.replace('L.E', ''));
+    proQtyElements.forEach(function (proQtyElement) {
+        var inputElement = proQtyElement.querySelector('input');
+        var price = parseFloat(proQtyElement.closest('tr').querySelector('.shoping__cart__price').textContent.replace('L.E', ''));
 
-            proQtyElement.insertAdjacentHTML('afterbegin', '<span class="dec qtybtn">-</span>');
-            proQtyElement.insertAdjacentHTML('beforeend', '<span class="inc qtybtn">+</span>');
+        proQtyElement.insertAdjacentHTML('afterbegin', '<span class="dec qtybtn">-</span>');
+        proQtyElement.insertAdjacentHTML('beforeend', '<span class="inc qtybtn">+</span>');
 
-            proQtyElement.addEventListener('click', function (event) {
-                var button = event.target;
-                var oldValue = parseFloat(inputElement.value);
-                var newVal;
+        proQtyElement.addEventListener('click', function (event) {
+            var button = event.target;
+            var oldValue = parseFloat(inputElement.value);
+            var newVal;
 
-                if (button.classList.contains('inc')) {
-                    newVal = oldValue + 1;
-                } else if (button.classList.contains('dec') && oldValue > 1) {
-                    newVal = oldValue - 1;
-                } else {
-                    newVal = 1;
-                }
+            if (button.classList.contains('inc')) {
+                newVal = oldValue + 1;
+            } else if (button.classList.contains('dec') && oldValue > 1) {
+                newVal = oldValue - 1;
+            } else {
+                newVal = 1;
+            }
 
-                inputElement.value = newVal;
-                sum = totalPrice;
+            inputElement.value = newVal;
+            sum = totalPrice;
 
-                var totalPriceElement = proQtyElement.closest('tr').querySelector('.total-price');
-                var totalPrice = newVal * price;
-                totalPriceElement.textContent = totalPrice.toFixed(2) + 'L.E';
-                calculateSum(); // Calculate sum initially
-
-            });
-
+            var totalPriceElement = proQtyElement.closest('tr').querySelector('.total-price');
+            var totalPrice = newVal * price;
+            totalPriceElement.textContent = totalPrice.toFixed(2) + 'L.E';
+            calculateSum();
+            
+            var id = inputElement.id;
+            var quantity = newVal; 
+            var url = "/shoppingcart/UpdateQuantity?id=" + id + "&quantity=" + quantity;
+            window.location.href = url;
         });
-      
     });
-    function calculateSum() {
-        sum = 0;
-        var totalPrices = document.querySelectorAll('.total-price');
+});
 
-        totalPrices.forEach(function (priceElement) {
-            sum += parseFloat(priceElement.textContent.replace('L.E', ''));
-        });
+function calculateSum() {
+    sum = 0;
+    var totalPrices = document.querySelectorAll('.total-price');
 
-        document.getElementById('Total').innerHTML = "<li>Total <span>" + sum + "L.E </span></li>";
-    }
-    calculateSum(); // Calculate sum initially
+    totalPrices.forEach(function (priceElement) {
+        sum += parseFloat(priceElement.textContent.replace('L.E', ''));
+    });
 
-})(jQuery);
+    document.getElementById('Total').innerHTML = "<li>Total <span>" + sum + "L.E </span></li>";
+}
+
+calculateSum(); 
+
+
+}) (jQuery);

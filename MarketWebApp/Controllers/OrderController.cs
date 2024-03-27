@@ -40,7 +40,7 @@ namespace MarketWebApp.Controllers
             var locations = _context.Locations.ToList();
 
 
-           // Create a view model to pass data to the view
+            // Create a view model to pass data to the view
             var viewModel = new PlaceOrderViewModel
             {
                 ShoppingCart = shoppingCart,
@@ -51,7 +51,6 @@ namespace MarketWebApp.Controllers
 
             //return View();
         }
-
 
 
         //confirm
@@ -116,18 +115,18 @@ namespace MarketWebApp.Controllers
 
         public IActionResult OrderHistory()
         {
-            // Retrieve the user's ID
+            // Get the current user's ID
             string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            // Find orders associated with the user
-            var orders = _context.Orders
-                                .Include(o => o.OrderProducts)
-                                    .ThenInclude(oi => oi.Product)
-                                .Where(o => o.ApplicationUserID == userId)
-                                .ToList();
+            // Retrieve order products for the current user from the database
+            var orderProducts = _context.OrderProduct
+                .Include(op => op.Order)
+                .Include(op => op.Product)
+                .Where(op => op.Order.ApplicationUserID == userId)
+                .ToList();
 
-            // You can pass orders to a view model or directly to the view for displaying
-            return View(orders);
+            // Pass order products to the view
+            return View(orderProducts);
         }
 
     }

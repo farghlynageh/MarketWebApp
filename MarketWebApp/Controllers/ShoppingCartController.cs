@@ -86,10 +86,55 @@ namespace MarketWebApp.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public IActionResult UpdateQuantity(int id, int quantity)
+        {
+            string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                TempData["UserNotFound"] = "Please log in to add items to your cart.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var shoppingCart = _context.ShoppingCart
+                .Include(sc => sc.ProductCarts)
+                .FirstOrDefault(cart => cart.ApplicationUserID == userId);
+
+            if (shoppingCart == null)
+            {
+                shoppingCart = new ShoppingCart
+                {
+                    ApplicationUserID = userId,
+                    ProductCarts = new List<ProductCart>()
+                };
+                _context.ShoppingCart.Add(shoppingCart);
+            }
+
+            var existingProductCart = shoppingCart.ProductCarts.FirstOrDefault(pc => pc.ProductId == id);
+
+            if (existingProductCart != null)
+            {
+                existingProductCart.Quantity = quantity;
+                TempData["DuplicateMessage"] = "Quantity updated in your shopping cart.";
+            }
+            else
+            {
+                var newProductCart = new ProductCart
+                {
+                    ProductId = id,
+                    Quantity = quantity
+                };
+                shoppingCart.ProductCarts.Add(newProductCart);
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("Index", "shoppingcart");
+        }
+    
 
 
-
-        public IActionResult Index()
+    public IActionResult Index()
         {
             string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             // Retrieve the shopping cart associated with the user
