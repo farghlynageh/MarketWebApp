@@ -1,7 +1,7 @@
 ﻿@model MarketWebApp.Models.Entity.Supplier
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Supplier";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 
 }
@@ -12,13 +12,16 @@
     <center>
         <div class="align-content-center">
             <div class="container">
-                <div class="card-cant" style="width: 30rem;">
-                    <img src="~/CantDelete.jpg" class="card-img-top" alt="...">
+                <div class="card" style="width: 350px;">
+                    <img src="~/CantDelete.jpg" class="card-img-top" style="width: 200px; display: block; margin: 0 auto;" alt="...">
                     <div class="card-body">
                         <form asp-action="ConfirmDelete">
                             <input type="hidden" name="Id" value="@Model.ID"><hr>
-                            <h2> You Cant Not Delete (@Model.Name) Because It Contain (@Model.Products.Count) Product </h2>
-                            <a class="btn btn-outline-success rounded-3" asp-action="Index"> Back To All Suppliers </a>
+                            <h3> You Cant Not Delete (@Model.Name) Because It Contain (@Model.Products.Count) Product </h3>
+                            <br />
+                            <div>
+                                <a class="btn btn-outline-success rounded-3" asp-action="Index"> Back To All Suppliers </a>
+                            </div>
                         </form>
                     </div>
                 </div>

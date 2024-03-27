@@ -14,7 +14,7 @@ namespace MarketWebApp.Controllers
         private readonly ISupplierRepository supplierRepository;
         private readonly IOrderAdminRepository orderRepository;
 
-        public ReportController(ApplicationDbContext context, IProductRepository productReprository,
+        public ReportController(ApplicationDbContext context, /*IProductRepository productReprository*/
             ICategoryRepository categoryReprositry, ISupplierRepository supplierRepository
             , IOrderAdminRepository orderReprository)
         {

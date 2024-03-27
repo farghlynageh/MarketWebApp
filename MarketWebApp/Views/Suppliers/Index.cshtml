@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MarketWebApp.Models.Entity.Supplier>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Supplier Table";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
    // Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -19,6 +19,7 @@
         </div>
     </div>
 </div>
+
 <div class="container">
     <div class="container mt-4" style="padding-bottom: 40px;">
         <table class="table table-striped">
@@ -50,16 +51,16 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Location)
                     </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-success">
-                                <i class="fa fa-pencil"></i> Edit
-                            </a>
-                        </td>
-                        <td>
-                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-outline-danger">
-                                <i class="fa fa-trash"></i> Delete
-                            </a>
-                        </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-success">
+                            <i class="fa fa-pencil"></i> Edit
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-outline-danger">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

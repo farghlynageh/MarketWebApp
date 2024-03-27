@@ -1,81 +1,89 @@
 ﻿@model IEnumerable<MarketWebApp.Models.Entity.Product>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Product Table";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-
-}
-
+ }
 <div class="container ">
     <div class="row">
         <div class="col ">
             <h1>All Product </h1>
         </div>
         <div class="col-2">
-            <a asp-action="Create" class="btn btn-outline-success" role="button"> <i class="bi bi-plus-square"></i>  Create New Product</a><br />
+            <a asp-action="Create" class="btn btn-outline-light custom-btn-style"><i class="fa fa-plus-square"></i> Add New Product</a>
         </div>
     </div>
 </div>
 
 <div class="container">
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Img)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Supplier)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Img)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Supplier.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                    <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="container mt-4" style="padding-bottom: 40px;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Discount)
+                    </th>
+                    @*<th>
+                         @Html.DisplayNameFor(model => model.Img)
+
+                    </th> *@
+                    <th>Picture</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Stock)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Supplier)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Category)
+                    </th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Discount)
+                        </td>
+                        <td><img src="~/img/product/@item.Img" class="rounded-circle" height="40" width="40" /></td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Supplier.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Name)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i> Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-outline-danger">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 

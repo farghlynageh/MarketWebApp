@@ -8,7 +8,7 @@ using MarketWebApp.ViewModel;
 namespace MarketWebApp.Controllers
 {
     // sooo
-    [Authorize]
+   // [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ICategoryRepository repository;

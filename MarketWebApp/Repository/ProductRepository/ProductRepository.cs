@@ -36,7 +36,7 @@ namespace MarketWebApp.Repository.ProductRepository
             var product = GetProduct(id);
 
             context.Products.Remove(product);
-            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ProductImages");
+            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/product");
             string uniqueFileName = product.Img;
             string filePath = Path.Combine(uploadsFolder, uniqueFileName);
             if (System.IO.File.Exists(filePath))
@@ -90,7 +90,7 @@ namespace MarketWebApp.Repository.ProductRepository
             if (uniqueFileName is null)
             {
                 // chang name 
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ProductImages");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/product");
                 string oldPath = Path.Combine(uploadsFolder, product.Img);
                 var extention = System.IO.Path.GetExtension(oldPath).ToString();
                 var imageFullName = editProductViewModel.Name + "" + extention;
@@ -106,7 +106,7 @@ namespace MarketWebApp.Repository.ProductRepository
             }
             else if (product.Name != editProductViewModel.Name && product.Img != uniqueFileName && uniqueFileName is not null)
             {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ProductImages");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/product");
                 var filePath = Path.Combine(uploadsFolder, product.Img);
                 if (System.IO.File.Exists(filePath))
                 {
@@ -124,7 +124,7 @@ namespace MarketWebApp.Repository.ProductRepository
             else
             {
                 //chang img 
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ProductImages");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/product");
                 var filePath = Path.Combine(uploadsFolder, product.Img);
                 if (System.IO.File.Exists(filePath))
                 {
@@ -151,7 +151,7 @@ namespace MarketWebApp.Repository.ProductRepository
             if (model != null)
             {
 
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ProductImages");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/product");
                 uniqueFileName = ProdName + System.IO.Path.GetExtension(model.FileName).ToString();
 
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);

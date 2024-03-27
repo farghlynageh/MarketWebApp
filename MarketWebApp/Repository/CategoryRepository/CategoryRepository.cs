@@ -35,7 +35,7 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             var category = GetCategory(id);
 
             context.Categories.Remove(category);
-            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+            string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/categories");
             string uniqueFileName = category.Img;
             string filePath = Path.Combine(uploadsFolder, uniqueFileName);
             if (System.IO.File.Exists(filePath))
@@ -80,7 +80,7 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             if (uniqueFileName is null)
             {
                 // chang name 
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/categories");
                 string oldPath = Path.Combine(uploadsFolder, category.Img);
                 var extention = System.IO.Path.GetExtension(oldPath).ToString();
                 var imageFullName = editCategoryViewModel.Name + "" + extention;
@@ -91,7 +91,7 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             }
             else if (category.Name != editCategoryViewModel.Name && category.Img != uniqueFileName && uniqueFileName is not null)
             {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/categories");
                 var filePath = Path.Combine(uploadsFolder, category.Img);
                 if (System.IO.File.Exists(filePath))
                 {
@@ -104,7 +104,7 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             else
             {
                 //chang img 
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/categories");
                 var filePath = Path.Combine(uploadsFolder, category.Img);
                 if (System.IO.File.Exists(filePath))
                 {
@@ -124,7 +124,7 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             if (model != null)
             {
 
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "CategoryImages");
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "img/categories");
                 uniqueFileName = CatName + System.IO.Path.GetExtension(model.FileName).ToString();
 
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);

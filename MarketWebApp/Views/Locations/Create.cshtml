@@ -1,7 +1,7 @@
 ﻿@model MarketWebApp.ViewModel.Location.AddLocationViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Location";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 
 }
@@ -12,8 +12,8 @@
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header p-5 pb-4 border-bottom-0">
                     <h1 class="fw-bold mb-0 fs-2">Add New Location</h1>
-                    <a class="btn-close" asp-action="Index"></a>
-                </div>
+@*                     <a asp-action="Index"><li class="fa fa-close"></li></a>
+ *@                </div>
                 <hr />
 
                 <div class="modal-body p-3 pt-0 mb-2">
@@ -21,7 +21,7 @@
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <label asp-for="Name" class="control-label"></label>
                         <div class="form-floating mb-3">
-                            <input asp-for="Name" class="form-control rounded-4" placeholder="Enter Location Like: Samalout 13 Akef St" />
+                            <input asp-for="Name" class="form-control rounded-4" placeholder="Samalout 13 Akef St" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div><br />
                         <div class="d-grid gap-2">
