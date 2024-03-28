@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "ShoppingCart";
 }
+
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg=@Url.Content("~/img/breadcrumb.jpg")>
     <div class="container">
@@ -21,6 +22,12 @@
     </div>
 </section>
 <!-- Breadcrumb Section End -->
+@if (TempData["EmptyShoppingCart"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["EmptyShoppingCart"]
+    </div>
+}
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
     <div class="container">

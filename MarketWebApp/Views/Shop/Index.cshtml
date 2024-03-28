@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="#"></a>@product.Name</h6>
-                                    <h5>@product.Price L.E</h5>
+                                    <h5>@(product.Price - (product.Price * product.Discount / 100)) L.E</h5>
                                 </div>
                             </div>
                         </div>

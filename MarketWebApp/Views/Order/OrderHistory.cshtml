@@ -1,54 +1,37 @@
-﻿@model IEnumerable<MarketWebApp.Models.Entity.OrderProduct>
+﻿@model IEnumerable<MarketWebApp.Models.Entity.Order>
 
 @{
     ViewData["Title"] = "OrderHistory";
 }
 
-<h1>OrderHistory</h1>
-
-
-<section class="shoping-cart spad">
+@* <h1>Order History</h1> *@
+<section class="shoping-cart spad py-5 bg-light">
     <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h1 class="display-4 text-primary mb-4">Your Order History</h1>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="shoping__cart__table">
-                    <table>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
                         <thead>
-                        <th>
-                            Order
-                        </th>
-                        <th>
-                            Product
-                        </th>
-                        <th>
-                            Quantity
-                        </th>
-                        <th>
-                            Price
-                        </th>
-                        <th></th>
+                            <tr class="text-center">
+                                <th>State</th>
+                                <th>Date</th>
+                                <th>Details</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td class="shoping__cart__item">
-                                        <h5>@item.Order.State</h5>
+                                <tr class="text-center">
+                                    <td>@item.State</td>
+                                    <td>@item.Date</td>
+                                    <td>
+                                        <a href="@Url.Action("OrderInfo", "order", new { id = item.ID })" class="btn btn-info">Info</a>
                                     </td>
-                                    <td class="shoping__cart__item">
-                                        <img src=@Url.Content("~/img/product/@item.Img") alt="" />
-
-                                        <h5>@item.Product.Name</h5>
-                                    </td>
-                                    <td class="shoping__cart__quantity">
-                                        <p>@item.Quantity</p>
-                                    </td>
-                                    <td class="shoping__cart__total"><p>@item.Price</p></td>
-                                    @*  <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                                </td>  *@
                                 </tr>
                             }
                         </tbody>

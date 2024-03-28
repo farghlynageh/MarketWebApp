@@ -143,6 +143,7 @@ namespace MarketWebApp.Repository.ProductRepository
                 product.CategoryId = editProductViewModel.CategoryID;
                 product.SupplierId = editProductViewModel.SupplierId;
             }
+            Save();
         }
 
         public string UploadedFile(IFormFile model, string ProdName)

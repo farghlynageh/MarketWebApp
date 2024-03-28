@@ -19,7 +19,7 @@ namespace MarketWebApp.Controllers
 
         public IActionResult Index()
         {
-            var Products = context.Products.Where(Product => Product.Discount == 0).ToList();
+            var Products = context.Products.Where(Product => Product.Discount >= 0).ToList();
             return View(Products);
         }
 

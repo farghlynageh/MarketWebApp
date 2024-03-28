@@ -24,7 +24,7 @@ namespace MarketWebApp.ViewModel.Product
         public float Price { get; set; }
         [Display(Name = "Supplier")]
         public int SupplierId { get; set; }
-        [Range(1, 10000, ErrorMessage = "Price must be between 1 and 10000.")]
+        [Range(0, 99, ErrorMessage = "Discount must be between 0 and 99.")]
         public float Discount { get; set; }
 
         [Display(Name = "Product Amount")]

@@ -31,9 +31,8 @@ namespace MarketWebApp.Controllers
 
             if (shoppingCart == null || shoppingCart.ProductCarts.Count == 0)
             {
-                // If the shopping cart is empty, handle accordingly (e.g., display a message)
-                // You can redirect to a different action or return a view to inform the user.
-                return RedirectToAction("EmptyCart");
+                ViewBag.Message = "Your shopping cart is empty.";
+                return View(new List<ProductCart>());
             }
 
             // Retrieve available locations from the database
@@ -119,15 +118,17 @@ namespace MarketWebApp.Controllers
             string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
             // Retrieve order products for the current user from the database
-            var orderProducts = _context.OrderProduct
-                .Include(op => op.Order)
-                .Include(op => op.Product)
-                .Where(op => op.Order.ApplicationUserID == userId)
+            var order = _context.Orders
+                .Where(op => op.ApplicationUserID == userId)
                 .ToList();
 
             // Pass order products to the view
-            return View(orderProducts);
+            return View(order);
         }
-
+        public IActionResult OrderInfo(int id)
+        {
+            var orderproduct = _context.OrderProduct.Include(p => p.Product).Where(o => o.OrderId == id).ToList();
+            return View(orderproduct);
+        }
     }
 }

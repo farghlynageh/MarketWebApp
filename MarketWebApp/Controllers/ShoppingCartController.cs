@@ -33,7 +33,7 @@ namespace MarketWebApp.Controllers
 
             _context.ProductCart.Remove(sh);
             _context.SaveChanges();
-
+            TempData["DeletedMessage"] = "Product deleted from ShoppingCart successfully.";
             return RedirectToAction("Index");
         }
 
@@ -84,6 +84,7 @@ namespace MarketWebApp.Controllers
             }
 
             _context.SaveChanges();
+            TempData["SuccessMessage"] = "Product added to ShoppingCart successfully.";
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]
@@ -146,7 +147,7 @@ namespace MarketWebApp.Controllers
             if (shoppingCart == null)
             {
                 // Handle the case where the user's shopping cart is empty
-                ViewBag.Message = "Your shopping cart is empty.";
+                TempData["EmptyShoppingCart"]= "Your shopping cart is empty.";
                 return View(new List<ProductCart>());
             }
 

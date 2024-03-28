@@ -2,10 +2,10 @@
 
 @{
     ViewData["Title"] = "DetailsOfOrder";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <div class="container">
-    <h1>DetailsOfOrder</h1>
-
+    <h2 class="text-center mb-4">DetailsOfOrder</h2>
 </div>
 
 <div class="table-responsive container">
@@ -26,14 +26,19 @@
                     <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
                     <td>@(item.Quantity * item.Price)</td>
-                </tr>
 
-                <a href="@Url.Action("AcceptOrder", "ConfirmOrder", new { Id = item.OrderId })" class="btn btn-success mb-4">Confirm Order</a>
-                <br />
-                <a href="@Url.Action("RejectOrder", "ConfirmOrder", new { Id = item.OrderId })" class="btn btn-danger mb-4">Reject Order</a>
-                <br />
+                </tr>
+            }
+
+            @if (Model.Any() && Model.First().Order.State == "Pending")
+            {
+                <tr>
+                    <td colspan="4">
+                        <a href="@Url.Action("AcceptOrder", "ConfirmOrder", new { Id = Model.First().OrderId })" class="btn btn-success mb-4">Confirm Order</a>
+                        <a href="@Url.Action("RejectOrder", "ConfirmOrder", new { Id = Model.First().OrderId })" class="btn btn-danger mb-4">Reject Order</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
-s

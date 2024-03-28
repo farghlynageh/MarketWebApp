@@ -63,7 +63,6 @@ namespace MarketWebApp.Controllers
 
 
 
-
         [HttpGet]
         public IActionResult AcceptOrder(int Id)
         {
@@ -73,10 +72,9 @@ namespace MarketWebApp.Controllers
             if (order != null)
             {
                 // Update the order state to "Confirmed"
-                order.State = "Confirmed";
+                order.State = "Shipping";
                 _context.SaveChanges();
             }
-
             return RedirectToAction("GetUserList", "ConfirmOrder");
         }
 
@@ -97,7 +95,7 @@ namespace MarketWebApp.Controllers
         }
         public IActionResult DetailsOfOrder(int id)
         {
-            var orderitem = _context.OrderProduct.Include(p => p.Product).Where(o => o.OrderId == id).ToList();
+            var orderitem = _context.OrderProduct.Include(s => s.Order).Include(p => p.Product).Where(o => o.OrderId == id).ToList();
 
             return View(orderitem);
         }
