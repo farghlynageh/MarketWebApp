@@ -1,5 +1,6 @@
 ﻿using MarketWebApp.Data;
 using MarketWebApp.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ namespace MarketWebApp.Controllers
         {
             _context = context;
         }
+       [Authorize(Roles = "Admin,Cashier")]
 
         public IActionResult GetUserList()
         {
@@ -25,6 +27,7 @@ namespace MarketWebApp.Controllers
             return View(usersWithOrders);
         }
 
+        [Authorize(Roles = "Admin,Cashier")]
 
 
         public IActionResult Index(string userId)
@@ -64,6 +67,8 @@ namespace MarketWebApp.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Cashier")]
+
         public IActionResult AcceptOrder(int Id)
         {
             // Retrieve the order from the database
@@ -79,6 +84,8 @@ namespace MarketWebApp.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Cashier")]
+
         public IActionResult RejectOrder(int Id)
         {
             // Retrieve the order from the database
@@ -93,6 +100,9 @@ namespace MarketWebApp.Controllers
 
             return RedirectToAction("GetUserList", "ConfirmOrder");
         }
+
+        [Authorize(Roles = "Admin,Cashier")]
+
         public IActionResult DetailsOfOrder(int id)
         {
             var orderitem = _context.OrderProduct.Include(s => s.Order).Include(p => p.Product).Where(o => o.OrderId == id).ToList();

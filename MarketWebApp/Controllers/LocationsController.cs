@@ -12,6 +12,7 @@ using MarketWebApp.Repository.SupplierRepository;
 using MarketWebApp.ViewModel;
 using MarketWebApp.ViewModel.Location;
 using NuGet.Protocol.Core.Types;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MarketWebApp.Controllers
 {
@@ -25,14 +26,16 @@ namespace MarketWebApp.Controllers
         }
 
         // GET: Locations
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             ViewBag.PageCount = (int)Math.Ceiling((decimal)locationRepository.GetAll().Count() / 5m);
 
             return View(locationRepository.GetAll());
         }
-      
+
         // GET: Locations/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -41,6 +44,7 @@ namespace MarketWebApp.Controllers
         // POST: Locations/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(AddLocationViewModel locationViewModel)
         {
             if (ModelState.IsValid)
@@ -74,6 +78,7 @@ namespace MarketWebApp.Controllers
 
         // GET: Locations/Edit/5
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int Id)
         {
             var location = locationRepository.GetLocation(Id);
@@ -86,6 +91,7 @@ namespace MarketWebApp.Controllers
         // POST: Locations/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(EditLocationViewModel locationViewModel)
         {
             if (ModelState.IsValid)

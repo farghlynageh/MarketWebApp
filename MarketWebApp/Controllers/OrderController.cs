@@ -1,6 +1,7 @@
 ﻿using MarketWebApp.Data;
 using MarketWebApp.Models.Entity;
 using MarketWebApp.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ namespace MarketWebApp.Controllers
         {
             _context = context;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -54,6 +56,7 @@ namespace MarketWebApp.Controllers
 
         //confirm
         [HttpPost]
+        [Authorize(Roles = "Admin,Cashier")]
         public IActionResult ConfirmOrder(PlaceOrderViewModel viewModel)
         {
             // Retrieve the selected location ID and other order details from the view model

@@ -113,6 +113,24 @@
                                         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
                                     </div>
                                 }
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <div class="header__top__right__auth">
+                                        <a class="nav-link text-dark" asp-action="Index" asp-controller="DashBord" >Dashbourd</a>
+
+                                    </div>
+                                }
+
+                                @if (User.IsInRole("Cashier"))
+                                {
+                                    <div class="header__top__right__auth">
+                                        <a class="nav-link text-dark" asp-action="GetUserList" asp-controller="ConfirmOrder">Order</a>
+
+                                    </div>
+                                }
+
+
                             </div>
                         </div>
                     </div>

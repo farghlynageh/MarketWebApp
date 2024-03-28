@@ -8,7 +8,7 @@ using MarketWebApp.ViewModel;
 namespace MarketWebApp.Controllers
 {
     // sooo
-   // [Authorize]
+    [Authorize]
     public class CategoriesController : Controller
     {
         private readonly ICategoryRepository repository;
@@ -19,7 +19,7 @@ namespace MarketWebApp.Controllers
         }
 
         // GET: Categories
-      //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             ViewBag.PageCount = (int)Math.Ceiling((decimal)repository.GetAll().Count() / 5m);
@@ -36,7 +36,7 @@ namespace MarketWebApp.Controllers
             return PartialView("_CategoryTable", Categories);
         }
 
-      //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Categories/Create
         public IActionResult Create()
         {
@@ -45,7 +45,7 @@ namespace MarketWebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(AddCategoryViewModel categoryViewModel)
         {
             if (ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace MarketWebApp.Controllers
         // GET: Categories/Edit/5
 
         [HttpGet]
-       // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int Id)
         {
             var category = repository.GetCategory(Id);
@@ -94,6 +94,7 @@ namespace MarketWebApp.Controllers
         // POST: Categories/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(EditCategoryViewModel categoryViewModel)
         {
             if (ModelState.IsValid)
@@ -130,7 +131,7 @@ namespace MarketWebApp.Controllers
 
         // GET: Categories/Delete/5
         [HttpGet]
-       // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int Id)
         {
             var data = repository.GetCategoryWithProducts(Id);
@@ -141,6 +142,7 @@ namespace MarketWebApp.Controllers
         // POST: Categories/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult ConfirmDelete(int Id)
         {
 

@@ -63,7 +63,7 @@ namespace MarketWebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -87,6 +87,10 @@ namespace MarketWebApp.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -437,7 +441,7 @@ namespace MarketWebApp.Migrations
             modelBuilder.Entity("MarketWebApp.Models.Entity.Order", b =>
                 {
                     b.HasOne("MarketWebApp.Models.Entity.ApplicationUser", "applicationUser")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("ApplicationUserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -570,6 +574,11 @@ namespace MarketWebApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MarketWebApp.Models.Entity.ApplicationUser", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("MarketWebApp.Models.Entity.Category", b =>

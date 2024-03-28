@@ -16,7 +16,7 @@ using MarketWebApp.ViewModel.Product;
 
 namespace MarketWebApp.Controllers
 {
-   // [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 
     public class ProductsController : Controller
     {
@@ -33,12 +33,15 @@ namespace MarketWebApp.Controllers
         }
 
         // GET: Products
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             ViewBag.PageCount = (int)Math.Ceiling((decimal)repository.GetAll().Count() / 5m);
             return View(this.repository.GetAll());
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult GetProducts(int pageNumber, int pageSize = 5)
         {
             var products = repository.GetAll()
@@ -50,6 +53,8 @@ namespace MarketWebApp.Controllers
         }
 
         // GET: Products/Create
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategoryID"] = new SelectList(repositorycaty.GetAll(), "ID", "Name");
@@ -60,6 +65,8 @@ namespace MarketWebApp.Controllers
         // POST: Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(AddProductViewModel addProductViewModel)
         {
             if (ModelState.IsValid)
@@ -89,6 +96,7 @@ namespace MarketWebApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         private void PopulateDropdowns()
         {
             // Populate dropdown lists for categories and suppliers
@@ -99,7 +107,9 @@ namespace MarketWebApp.Controllers
 
         // GET: Products/Edit/5
         [HttpGet]
-       public IActionResult Edit(int Id)
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(int Id)
         {
             var product = repository.GetProduct(Id);
             EditProductViewModel editProductViewModel = new EditProductViewModel();
@@ -121,6 +131,8 @@ namespace MarketWebApp.Controllers
         // POST: Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(EditProductViewModel editProductViewModel)
         {
             if (ModelState.IsValid)
@@ -153,6 +165,7 @@ namespace MarketWebApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         private void PopulateDropdowns(EditProductViewModel editProductViewModel)
         {
             ViewData["CategoryID"] = new SelectList(repositorycaty.GetAll(), "ID", "Name", editProductViewModel.CategoryID);
@@ -160,6 +173,7 @@ namespace MarketWebApp.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         public IActionResult CheckProductExist(string Name)
         {
             if (repository.CheckProductExist(Name))
@@ -167,6 +181,8 @@ namespace MarketWebApp.Controllers
             else
                 return Json(false);
         }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult CheckProductExistEdit(string Name, int Id)
         {
             if (repository.CheckProductExistEdit(Name, Id))
@@ -177,6 +193,8 @@ namespace MarketWebApp.Controllers
 
         // GET: Products/Delete/5
         [HttpGet]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int Id)
         {
             return View(repository.GetProduct(Id));
@@ -186,6 +204,8 @@ namespace MarketWebApp.Controllers
         // POST: Products/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult ConfirmDelete(int Id)
         {
 
@@ -199,6 +219,8 @@ namespace MarketWebApp.Controllers
         }
 
         [HttpGet]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult GetProduct(int Id)
         {
             var allProducts = repository.GetAll();

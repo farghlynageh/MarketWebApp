@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MarketWebApp.Controllers
 {
- //   [Authorize(Roles = "Admin")]
+   [Authorize(Roles = "Admin")]
     public class DashBordController : Controller
     {
         private readonly IProductRepository productReprository;
@@ -25,6 +25,7 @@ namespace MarketWebApp.Controllers
             this.supplierRepository = supplierRepository;
             this.orderRepository = orderReprository;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             ViewBag.productCount = productReprository.GetAll().Count();

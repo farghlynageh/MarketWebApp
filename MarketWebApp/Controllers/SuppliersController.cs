@@ -1,10 +1,13 @@
 ﻿using MarketWebApp.Repository.SupplierRepository;
 using MarketWebApp.ViewModel.Supplier;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketWebApp.Controllers
 {
+
+    [Authorize(Roles = "Admin")]
     public class SuppliersController : Controller
     {
 
@@ -16,6 +19,7 @@ namespace MarketWebApp.Controllers
             this.supplierRepository = supplierRepository;
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             ViewBag.PageCount = (int)Math.Ceiling((decimal)supplierRepository.GetAll().Count() / 5m);
@@ -24,6 +28,7 @@ namespace MarketWebApp.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         public IActionResult GetSupplier(int pageNumber, int pageSize = 5)
         {
             var supplier = supplierRepository.GetAll()
@@ -34,6 +39,8 @@ namespace MarketWebApp.Controllers
             return PartialView("_SupplierTable", supplier);
         }
         // GET: SupplierController/Create
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -42,6 +49,8 @@ namespace MarketWebApp.Controllers
         // POST: SupplierController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(AddSupplierViewModel addSupplierViewModel)
         {
             if (ModelState.IsValid)
@@ -73,6 +82,7 @@ namespace MarketWebApp.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         public IActionResult CheckSupplierExist(string Name)
         {
             if (supplierRepository.CheckSupplierExist(Name))
@@ -82,6 +92,8 @@ namespace MarketWebApp.Controllers
         }
 
         // GET: SupplierController/Edit/5
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int Id)
         {
@@ -97,6 +109,8 @@ namespace MarketWebApp.Controllers
         // POST: SupplierController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(EditSupplierViewModel supplierViewModel)
         {
             if (ModelState.IsValid)
@@ -128,6 +142,7 @@ namespace MarketWebApp.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult CheckSupplierExistEdit(string Name, int Id)
         {
             if (supplierRepository.CheckSupplierExistEdit(Name, Id))
@@ -136,7 +151,10 @@ namespace MarketWebApp.Controllers
                 return Json(false);
         }
         // GET: SupplierController/Delete/5
+
         [HttpGet]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int Id)
         {
             var data = supplierRepository.GetSupplierWithProducts(Id);
@@ -147,6 +165,8 @@ namespace MarketWebApp.Controllers
         // POST: SupplierController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult ConfirmDelete(int Id)
         {
 
