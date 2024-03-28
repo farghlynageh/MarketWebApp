@@ -179,10 +179,6 @@ namespace MarketWebApp.Controllers
         }
 
 
-        //// GET: SupplierController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
+       
     }
 }

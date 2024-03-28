@@ -25,12 +25,6 @@ namespace MarketWebApp.Models.Entity
         public string ApplicationUserID { get; set; }
         public virtual ApplicationUser applicationUser { get; set; }
 
-        //[ForeignKey("ApplicationUser")]
-        //public int ApplicationUserId { get; set; }
-        //public virtual ApplicationUser ApplicationUser { get; set; }
-
-        //  public virtual ShoppingCart ShoppingCart{ get; set; }
-
-
+     
     }
 }

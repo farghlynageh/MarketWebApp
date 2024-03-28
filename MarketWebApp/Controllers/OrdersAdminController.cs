@@ -82,10 +82,7 @@ namespace MarketWebApp.Controllers
                 }
 
 
-                //using (var cells = worksheet.Cells[2, 1, row - 1, 2])
-                //{
-                //    cells.Style.Numberformat.Format = "dd/MM/yyyy";
-                //}
+                
 
                 var excelBytes = package.GetAsByteArray();
                 return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Orders Report.xlsx");

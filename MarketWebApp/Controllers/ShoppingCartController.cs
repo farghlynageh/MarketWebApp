@@ -16,13 +16,6 @@ namespace MarketWebApp.Controllers
             _context = context;
         }
 
-
-        //public IActionResult Index()
-        //{
-        //    return View(_context.ShoppingCart.ToList());
-        //}
-
-
         public IActionResult Delete(int? id)
         {
             var sh = _context.ProductCart.FirstOrDefault(s=>s.ID==id);
@@ -81,10 +74,10 @@ namespace MarketWebApp.Controllers
                     Quantity = 1
                 };
                 shoppingCart.ProductCarts.Add(newProductCart);
+            TempData["SuccessMessage"] = "Product added to ShoppingCart successfully.";
             }
 
             _context.SaveChanges();
-            TempData["SuccessMessage"] = "Product added to ShoppingCart successfully.";
             return RedirectToAction("Index", "Home");
         }
         [HttpGet]

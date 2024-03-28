@@ -33,7 +33,6 @@ namespace MarketWebApp.Models.Entity
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
         public virtual ICollection<ProductCart> ProductCarts { get; set; }
        
-      //  public virtual ShoppingCart ShoppingCart { get; set; }
 
 
     }

@@ -13,11 +13,11 @@
                 <h1 class="fw-bold mb-0 fs-3">Edit Product</h1>
             </div>
             <div class="modal-body p-3 pt-0 mb-2">
-                    <form asp-action="Edit" enctype="multipart/form-data">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <input type="hidden" asp-for="ID" class="form-control" />
-                        </div>
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <input type="hidden" asp-for="ID" class="form-control" />
+                    </div>
 
                     <div class="row mb-4">
                         <div class="col">
@@ -56,16 +56,28 @@
                                 <span asp-validation-for="Stock" class="text-danger"></span>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col">
+
+
+                    <label class="control-label" for="inputGroupFile02">Product Image</label>
+                    <div class="row mb-4">
+                        <div class="col-2">
                             <div class="form-outline">
-                                <label class="control-label" for="inputGroupFile02">Product Image</label>
-                                <input asp-for="Img" type="file" class="form-control" id="inputGroupFile02">
-                                <span asp-validation-for="Img" class="text-danger"></span>
+
+
+                                <img width="40px" height="40px" src="@Url.Content("~/img/product/" + Model.Image)" alt="" />
+
                             </div>
                         </div>
-
+                        <div class="col-10">
+                            <div class="form-outline">
+                                <input asp-for="ProductImage" accept=".png, .jpg, .jpeg" value="@Model.Image" class="form-control">
+                                <span asp-validation-for="ProductImage" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
+
 
                     <div class="row mb-4">
                         <div class="col">
@@ -90,13 +102,15 @@
                         <a class="btn btn-outline-secondary rounded-3" asp-action="Index"> Cancel </a>
                     </div><br />
                     <small class="text-body-secondary">Using the Edit page, you can Edit any Product.</small>
-                    </form>
-                </div>
+                </form>
             </div>
+        </div>
     </div>
 </div>
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

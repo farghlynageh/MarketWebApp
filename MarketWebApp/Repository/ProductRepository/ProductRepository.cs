@@ -28,7 +28,7 @@ namespace MarketWebApp.Repository.ProductRepository
         {
             // Implement the logic to check if a product with the same name exists for the same supplier and category
             return !context.Products.Any(p =>
-                p.ID != productId && p.Name.Equals(name, StringComparison.OrdinalIgnoreCase) &&
+                p.ID != productId && p.Name==name &&
                 p.SupplierId == supplierId && p.CategoryId == categoryId);
         }
         public void Delete(int id)

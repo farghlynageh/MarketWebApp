@@ -12,7 +12,7 @@ namespace MarketWebApp.ViewModel.Product
         [RegularExpression("^[a-zA-Z ]+$", ErrorMessage = "Product name can only contain letters and spaces")]
 
         public string? Name { get; set; }
-        public string? Img { get; set; }
+        public string? Image { get; set; }
         [Required(ErrorMessage = "Please Choose Product Picture")]
         [Display(Name = "Product Picture")]
         [AllowedExtensions([".jpg", ".jpeg", ".png"], ErrorMessage = "Invalid file format. Only JPG, JPEG, and PNG are allowed.")]

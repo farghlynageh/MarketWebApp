@@ -4,10 +4,17 @@
     ViewData["Title"] = "DetailsOfOrder";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="container">
     <h2 class="text-center mb-4">DetailsOfOrder</h2>
 </div>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <div class="table-responsive container">
     <table class="table table-bordered">
         <thead class="thead-dark">

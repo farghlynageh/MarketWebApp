@@ -13,6 +13,7 @@ using MarketWebApp.Repository.ProductRepository;
 using NuGet.Protocol.Core.Types;
 using MarketWebApp.Repository.SupplierRepository;
 using MarketWebApp.ViewModel.Product;
+using MarketWebApp.ViewModel;
 
 namespace MarketWebApp.Controllers
 {
@@ -116,7 +117,7 @@ namespace MarketWebApp.Controllers
 
             editProductViewModel.ID = product.ID;
             editProductViewModel.Name = product.Name;
-            editProductViewModel.Img = product.Img;
+            editProductViewModel.Image = product.Img;
             editProductViewModel.Price = product.Price;
             editProductViewModel.Discount = product.Discount;
             editProductViewModel.Stock = product.Stock;
@@ -139,8 +140,10 @@ namespace MarketWebApp.Controllers
             {
                 try
                 {
+                    string productNameToLower = editProductViewModel.Name.ToLower(); // Convert input name to lowercase
+
                     // Check if a product with the same name already exists for the same supplier and category
-                    if (!repository.IsProductUnique(editProductViewModel.ID, editProductViewModel.Name, editProductViewModel.SupplierId, editProductViewModel.CategoryID))
+                    if (!repository.IsProductUnique(editProductViewModel.ID, productNameToLower, editProductViewModel.SupplierId, editProductViewModel.CategoryID))
                     {
                         ModelState.AddModelError("Name", "Product name already exists for the same supplier and category.");
                         PopulateDropdowns(editProductViewModel); // Populate dropdowns again for the view

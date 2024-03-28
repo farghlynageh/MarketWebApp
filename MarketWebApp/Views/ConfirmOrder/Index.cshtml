@@ -32,7 +32,7 @@
                         <td class="text-center">@userOrdersViewModel.Orders[i].Date</td>
                         <td class="text-center">@userOrdersViewModel.Orders[i].State</td>
                         <td>
-                            <a href="@Url.Action("DetailsOfOrder", "ConfirmOrder", new { Id = @userOrdersViewModel.Orders[i].ID })" class="btn btn-dark">Details</a>
+                            <a href="@Url.Action("DetailsOfOrder", "ConfirmOrder", new { Id = @userOrdersViewModel.Orders[i].ID })" class="btn btn-secondary">Details</a>
                         </td>
                     </tr>
                 }

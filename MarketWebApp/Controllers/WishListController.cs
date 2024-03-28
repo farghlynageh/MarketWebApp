@@ -23,7 +23,6 @@ namespace MarketWebApp.Controllers
         }
 
         [HttpPost]
-        //string Name,double Price,string Image, Guid id,
         public ActionResult AddProductToWish(int id)
         {
             var wish = context.Products.Find(id);
@@ -58,7 +57,6 @@ namespace MarketWebApp.Controllers
         }
         public IActionResult WishIndex()
         {
-            // List<Product> products = new List<Product>();
 
             string productString = _contx.HttpContext.Session.GetString("ProductData");
             if (!string.IsNullOrEmpty(productString))

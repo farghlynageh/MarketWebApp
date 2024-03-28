@@ -7,11 +7,7 @@
         <h1> &nbsp;Welcome Back @*  @User.Identity.Name.Split('@')[0]  *@ </h1>
 
     </div>
-    <div class="col-2">
-        <a href="/Report/index" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
-        </a>
-    </div>
+    
 </div>
 <!-- Custom fonts for this template-->
 <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,9 +43,9 @@
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"> @ViewBag.CategoryCount </div>
                                     </div>
-                                    <div class="col-auto">
+                                    @* <div class="col-auto">
                                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                    </div>
+                                    </div> *@
                                 </div>
                             </div>
                         </div>
@@ -115,9 +111,9 @@
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"> @ViewBag.orderCount </div>
                                     </div>
-                                    <div class="col-auto">
+                                    @* <div class="col-auto">
                                         <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                    </div>
+                                    </div> *@
                                 </div>
                             </div>
                         </div>
