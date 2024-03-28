@@ -1,8 +1,10 @@
 ﻿using MarketWebApp.Models;
+using MarketWebApp.Models.Configurations;
 using MarketWebApp.Models.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace MarketWebApp.Data
 {
@@ -11,6 +13,11 @@ namespace MarketWebApp.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new ApplicationUserConfiguration());
         }
 
         // DbSet properties and other configurations...
@@ -23,8 +30,6 @@ namespace MarketWebApp.Data
         public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
         public virtual DbSet<OrderProduct> OrderProduct { get; set; }
         public virtual DbSet<ProductCart> ProductCart { get; set; }
-       // public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
-
-       // public virtual DbSet<ApplicationRole> ApplicationRole { get; set; }
     }
+
 }

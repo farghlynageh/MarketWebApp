@@ -23,44 +23,44 @@
 
 /* Style for form inputs */
 /*.form-control {
-    margin-bottom: 5px;*/ /* Add some space between inputs */
+    margin-bottom: 35px;*/ /* Add some space between inputs */
     /*font-size: 20px;
-    width: 500px;
-    height: 30px;
+    width: 700px;
+    height: 40px;
     border-radius: 100px 100px;
-    margin-left:200px;
     
 
 }
 
 .form-label {
     font-size: 25px;
-    font-family:'Times New Roman', Times, serif;
-    margin-right:650px;
-    margin-left:20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-top:50px;
 }
-
+.form-check-input{
+    font-size:larger;
+}
 h1 {
     font-size: 35px;
-    text-align:center;
-    font-family:'Times New Roman', Times, serif;
-    margin-bottom:20px;
-    color:black;
-   
-}*/
+    text-align: center;
+    font-family: fantasy;
+    margin-bottom:100px;
+    color:white;
+}
 
-/*#create {
-    font-size: 20px;
-    text-align:center;
-    color:black;
-    margin-top:20px;
+#create {
+    font-size: 40px;
+    text-align: center;
+    color: black;
+    text-decoration-line:none;
+    margin-top:5px
 }*/
 
 
 /* Style for form labels */
 /*.form-label {
-    color:black;
-}*/
+    color: #333;*/ /* Dark gray text color */
+/*}*/
 
 /* Style for form buttons */
 /*.btn-primary {
@@ -85,26 +85,32 @@ h1 {
     justify-content: center;
     align-items: center;
     height: 70vh;*/ /* Adjust to your preference */
-    /*width: 1000px;
-    margin-top: 40px;
+    /*width: 1100px;
+    margin-top: 10px;
     background-color: darkseagreen;
-    border-radius: 50px 50px;
+    border-radius: 100px 100px;
 }
 
 
 
-#registerSubmit {
-    background-color:olivedrab;
+#login-submit {
+    background-color:olivedrab; 
     text-align: center;
-    width: 300px;
-    height: 40px;
+    width: 500px;
+    height: 50px;
     justify-content: center;
-    margin-left: 350px;
-    font-size: 25px;
-    border-radius: 50px 50px;
-    font-family:'Times New Roman', Times, serif;
-    color:black;
-    margin-top:45px;
+ 
+    margin-left:300px;
+    font-size: 30px;
+    border-radius: 100px 100px;
+    font-family: fantasy;
+    color:white;
+}
+
+
+
+p {
+    font-family: fantasy;
 }*/
 
 * {
@@ -120,6 +126,7 @@ section {
     min-height: 100vh;
     width: 100%;
     background-image: url('../img/l.jpg');
+    
     no-repeat;
     background-position: center;
     background-size: cover;
@@ -127,9 +134,9 @@ section {
 
 .form-box {
     position: relative;
-    width: 600px;
-    height: 700px;
-    background: blak;s
+    width: 500px;
+    height: 450px;
+    background: blak;
     border: none;
     border-radius: 20px;
     backdrop-filter: blur(15px) brightness(80%);
@@ -152,7 +159,7 @@ h2 {
 }
 
     .inputbox label {
-        /*  // position: absolute;*/
+     /*  // position: absolute;*/
         top: 50%;
         left: 5px;
         transform: translateY(-50%);
@@ -188,7 +195,26 @@ input:valid ~ label {
     top: 20px;
 }
 
+.forget {
+    margin: -10px 0 17px;
+    font-size: 0.9em;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+}
 
+    .forget label input {
+        margin-right: 3px;
+    }
+
+    .forget a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+        .forget a:hover {
+            text-decoration: underline;
+        }
 
 button {
     width: 100%;
@@ -202,7 +228,22 @@ button {
     font-weight: 600;
 }
 
+.register {
+    font-size: 0.9em;
+    color: #fff;
+    text-align: center;
+    margin: 25px 0 10px;
+}
 
+    .register p a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+    }
+
+        .register p a:hover {
+            text-decoration: underline;
+        }
 
 @media screen and (max-width: 480px) {
     .form-box {
@@ -210,6 +251,3 @@ button {
         border-radius: 0px;
     }
 }
-
-
-
