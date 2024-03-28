@@ -117,7 +117,6 @@ namespace MarketWebApp.Controllers
             if (existingProductCart != null)
             {
                 existingProductCart.Quantity = quantity;
-                TempData["DuplicateMessage"] = "Quantity updated in your shopping cart.";
             }
             else
             {

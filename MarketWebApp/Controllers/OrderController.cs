@@ -56,7 +56,6 @@ namespace MarketWebApp.Controllers
 
         //confirm
         [HttpPost]
-        [Authorize(Roles = "Admin,Cashier")]
         public IActionResult ConfirmOrder(PlaceOrderViewModel viewModel)
         {
             // Retrieve the selected location ID and other order details from the view model
