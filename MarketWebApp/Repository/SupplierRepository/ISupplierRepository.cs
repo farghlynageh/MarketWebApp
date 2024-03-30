@@ -8,7 +8,7 @@ namespace MarketWebApp.Repository.SupplierRepository
     public interface ISupplierRepository
     {
         IEnumerable<Supplier> GetAll();
-
+        IEnumerable<Supplier> SearchByName(string name);
         Supplier GetSupplier(int Id);
         Supplier GetSupplierWithProducts(int Id);
         void Insert(AddSupplierViewModel addSupplierViewModel);

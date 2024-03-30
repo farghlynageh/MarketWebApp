@@ -23,6 +23,7 @@ namespace MarketWebApp.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
+
             ViewBag.PageCount = (int)Math.Ceiling((decimal)supplierRepository.GetAll().Count() / 5m);
 
             return View(supplierRepository.GetAll());
@@ -30,14 +31,29 @@ namespace MarketWebApp.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        public IActionResult GetSupplier(int pageNumber, int pageSize = 5)
+        public IActionResult GetSupplier(int pageNumber, int pageSize = 5, string searchQuery = "")
         {
-            var supplier = supplierRepository.GetAll()
-           .OrderBy(p => p.ID)
-           .Skip((pageNumber - 1) * pageSize)
-           .Take(pageSize)
-           .ToList();
-            return PartialView("_SupplierTable", supplier);
+            // Check if there's a search query
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var suppliers = supplierRepository.SearchByName(searchQuery)
+                    .OrderBy(p => p.ID)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return PartialView("_SupplierTable", suppliers);
+            }
+            else
+            {
+                var suppliers = supplierRepository.GetAll()
+                    .OrderBy(p => p.ID)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return PartialView("_SupplierTable", suppliers);
+            }
         }
         // GET: SupplierController/Create
 

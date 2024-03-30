@@ -1,4 +1,5 @@
-﻿using MarketWebApp.Data;
+﻿using iText.Commons.Actions.Contexts;
+using MarketWebApp.Data;
 using MarketWebApp.Models.Entity;
 using MarketWebApp.ViewModel;
 using MarketWebApp.ViewModel.Supplier;
@@ -14,6 +15,24 @@ namespace MarketWebApp.Repository.SupplierRepository
         public SupplierRepository(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             this.context = context;
+        }
+
+        public IEnumerable<Supplier> SearchByName(string name)
+        {
+            // Query the database to retrieve suppliers whose names contain the search query
+            var suppliers = context.Suppliers
+                .Where(s => s.Name.Contains(name))
+                .ToList();
+
+            // Check if suppliers is null or empty
+            if (suppliers == null || !suppliers.Any())
+            {
+                // Handle the case where no suppliers are found
+                // For example, you might return an empty list or throw an exception
+                return Enumerable.Empty<Supplier>(); // Return an empty enumerable
+            }
+
+            return suppliers;
         }
 
         public bool CheckSupplierExist(string Name)
