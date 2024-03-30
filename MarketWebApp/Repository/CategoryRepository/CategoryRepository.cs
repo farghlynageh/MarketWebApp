@@ -2,6 +2,8 @@
 using MarketWebApp.Models.Entity;
 using MarketWebApp.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Linq;
 
 namespace MarketWebApp.Reprository.CategoryReprositry
 {

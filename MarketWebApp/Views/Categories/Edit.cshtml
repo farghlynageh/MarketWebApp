@@ -26,11 +26,11 @@
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
-                    <label class="control-label" for="inputGroupFile02">Department Image</label>
+                    <label class="control-label" for="inputGroupFile02">Upload Department Picture</label>
                     <div class="row mb-4">
                         <div class="col-2">
                             <div class="form-outline">
-                                <img width="40px" height="40px" src="@Url.Content("~/img/categories/" + Model.Image)" alt="" />
+                                <img width="40px" height="40px" src="~/img/categories/@Model.Image" alt="" />
 
                             </div>
                         </div>

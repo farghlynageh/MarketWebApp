@@ -8,7 +8,8 @@ namespace MarketWebApp.ViewModel.Supplier
         [Display(Name = "Supplier Name")]
         [MaxLength(50, ErrorMessage = "Supplier Name Must Be Less Than 50 Char")]
         [MinLength(3, ErrorMessage = "Supplier Name Must be More Than 3 Char")]
-        [Remote(action: "CheckSupplierExist", controller: "Suppliers", ErrorMessage = "Supplier Already Exists")]
+        [Remote(action: "CheckSupplierExist", controller: "Suppliers", ErrorMessage = "This Supplier Name Already Exists")]
+        [RegularExpression(@"^[a-zA-Z\s]*$", ErrorMessage = "Supplier Name must not contain numbers or special characters")]
         [Required(ErrorMessage = "Please Enter Supplier Name")]
         public string Name { get; set; }
 

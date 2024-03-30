@@ -9,7 +9,8 @@ namespace MarketWebApp.ViewModel
         [Required(ErrorMessage = "Department Name is required")]
         [MaxLength(50, ErrorMessage = "Department Name must be less than or equal to 50 characters.")]
         [MinLength(3, ErrorMessage = "Department Name must be at least 3 characters.")]
-        [RegularExpression("^[a-zA-Z ]+$", ErrorMessage = "Department name can only contain letters and spaces")]
+        [RegularExpression(@"^[a-zA-Z _-]+$", ErrorMessage = "Department name can only contain letters and spaces")]
+        [Remote(action: "CheckCategoryExist", controller: "Categories", ErrorMessage = "This Department Name Already Exists")]
 
         public string? Name { get; set; }
 

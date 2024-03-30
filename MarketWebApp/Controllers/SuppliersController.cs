@@ -3,6 +3,7 @@ using MarketWebApp.ViewModel.Supplier;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 
 namespace MarketWebApp.Controllers
 {

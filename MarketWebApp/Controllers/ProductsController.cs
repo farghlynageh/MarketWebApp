@@ -74,6 +74,21 @@ namespace MarketWebApp.Controllers
             {
                 try
                 {
+                    string productNameToLower = addProductViewModel.Name.ToLower(); // Convert input name to lowercase
+
+                    // Check if a product with the same name already exists for the same supplier and category
+                    bool productNameExists = repository.GetAll()
+                        .Any(p => p.Name.ToLower() == productNameToLower &&
+                                   p.SupplierId == addProductViewModel.SupplierId &&
+                                   p.CategoryId == addProductViewModel.CategoryID);
+
+                    if (productNameExists)
+                    {
+                        ModelState.AddModelError("Name", "Product name already exists for the same supplier and category.");
+                        PopulateDropdowns();
+                        return View(addProductViewModel);
+                    }
+
                     // Insert the new product into the repository
                     repository.Insert(addProductViewModel);
                     repository.Save();
@@ -84,8 +99,6 @@ namespace MarketWebApp.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);
-
-                    // Repopulate dropdown lists for categories and suppliers
                     PopulateDropdowns();
                     return View(addProductViewModel);
                 }
@@ -96,6 +109,8 @@ namespace MarketWebApp.Controllers
                 return View(addProductViewModel);
             }
         }
+
+
 
         [Authorize(Roles = "Admin")]
         private void PopulateDropdowns()

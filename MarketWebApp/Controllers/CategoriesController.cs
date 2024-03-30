@@ -1,14 +1,12 @@
-﻿
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using MarketWebApp.Reprository.CategoryReprositry;
 using MarketWebApp.ViewModel;
+using MarketWebApp.Repository.SupplierRepository;
 
 namespace MarketWebApp.Controllers
 {
-    // sooo
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ICategoryRepository repository;
@@ -26,7 +24,7 @@ namespace MarketWebApp.Controllers
             return View(repository.GetAll());
         }
 
-        public IActionResult GetCategoriess(int pageNumber, int pageSize = 5)
+        public IActionResult GetCategories(int pageNumber, int pageSize = 5)
         {
             var Categories = repository.GetAll()
            .OrderBy(p => p.ID)
@@ -38,6 +36,7 @@ namespace MarketWebApp.Controllers
 
         [Authorize(Roles = "Admin")]
         // GET: Categories/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -75,8 +74,23 @@ namespace MarketWebApp.Controllers
                 return View(categoryViewModel);
             }
         }
+        [Authorize(Roles = "Admin")]
+        public IActionResult CheckCategoryExist(string Name)
+        {
+            if (repository.CheckCategoryExist(Name))
+                return Json(true);
+            else
+                return Json(false);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult CheckCategoryExistEdit(string Name, int Id)
+        {
+            if (repository.CheckCategoryExistEdit(Name, Id))
+                return Json(true);
+            else
+                return Json(false);
+        }
 
-  
         // GET: Categories/Edit/5
 
         [HttpGet]
@@ -124,9 +138,6 @@ namespace MarketWebApp.Controllers
                 return View(categoryViewModel);
             }
         }
-
-
-
 
 
         // GET: Categories/Delete/5

@@ -40,6 +40,22 @@ namespace MarketWebApp.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
+        public IActionResult CheckLocationExist(string Name)
+        {
+            if (locationRepository.CheckLocationExist(Name))
+                return Json(true);
+            else
+                return Json(false);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult CheckLocationExistEdit(string Name, int Id)
+        {
+            if (locationRepository.CheckLocationExistEdit(Name, Id))
+                return Json(true);
+            else
+                return Json(false);
+        }
 
         // POST: Locations/Create
         [HttpPost]

@@ -1,50 +1,48 @@
 ﻿@model IEnumerable<MarketWebApp.Models.Entity.Supplier>
-<table class="table table table-hover table-striped">
-    <thead class="table-primary">
-        <tr>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.ID)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th scope="col">Update</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-success">
-                        <i class="fa fa-pencil"></i> Edit
-                    </a>
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-outline-danger">
-                        <i class="fa fa-trash"></i> Delete
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="container">
+    <div class="container mt-4" style="padding-bottom: 40px;">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Location)
+                    </th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-success">
+                                <i class="fa fa-pencil"></i> Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-outline-danger">
+                                <i class="fa fa-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
