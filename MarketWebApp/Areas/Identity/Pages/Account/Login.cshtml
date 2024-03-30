@@ -9,59 +9,67 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="~/css/login.css" type="text/css">
+    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
 </head>
 <body>
 
-    <h1>@ViewData["Title"]</h1>
-   
-   @*  <div class="row">
-        <div class="col-md-4">
+
+    <header class="header">
+        <div class="header__top">
             <div class="container">
-                <section class="form">
-
-                    <form id="account" method="post">
-
-                        
-                        <h1> Log In</h1>
-                        
-                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                        <div class="form-group">
-                           
-                            <label asp-for="Input.Email" class="form-label">Email</label>
-                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li><i class="fa fa-envelope"></i> Welcome @User.Identity?.Name!</li>
+                                <li>Ramadan Kareem 🌙</li>
+                                <li class="home"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            </ul>
                         </div>
-                        <div class="form-floating mb-3">
-                           
-                            <label asp-for="Input.Password" class="form-label">Password</label>
-                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                            <span asp-validation-for="Input.Password" class="text-danger"></span>
-                        </div>
-                        <div class="checkbox mb-3">
-                            <label asp-for="Input.RememberMe" class="form-label">
-                                <input class="form-check-input" asp-for="Input.RememberMe" />
-                                @Html.DisplayNameFor(m => m.Input.RememberMe)
-                            </label>
-                        </div>
-                        <div>
-                            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-
-                            <div id="create">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">CREATE A NEW ACCOUNT ?</a>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <div class="header__top__right__social">
+                                <a href="https://www.facebook.com/profile.php?id=100046884501118"><i class="fa fa-facebook"></i></a>
+                                <a href="https://api.whatsapp.com/send/?phone=201014403309&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
                             </div>
-                           
+                            <div class="header__top__right__auth">
+
+
+
+                                <div class="header__top__right__auth">
+                                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+
+                                </div>
+
+                                <div class="header__top__right__auth">
+                                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+
+                                </div>
+
+
+
+
+
+
+
+                            </div>
                         </div>
-
-                    </form>
-
-                </section>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-6 col-md-offset-2">
-        </div>
-    </div> *@
 
-
+    <h1>@ViewData["Title"]</h1>
+   
+ 
 
 
     <section class="form">
@@ -71,7 +79,7 @@
                     <form id="account" method="post">
 
 
-                        <h2> Log In</h2>
+                        <p class="h"> Log In</p>
 
                         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                         <div class="form-group">
@@ -112,14 +120,11 @@
                     </form>
                     </div>
                     </div>
-                    <
+                    
                 </section>
             </div>
         </div>
-       @*  <div class="col-md-6 col-md-offset-2">
-        </div>
-    </div> *@
-              
+    
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
     }
