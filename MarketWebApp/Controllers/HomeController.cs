@@ -15,22 +15,56 @@ namespace MarketWebApp.Controllers
         public HomeController(ApplicationDbContext _context) : base(_context) {
             context = _context;
         }
-        
 
-        public IActionResult Index()
+
+        public IActionResult Index(int page = 1)
         {
-            var Products = context.Products.Where(Product => Product.Discount >= 0).ToList();
-            return View(Products);
+            int pageSize = 2; // Number of items per page
+            var totalItems = context.Products.Where(Product => Product.Discount >= 0).Count();
+            var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            var products = context.Products
+                                    .Where(Product => Product.Discount >= 0)
+                                    .Skip((page - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+
+            var viewModel = new 
+            {
+                Products = products,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+           
+            return View(viewModel);
         }
+
 
         [HttpPost]
-        public IActionResult Search(string searchString)
+        [HttpGet]
+        public IActionResult Search(string searchString, int page = 1)
         {
-            // Filter categories and products based on search query
-            var productsQuery = context.Products.Where(p => p.Name.Contains(searchString));
-            var Products = productsQuery.ToList();
-            return View("Index", Products);
+            int pageSize = 8; // Number of items per page
+            var totalItems = context.Products.Where(p => p.Name.Contains(searchString)).Count();
+            var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            var products = context.Products
+                                    .Where(p => p.Name.Contains(searchString))
+                                    .Skip((page - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+
+            var viewModel = new 
+            {
+                Products = products,
+                CurrentPage = page,
+                searchString=searchString,
+                TotalPages = totalPages
+            };
+
+            return View(viewModel);
         }
+
         public ActionResult Contact()
         {
             return View();

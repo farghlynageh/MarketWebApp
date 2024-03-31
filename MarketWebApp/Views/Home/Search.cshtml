@@ -19,41 +19,7 @@
         @TempData["SuccessMessage"]
     </div>
 }
-<section class="hero">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9 offset-lg-3">
-                <!-- Adjust column size and offset -->
-                <div class="hero__item set-bg" data-setbg=@Url.Content("~/img/hero/banner.jpg")>
-                    <div class="hero__text">
-                        <span>FRUIT FRESH</span>
-                        <h2>Vegetable <br>100% Organic</h2>
-                        <p>Free Pickup and Delivery Available</p>
-                        <a href="~/Shop" class="primary-btn">SHOP NOW</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Categories Section Begin -->
-<section class="categories">
-    <div class="container">
-        <div class="row">
-            <div class="categories__slider owl-carousel">
-                @foreach (var item in ViewBag.Categories)
-                {
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg=@Url.Content("~/img/categories/" + item.Img)>
-                            <h5><a href="~/Shop/product/@item.ID">@item.Name</a></h5>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Categories Section End -->
+
 <!-- Featured Section Begin -->
 <section class="featured spad">
     <div class="container">
@@ -72,14 +38,14 @@
                         <div class="featured__item__pic set-bg" data-setbg="@Url.Content("~/img/product/" + item.Img)">
                             <ul class="featured__item__pic__hover">
                                 <li>
-                                    <form onsubmit="return ADDWish(this);" asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@item.ID">
-                                        <button  type="submit" style="border:none; background-color:transparent">
+                                    <form asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@item.ID">
+                                        <button type="submit" style="border:none; background-color:transparent">
                                             <a><i class="fa fa-heart"></i></a>
                                         </button>
                                     </form>
                                 </li>
                                 <li>
-                                    <form onsubmit="return ADDCart(this);" method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@item.ID">
+                                    <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@item.ID">
                                         <button type="submit" style="border:none; background-color:transparent">
                                             <a><i class="fa fa-shopping-cart"></i></a>
                                         </button>
@@ -101,7 +67,7 @@
         <div style="text-align:center" class="product__pagination">
             @for (int i = 1; i <= Model.TotalPages; i++)
             {
-                <a  href="@Url.Action("Index", new { page = i })">@i</a>
+                <a href="@Url.Action("Search", new {searchString=Model.searchString , page = i })">@i</a>
             }
         </div>
     </div>

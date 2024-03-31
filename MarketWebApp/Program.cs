@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 
 namespace MarketWebApp
 {
@@ -82,7 +84,7 @@ namespace MarketWebApp
             //    }
             //}
             #endregion
-          
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -96,6 +98,11 @@ namespace MarketWebApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("StripeSettings"));
+
+            builder.Services.AddMvc().AddSessionStateTempDataProvider();
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
             builder.Services.AddScoped<ILocationRepository, LocationRepository>();
@@ -130,21 +137,40 @@ namespace MarketWebApp
                 app.UseHsts();
             }
 
+
+
+   
+           
+
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+           
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
-                    app.UseSession();
+            app.UseSession();
 
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllerRoute(
+                  name: "paypal",
+                  pattern: "PaypalController/{action}",
+                  defaults: new { controller = "Paypal" });
             app.MapRazorPages();
 
             app.Run();
         }
-    } 
+    }
 }

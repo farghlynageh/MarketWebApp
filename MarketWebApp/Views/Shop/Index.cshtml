@@ -51,14 +51,14 @@
                                             <div class="product__discount__percent">-@DProduct.Discount %</div>
                                             <ul class="product__item__pic__hover">
                                                 <li>
-                                                    <form asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@DProduct.ID">
+                                                    <form onsubmit="return ADDWish(this);" asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@DProduct.ID">
                                                         <button type="submit" style="border:none; background-color:transparent">
                                                             <a><i class="fa fa-heart"></i></a>
                                                         </button>
                                                     </form>
                                                 </li>
                                                 <li>
-                                                    <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@DProduct.ID">
+                                                    <form onsubmit="return ADDCart(this);" method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@DProduct.ID">
                                                         <button type="submit" style="border:none; background-color:transparent">
                                                             <a><i class="fa fa-shopping-cart"></i></a>
                                                         </button>
@@ -95,14 +95,14 @@
                                 <div class="product__item__pic set-bg" data-setbg=@Url.Content("~/img/product/" + product.Img)>
                                     <ul class="product__item__pic__hover">
                                         <li>
-                                            <form asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@product.ID">
+                                            <form onsubmit="return ADDWish(this);" asp-action="AddProductToWish" asp-controller="WishList" asp-route-id="@product.ID">
                                                 <button type="submit" style="border:none; background-color:transparent">
                                                     <a><i class="fa fa-heart"></i></a>
                                                 </button>
                                             </form>
                                         </li>
                                         <li>
-                                            <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@product.ID">
+                                            <form onsubmit="return ADDCart(this);" method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@product.ID">
                                                 <button type="submit" style="border:none; background-color:transparent">
                                                     <a><i class="fa fa-shopping-cart"></i></a>
                                                 </button>
@@ -116,6 +116,12 @@
                                 </div>
                             </div>
                         </div>
+                    }
+                </div>
+                <div style="text-align:center" class="product__pagination">
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <a href="@Url.Action("Index", new { page = i })">@i</a>
                     }
                 </div>
             </div>

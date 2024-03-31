@@ -42,10 +42,10 @@
                         <div class="featured__item__pic set-bg" data-setbg=@Url.Content("~/img/product/" + item.Img)>
                             <ul class="featured__item__pic__hover">
                                 <li>
-                                    <a href="@Url.Action("RemoveProductFromWish", "WishList", new { id = item.ID })"><i class="icon_close"></i></a>
-                                </li>
+                                    <a onclick="attachDeleteListeners()" class="delete-link" data-id="@item.ID"><i class="icon_close"></i></a>
+                                 </li>
                                 <li>
-                                    <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@item.ID">
+                                    <form onsubmit="return ADDCart(this);" method="post" asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-id="@item.ID">
                                         <button type="submit" style="border:none; background-color:transparent">
                                             <a><i class="fa fa-shopping-cart"></i></a>
                                         </button>
@@ -63,5 +63,3 @@
         </div>
     </div>
 </section>
-
-</div>

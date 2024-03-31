@@ -64,6 +64,7 @@ namespace MarketWebApp.Controllers
 
             if (existingProductCart != null)
             {
+                existingProductCart.Quantity++;
                 TempData["DuplicateMessage"] = "This product is already in your shopping cart.";
             }
             else

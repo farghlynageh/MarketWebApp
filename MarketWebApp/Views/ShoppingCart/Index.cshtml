@@ -2,6 +2,9 @@
 @{
     ViewData["Title"] = "ShoppingCart";
 }
+@{
+    ViewBag.Title = "Delete Confirmation";
+}
 
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg=@Url.Content("~/img/breadcrumb.jpg")>
@@ -26,6 +29,12 @@
         @TempData["EmptyShoppingCart"]
     </div>
 }
+@if (TempData["DeletedMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["DeletedMessage"]
+    </div>
+}
 <!-- Shoping Cart Section Begin -->
 <section class="shoping-cart spad">
     <div class="container">
@@ -43,7 +52,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             @foreach (var item in Model)
                             {
                                 <tr>
@@ -61,12 +69,13 @@
                                     </td>
                                     <td class="shoping__cart__total total-price">@((item.Product.Price - (item.Product.Price * item.Product.Discount / 100)) * item.Quantity) L.E</td>
                                     <td class="shoping__cart__item__close">
-                                        <a href="@Url.Action("Delete", "ShoppingCart", new { id = item.ID })"><i class="icon_close"></i></a>
+                                        <a onclick="ShopCartDelete()" class="delete-link" data-id="@item.ID"><i class="icon_close"></i></a>
                                     </td>
-                                    <td class="shoping__cart__total" onclick="TotalFunc(event)" id="TotalPrice"></td>
+                                    <td class="shoping__cart__total" id="TotalPrice"></td>
                                 </tr>
                             }
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -90,3 +99,6 @@
         </div>
     </div>
 </section>
+
+
+
