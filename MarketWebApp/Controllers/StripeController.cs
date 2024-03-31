@@ -46,9 +46,11 @@ namespace MarketWebApp.Controllers
                                          .Include(sc => sc.ProductCarts)
                                              .ThenInclude(pc => pc.Product)
                                                 .FirstOrDefault(sc => sc.ApplicationUserID == userId);
+            PlaceOrderViewModel Order= new PlaceOrderViewModel { ShoppingCart = shoppingCart, Locations = new List<Location>(), SelectedLocationId = 1 };
+            var currency = "EGP";
+            var successUrl = this.Request.Scheme + "://" + this.Request.Host + Url.Action("ConfirmOrder", "Order", Order);
 
-            var currency = "EGP"; // Currency code
-            var successUrl = this.Request.Scheme + "://" + this.Request.Host + Url.Action("PlaceOrder", "Order");
+            //var successUrl = this.Request.Scheme + "://" + this.Request.Host + "/ConfirmOrder/Order/"+ Order;
             var cancelUrl = this.Request.Scheme + "://" + this.Request.Host + Url.Action("Index", "ShoppingCart");
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
 

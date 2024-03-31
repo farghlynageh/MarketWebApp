@@ -55,58 +55,48 @@ namespace MarketWebApp.Controllers
 
         //confirm
         [HttpPost]
+        [HttpGet]
         public IActionResult ConfirmOrder(PlaceOrderViewModel viewModel)
         {
-            // Retrieve the selected location ID and other order details from the view model
             int selectedLocationId = viewModel.SelectedLocationId;
+
             string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            // Get the shopping cart for the current user
             var shoppingCart = _context.ShoppingCart
                                         .Include(sc => sc.ProductCarts)
                                             .ThenInclude(pc => pc.Product)
                                         .FirstOrDefault(sc => sc.ApplicationUserID == userId);
 
-            // Create the order entity
             Order order = new Order
             {
                 Date = DateTime.Now,
-                State = "Pending", // or any other initial state
+                State = "Pending", 
                 LocationId = selectedLocationId,
                 ApplicationUserID = userId
-                // You may need to set other properties of the order based on your requirements
             };
 
-            // Add the order to the context
             _context.Orders.Add(order);
 
-            // Save changes to generate the order ID
             _context.SaveChanges();
 
-            // Create order products and store them in the OrderProduct table
             foreach (var productCart in shoppingCart.ProductCarts)
             {
-                // Create an OrderProduct instance
                 OrderProduct orderProduct = new OrderProduct
                 {
-                    OrderId = order.ID, // Assign the order ID generated above
+                    OrderId = order.ID, 
                     ProductId = productCart.ProductId,
                     Quantity = productCart.Quantity,
-                    Price = productCart.Product.Price // You may need to adjust the price if there are discounts or other considerations
+                    Price = productCart.Product.Price 
                 };
 
-                // Add the order product to the context
                 _context.OrderProduct.Add(orderProduct);
             }
 
-            // Save changes to store order products
             _context.SaveChanges();
 
-            // Clear the shopping cart after placing the order
             _context.ShoppingCart.Remove(shoppingCart);
             _context.SaveChanges();
 
-            // Redirect to a thank you page or order details page
             // return RedirectToAction("OrderConfirmation", new { orderId = order.ID });
             return RedirectToAction("Index", "Home");
         }

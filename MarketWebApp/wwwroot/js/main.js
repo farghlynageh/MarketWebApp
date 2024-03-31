@@ -212,7 +212,15 @@
 
                 if (button.classList.contains('inc')) {
                     newVal = oldValue + 1;
-                    newVal = newVal > stock ? stock : newVal;
+                    //newVal = newVal > stock ? stock : newVal;
+                    if (newVal > stock) {
+                        console.log("sass");
+                        newVal = stock;
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Cannot increase quantity beyond available stock!"
+                        });  }
                 } else if (button.classList.contains('dec') && oldValue > 1) {
                     newVal = oldValue - 1;
                 } else {
@@ -230,7 +238,9 @@
                 var id = inputElement.id;
                 var quantity = newVal;
                 var url = "/shoppingcart/UpdateQuantity?id=" + id + "&quantity=" + quantity;
-                window.location.href = url;
+                    window.location.href = url;
+
+                
 
             });
         });
