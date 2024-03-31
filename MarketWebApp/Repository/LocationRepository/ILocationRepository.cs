@@ -7,6 +7,7 @@ namespace MarketWebApp.Repository.LocationRepository
     public interface ILocationRepository
     {
         IEnumerable<Location> GetAll();
+        IEnumerable<Location> SearchByName(string name);
 
         Location GetLocation(int Id);
         //Location GetLocationWithOrders(int Id);

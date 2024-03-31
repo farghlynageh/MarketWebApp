@@ -16,7 +16,19 @@ namespace MarketWebApp.Reprository.CategoryReprositry
             this.context = context;
             this.webHostEnvironment = webHostEnvironment;
         }
+        public IEnumerable<Category> SearchByName(string name)
+        {
+            var categories = context.Categories
+                .Where(s => s.Name.Contains(name))
+                .ToList();
 
+            if (categories == null || !categories.Any())
+            {
+                return Enumerable.Empty<Category>();
+            }
+
+            return categories;
+        }
         public bool IsCategoryNameUnique(int categoryId, string categoryName)
         {
             // Check if there is any other category with the same name but a different ID

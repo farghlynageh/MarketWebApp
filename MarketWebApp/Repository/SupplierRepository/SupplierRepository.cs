@@ -19,17 +19,13 @@ namespace MarketWebApp.Repository.SupplierRepository
 
         public IEnumerable<Supplier> SearchByName(string name)
         {
-            // Query the database to retrieve suppliers whose names contain the search query
             var suppliers = context.Suppliers
                 .Where(s => s.Name.Contains(name))
                 .ToList();
 
-            // Check if suppliers is null or empty
             if (suppliers == null || !suppliers.Any())
             {
-                // Handle the case where no suppliers are found
-                // For example, you might return an empty list or throw an exception
-                return Enumerable.Empty<Supplier>(); // Return an empty enumerable
+                return Enumerable.Empty<Supplier>(); 
             }
 
             return suppliers;

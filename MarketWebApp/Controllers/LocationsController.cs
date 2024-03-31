@@ -138,14 +138,29 @@ namespace MarketWebApp.Controllers
             }
         }
 
-        public IActionResult GetLocation(int pageNumber, int pageSize = 5)
+        public IActionResult GetLocation(int pageNumber, int pageSize = 5, string searchQuery = "")
         {
-            var locations = locationRepository.GetAll()
-           .OrderBy(p => p.ID)
-           .Skip((pageNumber - 1) * pageSize)
-           .Take(pageSize)
-           .ToList();
-            return PartialView("_LocationTable", locations);
+            // Check if there's a search query
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var locations = locationRepository.SearchByName(searchQuery)
+                    .OrderBy(p => p.ID)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return PartialView("_LocationTable", locations);
+            }
+            else
+            {
+                var locations = locationRepository.GetAll()
+                    .OrderBy(p => p.ID)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return PartialView("_LocationTable", locations);
+            }
         }
 
         // GET: Locations/Delete/5

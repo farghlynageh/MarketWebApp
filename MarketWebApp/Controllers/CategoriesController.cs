@@ -24,14 +24,29 @@ namespace MarketWebApp.Controllers
             return View(repository.GetAll());
         }
 
-        public IActionResult GetCategories(int pageNumber, int pageSize = 5)
+        public IActionResult GetCategories(int pageNumber, int pageSize = 5, string searchQuery = "")
         {
-            var Categories = repository.GetAll()
-           .OrderBy(p => p.ID)
-           .Skip((pageNumber - 1) * pageSize)
-           .Take(pageSize)
-           .ToList();
-            return PartialView("_CategoryTable", Categories);
+            // Check if there's a search query
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var categories = repository.SearchByName(searchQuery)
+                    .OrderBy(p => p.ID)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return PartialView("_CategoryTable", categories);
+            }
+            else
+            {
+                var categories = repository.GetAll()
+                    .OrderBy(p => p.ID)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return PartialView("_CategoryTable", categories);
+            }
         }
 
         [Authorize(Roles = "Admin")]

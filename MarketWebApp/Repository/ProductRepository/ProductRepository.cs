@@ -19,7 +19,19 @@ namespace MarketWebApp.Repository.ProductRepository
         {
             return context.Products.SingleOrDefault(p => p.Name.ToLower() == Name.ToLower()) == null;
         }
+        public IEnumerable<Product> SearchByName(string name)
+        {
+            var products = context.Products
+                .Where(s => s.Name.Contains(name))
+                .ToList();
 
+            if (products == null || !products.Any())
+            {
+                return Enumerable.Empty<Product>();
+            }
+
+            return products;
+        }
         public bool CheckProductExistEdit(string Name, int Id)
         {
             return context.Products.SingleOrDefault(p => p.ID != Id && p.Name.ToLower() == Name.ToLower()) == null;

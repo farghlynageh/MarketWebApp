@@ -6,6 +6,8 @@ namespace MarketWebApp.Repository.ProductRepository
     public interface IProductRepository
     {
         IEnumerable<Product> GetAll();
+        IEnumerable<Product> SearchByName(string name);
+
         Product GetProduct(int Id);
         Product GetProductWithOrders(int Id);
         void Insert(AddProductViewModel addProductViewModel);

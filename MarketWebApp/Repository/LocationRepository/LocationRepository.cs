@@ -16,6 +16,19 @@ namespace MarketWebApp.Repository.LocationRepository
         {
             return context.Locations.SingleOrDefault(b => b.Name.ToLower() == Name.ToLower()) == null;
         }
+        public IEnumerable<Location> SearchByName(string name)
+        {
+            var locations = context.Locations
+                .Where(s => s.Name.Contains(name))
+                .ToList();
+
+            if (locations == null || !locations.Any())
+            {
+                return Enumerable.Empty<Location>();
+            }
+
+            return locations;
+        }
         public bool IsLocationNameUnique(int locationId, string locationName)
         {
             // Check if there is any other location with the same name but a different ID

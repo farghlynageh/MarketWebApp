@@ -43,14 +43,29 @@ namespace MarketWebApp.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult GetProducts(int pageNumber, int pageSize = 5)
+        public IActionResult GetProducts(int pageNumber, int pageSize = 5, string searchQuery = "")
         {
-            var products = repository.GetAll()
-           .OrderBy(p => p.ID)
-           .Skip((pageNumber - 1) * pageSize)
-           .Take(pageSize)
-           .ToList();
-            return PartialView("_ProductTable", products);
+            // Check if there's a search query
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                var products = repository.SearchByName(searchQuery)
+                    .OrderBy(p => p.ID)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return PartialView("_ProductTable", products);
+            }
+            else
+            {
+                var products = repository.GetAll()
+                    .OrderBy(p => p.ID)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return PartialView("_ProductTable", products);
+            }
         }
 
         // GET: Products/Create

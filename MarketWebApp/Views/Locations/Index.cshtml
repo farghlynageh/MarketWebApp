@@ -7,6 +7,16 @@
 }
 
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by name">
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="searchButton"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <h1>All Locations</h1>
@@ -30,13 +40,21 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            loadProductData(1);
+            var pageNumber = 1;
+
+            loadProductData(pageNumber);
+
+            $('#searchInput').keyup(function () {
+                loadProductData(pageNumber);
+            });
 
             function loadProductData(pageNumber) {
+                var searchQuery = $('#searchInput').val();
+
                 $.ajax({
                     url: '/Locations/GetLocation',
                     type: 'GET',
-                    data: { pageNumber: pageNumber, pageSize: 5 },
+                    data: { pageNumber: pageNumber, pageSize: 5, searchQuery: searchQuery },
                     success: function (data) {
                         $('#productTableContainer').html(data);
                         displayPagination(pageNumber);
@@ -66,5 +84,4 @@
             }
         });
     </script>
-
 }

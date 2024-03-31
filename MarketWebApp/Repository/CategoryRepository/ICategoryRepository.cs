@@ -7,6 +7,8 @@ namespace MarketWebApp.Reprository.CategoryReprositry
     {
 
         IEnumerable<Category> GetAll();
+        IEnumerable<Category> SearchByName(string name);
+
         Category GetCategory(int Id);
         Category GetCategoryWithProducts(int Id);
         void Insert(AddCategoryViewModel addCategoryViewModel);
