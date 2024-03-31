@@ -118,9 +118,7 @@ namespace MarketWebApp.Controllers
                         // Save changes to update the stock levels
                         _context.SaveChanges();
                     }
-                        var productList = string.Join("\n", order.OrderProducts.Select(op => $"{op.Product.Name} - Quantity: {op.Quantity}"));
-                    //_emailService.SendEmail(order.applicationUser.UserName, "Order Accepted", "Dear, Your order has been accepted and is now being shipped.");
-                    _emailService.SendEmail(order.applicationUser.Email, "Order Accepted", $"Your order has been accepted and is now being shipped.\n\nProduct List:\n{productList}");
+                    _emailService.SendEmail(order.applicationUser.UserName, "Order Accepted", "Dear, Your order has been accepted and is now being shipped.");
                 }
                 else
                 {

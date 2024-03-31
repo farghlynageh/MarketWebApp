@@ -5,28 +5,20 @@
    // Layout = "~/Views/Shared/_Layout1.cshtml";
 }
 
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <link rel="stylesheet" href="~/css/Reg.css" type="text/css">
-    <link rel="stylesheet" href="~/css/style.css" type="text/css">
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="~/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
-    </head>
-    <body>
-   
-   
-   
-
-
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/login.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/Ahmed.css">
+</head>
+<body>
 
     <header class="header">
         <div class="header__top">
@@ -48,99 +40,69 @@
                                 <a href="https://api.whatsapp.com/send/?phone=201014403309&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
                             </div>
                             <div class="header__top__right__auth">
-                               
-
-                               
-                                    <div class="header__top__right__auth">
+                                <div class="header__top__right__auth">
                                         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-
                                     </div>
-
-                                    <div class="header__top__right__auth">
-                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-
-                                    </div>
-                                
-                               
-                                    
-                                   
-                                
-
-
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </header>
 
-        <section>
-
-            <div class="form-box">
-            
-            
-
-            <div class="form-value">
-
-   
-            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-       
-
-
-
-                <p class="h">Create a new account</p>
-                <div class="inputbox"> <ion-icon name="mail-outline"></ion-icon>
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <input asp-for="Input.Email" type="email" class="form-control" autocomplete="username" aria-required="true"  />
-
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-5">
+                    <div class="wrap">
+                        <div class="img" style="background-image: url(/img/Se7teen-logo.png);"></div>
+                        <div class="login-wrap p-4 p-md-5">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <h3 class="mb-4">Register</h3>
+                                </div>
+                            </div>
+                            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="signin-form">
+                                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                                <div class="form-group mt-3">
+                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" required>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" type="password" required>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" type="password" required>
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Input.Phone" class="form-control" aria-required="true" pattern="^01[0125][0-9]{8}$" placeholder="Phone">
+                                    <span asp-validation-for="Input.Phone" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Input.Address" class="form-control" aria-required="true" placeholder="Address">
+                                    <span asp-validation-for="Input.Address" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn btn-primary rounded submit px-3">Register</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                </div>
-                <div class="inputbox"> <ion-icon name="lock-closed-outline"></ion-icon>
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Password" class="form-label">Password</label>
-                    <input asp-for="Input.Password" type="password" class="form-control" autocomplete="new-password" aria-required="true"  />
+            </div>
+        </div>
+    </section>
 
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div></div>
-                <div class="inputbox"> <ion-icon name="lock-closed-outline"></ion-icon>
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
-                    <input asp-for="Input.ConfirmPassword" type="password" class="form-control" autocomplete="new-password" aria-required="true"  />
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
 
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div></div>
-                <div class="inputbox"> 
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Phone" class="form-label">Phone</label>
-                    <input asp-for="Input.Phone" type="tel" class="form-control" aria-required="true"  pattern="^01[0125][0-9]{8}$" />
-
-                    <span asp-validation-for="Input.Phone" class="text-danger"></span>
-                </div></div>
-                <div class="inputbox"> 
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Address" class="form-label">Address</label>
-                    <input asp-for="Input.Address" class="form-control" aria-required="true"  />
-
-                    <span asp-validation-for="Input.Address" class="text-danger"></span>
-                </div></div>
-
-
-                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-            </form>
-
-
-        @section Scripts {
-            <partial name="_ValidationScriptsPartial" />
-        }
-     
-  </div>
-  </div>
-  </section>
-
-    </body>
-
-
-
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>

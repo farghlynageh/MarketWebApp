@@ -49,8 +49,6 @@ namespace MarketWebApp.Controllers
             PlaceOrderViewModel Order= new PlaceOrderViewModel { ShoppingCart = shoppingCart, Locations = new List<Location>(), SelectedLocationId = 1 };
             var currency = "EGP";
             var successUrl = this.Request.Scheme + "://" + this.Request.Host + Url.Action("ConfirmOrder", "Order", Order);
-
-            //var successUrl = this.Request.Scheme + "://" + this.Request.Host + "/ConfirmOrder/Order/"+ Order;
             var cancelUrl = this.Request.Scheme + "://" + this.Request.Host + Url.Action("Index", "ShoppingCart");
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
 
