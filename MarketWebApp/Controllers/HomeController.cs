@@ -19,12 +19,12 @@ namespace MarketWebApp.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            int pageSize = 2; // Number of items per page
-            var totalItems = context.Products.Where(Product => Product.Discount >= 0).Count();
+            int pageSize = 8; // Number of items per page
+            var totalItems = context.Products.Where(Product => Product.Discount >= 0&&Product.Stock>0).Count();
             var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
             var products = context.Products
-                                    .Where(Product => Product.Discount >= 0)
+                                    .Where(Product => Product.Discount >= 0 && Product.Stock > 0)
                                     .Skip((page - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToList();
@@ -45,11 +45,11 @@ namespace MarketWebApp.Controllers
         public IActionResult Search(string searchString, int page = 1)
         {
             int pageSize = 8; // Number of items per page
-            var totalItems = context.Products.Where(p => p.Name.Contains(searchString)).Count();
+            var totalItems = context.Products.Where(p => p.Name.Contains(searchString) && p.Stock > 0).Count();
             var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
             var products = context.Products
-                                    .Where(p => p.Name.Contains(searchString))
+                                    .Where(p => p.Name.Contains(searchString) && p.Stock > 0)
                                     .Skip((page - 1) * pageSize)
                                     .Take(pageSize)
                                     .ToList();

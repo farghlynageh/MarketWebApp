@@ -59,6 +59,7 @@
                                         <img width="100px" height="101px" src="@Url.Content("~/img/product/" + item.Product.Img)" alt="" />
                                         <h5>@item.Product.Name</h5>
                                     </td>
+                                    <td hidden class="stock">@item.Product.Stock</td>
                                     <td class="shoping__cart__price">@(item.Product.Price - (item.Product.Price * item.Product.Discount / 100)) L.E </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">

@@ -1,4 +1,5 @@
 ﻿using MarketWebApp.Data;
+using MarketWebApp.Models.Entity;
 using MarketWebApp.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +10,14 @@ namespace MarketWebApp.Controllers
     public class ConfirmOrderController : BaseController
     {
         private readonly ApplicationDbContext _context;
+        private readonly EmailService _emailService;
 
-        public ConfirmOrderController(ApplicationDbContext context) : base(context)
+        public ConfirmOrderController(ApplicationDbContext context, EmailService emailService) : base(context)
         {
             _context = context;
+            _emailService = emailService;
         }
-       [Authorize(Roles = "Admin,Cashier")]
+        [Authorize(Roles = "Admin,Cashier")]
 
         public IActionResult GetUserList()
         {
@@ -72,8 +75,8 @@ namespace MarketWebApp.Controllers
         public IActionResult AcceptOrder(int Id)
         {
             // Retrieve the order from the database
-            var order = _context.Orders.Include(o => o.OrderProducts).ThenInclude(op => op.Product)
-                                        .FirstOrDefault(o => o.ID == Id);
+            var order = _context.Orders.Include(o => o.applicationUser).Include(o => o.OrderProducts).ThenInclude(op => op.Product)
+                               .FirstOrDefault(o => o.ID == Id);
 
             if (order != null)
             {
@@ -115,6 +118,7 @@ namespace MarketWebApp.Controllers
                         // Save changes to update the stock levels
                         _context.SaveChanges();
                     }
+                    _emailService.SendEmail(order.applicationUser.UserName, "Order Accepted", "Dear, Your order has been accepted and is now being shipped.");
                 }
                 else
                 {
@@ -135,13 +139,14 @@ namespace MarketWebApp.Controllers
         public IActionResult RejectOrder(int Id)
         {
             // Retrieve the order from the database
-            var order = _context.Orders.FirstOrDefault(o => o.ID == Id);
-
+            var order = _context.Orders.Include(o => o.applicationUser).Include(o => o.OrderProducts).ThenInclude(op => op.Product)
+                                          .FirstOrDefault(o => o.ID == Id);
             if (order != null)
             {
                 // Update the order state to "Confirmed"
                 order.State = "Rejected";
                 _context.SaveChanges();
+                _emailService.SendEmail(order.applicationUser.UserName, "Order Rejected", "Dear , We regret to inform you that your order has been rejected.");
             }
 
             return RedirectToAction("GetUserList", "ConfirmOrder");

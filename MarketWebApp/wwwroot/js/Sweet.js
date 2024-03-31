@@ -55,7 +55,7 @@ function ADDCart(Form) {
                     });
                     Toast.fire({
                         icon: "success",
-                        title: "Product added to cart And Quantity increased successfully"
+                        title: "Product added to cart successfully"
                     });
 
                     // Reset the form if needed

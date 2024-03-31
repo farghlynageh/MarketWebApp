@@ -109,7 +109,7 @@ namespace MarketWebApp
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IOrderAdminRepository, OrderAdminRepository>();
             builder.Services.AddScoped<IOrderProductRepository, OrderProductRepository>();
-
+            builder.Services.AddScoped<EmailService>();
 
             builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 

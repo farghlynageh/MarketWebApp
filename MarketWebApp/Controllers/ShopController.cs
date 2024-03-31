@@ -13,12 +13,12 @@ namespace MarketWebApp.Controllers
         }
         public IActionResult Index(int page = 1)
         {
-            int pageSize = 2; // Number of items per page
+            int pageSize = 8; // Number of items per page
 
-            var totalItems = context.Products.Where(Product => Product.Discount == 0).Count();
+            var totalItems = context.Products.Where(Product => Product.Discount == 0 && Product.Stock > 0).Count();
             var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
             var products = context.Products
-                                        .Where(Product => Product.Discount == 0)
+                                        .Where(Product => Product.Discount == 0 && Product.Stock > 0)
                                         .Skip((page - 1) * pageSize)
                                         .Take(pageSize)
                                         .ToList();
@@ -28,7 +28,7 @@ namespace MarketWebApp.Controllers
                 CurrentPage = page,
                 Count = products.Count(),
                 TotalPages = totalPages,
-                Discount = context.Products.Where(Product => Product.Discount > 0).ToList(),
+                Discount = context.Products.Where(Product => Product.Discount > 0 && Product.Stock > 0).ToList(),
             };
             return View(Model);
         }
@@ -36,12 +36,12 @@ namespace MarketWebApp.Controllers
         [HttpGet]
         public IActionResult Product(int id)
         {
-            var products = context.Products.Where(P => P.CategoryId == id && P.Discount == 0);
+            var products = context.Products.Where(P => P.CategoryId == id && P.Discount == 0 && P.Stock > 0);
             var Model = new
             {
                 Products = products,
                 Count = products.Count(),
-                Discount = context.Products.Where(Product => Product.Discount > 0).ToList(),
+                Discount = context.Products.Where(Product => Product.Discount > 0 && Product.Stock > 0).ToList(),
             };
             return View(Model);
 

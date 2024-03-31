@@ -201,7 +201,7 @@
         proQtyElements.forEach(function (proQtyElement) {
             var inputElement = proQtyElement.querySelector('input');
             var price = parseFloat(proQtyElement.closest('tr').querySelector('.shoping__cart__price').textContent.replace('L.E', ''));
-
+            var stock = parseInt(proQtyElement.closest('tr').querySelector('.stock').textContent.trim()); // Get the stock value
             proQtyElement.insertAdjacentHTML('afterbegin', '<span class="dec qtybtn">-</span>');
             proQtyElement.insertAdjacentHTML('beforeend', '<span class="inc qtybtn">+</span>');
 
@@ -212,6 +212,7 @@
 
                 if (button.classList.contains('inc')) {
                     newVal = oldValue + 1;
+                    newVal = newVal > stock ? stock : newVal;
                 } else if (button.classList.contains('dec') && oldValue > 1) {
                     newVal = oldValue - 1;
                 } else {
