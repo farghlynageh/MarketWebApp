@@ -121,5 +121,13 @@ namespace MarketWebApp.Controllers
             var orderproduct = _context.OrderProduct.Include(p => p.Product).Where(o => o.OrderId == id).ToList();
             return View(orderproduct);
         }
+        public IActionResult CancelOrder(int id)
+        {
+            string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var order = _context.Orders.Where(o => o.ApplicationUserID == userId).FirstOrDefault(o => o.ID == id);
+            _context.Orders.Remove(order);
+            _context.SaveChanges();
+            return RedirectToAction("OrderHistory");
+        }
     }
 }

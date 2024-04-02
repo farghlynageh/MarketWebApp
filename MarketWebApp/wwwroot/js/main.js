@@ -212,25 +212,32 @@
 
                 if (button.classList.contains('inc')) {
                     newVal = oldValue + 1;
-                    newVal = newVal > stock ? stock : newVal;
+                //    newVal = newVal > stock ? stock : newVal;
                 } else if (button.classList.contains('dec') && oldValue > 1) {
                     newVal = oldValue - 1;
                 } else {
                     newVal = 1;
                 }
-
-                inputElement.value = newVal;
+                if (newVal > stock) {
+                    newVal = stock;
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Oops...",
+                        text: "Quantity equals available stock!",
+                    });
+                }
+                else {
+                    inputElement.value = parseFloat(newVal) ;
                 sum = totalPrice;
-
                 var totalPriceElement = proQtyElement.closest('tr').querySelector('.total-price');
                 var totalPrice = newVal * price;
                 totalPriceElement.textContent = totalPrice.toFixed(2) + 'L.E';
                 calculateSum();
-
                 var id = inputElement.id;
                 var quantity = newVal;
                 var url = "/shoppingcart/UpdateQuantity?id=" + id + "&quantity=" + quantity;
-                window.location.href = url;
+                    window.location.href = url;
+                }
 
             });
         });

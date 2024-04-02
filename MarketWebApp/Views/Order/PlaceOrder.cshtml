@@ -58,11 +58,12 @@ else
                                 {
                                      sum += (productCart.Product.Price - (productCart.Product.Price * productCart.Product.Discount / 100))*productCart.Quantity;
                                 }
-                                <div class="checkout__order__subtotal">Subtotal <span>@sum L.E</span></div>
+                                <div class="checkout__order__subtotal">Subtotal <span>@(Convert.ToInt32(sum)) L.E</span></div>
                                 <ul>
                                     <li>Shipped<span>30 L.E</span></li>
                                 </ul>
-                                <div class="checkout__order__total">Total <span>@(sum+30) L.E</span></div>
+                                <div class="checkout__order__total">
+                                    Total <span>@(Convert.ToInt32((sum + 30))) L.E </span></div >
                                 
                                 <div class="checkout__input__checkbox">
                                 </div>

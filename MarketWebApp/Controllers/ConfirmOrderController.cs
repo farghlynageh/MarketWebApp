@@ -17,55 +17,37 @@ namespace MarketWebApp.Controllers
             _context = context;
             _emailService = emailService;
         }
-        [Authorize(Roles = "Admin,Cashier")]
+       
 
-        public IActionResult GetUserList()
+        [Authorize(Roles = "Admin,Cashier")]
+        public IActionResult Index()
         {
-            // Retrieve users who have placed orders
-            var usersWithOrders = _context.Orders
-                .Select(o => o.applicationUser) // Select the ApplicationUser associated with each order
-                .Distinct() // Ensure unique users
+            var usersWithOrders = _context.Users
+                .Include(u => u.Orders.Where(o => o.State == "Pending"))
+                    .ThenInclude(o => o.OrderProducts)
+                        .ThenInclude(op => op.Product)
                 .ToList();
 
-            return View(usersWithOrders);
-        }
-
-        [Authorize(Roles = "Admin,Cashier")]
-
-
-        public IActionResult Index(string userId)
-        {
-            if (userId == null)
+            if (usersWithOrders == null || usersWithOrders.Count == 0)
             {
-                // Handle case where userId is not provided
-                return BadRequest();
-            }
-
-            // Retrieve the user by ID
-            var user = _context.Users
-                               .Include(u => u.Orders)
-                                   .ThenInclude(o => o.OrderProducts)
-                                       .ThenInclude(op => op.Product)
-                               .FirstOrDefault(u => u.Id == userId);
-
-            if (user == null)
-            {
-                // Handle case where user is not found
                 return NotFound();
             }
 
-            // Create a list with a single UserOrdersViewModel instance
-            var viewModelList = new List<UserOrdersViewModel>
-    {
-        new UserOrdersViewModel
-        {
-            User = user,
-            Orders = user.Orders.ToList()
-        }
-    };
+            var viewModelList = new List<UserOrdersViewModel>();
+
+            foreach (var user in usersWithOrders)
+            {
+                var userOrdersViewModel = new UserOrdersViewModel
+                {
+                    User = user,
+                    Orders = user.Orders.ToList()
+                };
+                viewModelList.Add(userOrdersViewModel);
+            }
 
             return View(viewModelList);
         }
+
 
 
 
@@ -130,7 +112,7 @@ namespace MarketWebApp.Controllers
                 TempData["ErrorMessage"] = "Order not found.";
             }
 
-            return RedirectToAction("GetUserList", "ConfirmOrder");
+            return RedirectToAction("Index", "ConfirmOrder");
         }
 
         [HttpGet]
@@ -149,7 +131,7 @@ namespace MarketWebApp.Controllers
                 _emailService.SendEmail(order.applicationUser.UserName, "Order Rejected", "Dear , We regret to inform you that your order has been rejected.");
             }
 
-            return RedirectToAction("GetUserList", "ConfirmOrder");
+            return RedirectToAction("Index", "ConfirmOrder");
         }
 
         [Authorize(Roles = "Admin,Cashier")]

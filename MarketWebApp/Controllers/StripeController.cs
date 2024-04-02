@@ -20,13 +20,8 @@ namespace MarketWebApp.Controllers
 {
     public class StripeController : Controller
     {
-
-
-
         private readonly StripeSettings _stripeSettings;
         private readonly ApplicationDbContext context;
-
-
         public StripeController(IOptions<StripeSettings> stripeSettings, ApplicationDbContext _context)
         {
             _stripeSettings = stripeSettings.Value;

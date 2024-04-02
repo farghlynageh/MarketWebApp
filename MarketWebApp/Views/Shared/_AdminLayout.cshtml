@@ -144,7 +144,7 @@
                         <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Product</a>
                     </li>
                     <li>
-                        <a class="nav-link" asp-area="" asp-controller="ConfirmOrder" asp-action="GetUserList">Order</a>
+                    <a class="nav-link" asp-area="" asp-action="Index" asp-controller="ConfirmOrder">Order</a>
                     </li>
                     <li>
                         <a class="nav-link" asp-area="" asp-controller="Locations" asp-action="Index">Location</a>
@@ -189,9 +189,9 @@
                                 }
                                 else
                                 {
-                                    <div class="header__top__right__auth">
-                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-                                    </div>
+                                    <form class="header__top__right__auth" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post">
+                                        <a href="#" class="nav-link text-dark" onclick="this.closest('form').submit(); return false;">Logout</a>
+                                    </form>
                                 }
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                                 <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">Product</a>
                             </li>
                             <li>
-                                <a class="nav-link" asp-area="" asp-controller="ConfirmOrder" asp-action="GetUserList">Order</a>
+                                <a class="nav-link" asp-area="" asp-action="Index" asp-controller="ConfirmOrder">Order</a>
                             </li>
                             <li>
                                 <a class="nav-link" asp-area="" asp-controller="Locations" asp-action="Index">Location</a>

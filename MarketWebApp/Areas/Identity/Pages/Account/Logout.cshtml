@@ -59,23 +59,16 @@
 
 
         @{
-
             if (User.Identity?.IsAuthenticated ?? false)
             {
                 <form class="logout-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-
-
-
                     <p class="h">Log out</p>
                     <div class="logout">
                     <p>Are you sure you want to log out?</p>
                     </div>
                     <button type="submit"id="create">Click here to Logout</button>
-
                 </form>
             }
-
-
         }
         </div>
     </div>

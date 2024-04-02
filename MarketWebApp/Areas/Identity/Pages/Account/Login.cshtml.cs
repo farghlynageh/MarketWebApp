@@ -89,6 +89,11 @@ namespace MarketWebApp.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            if (User.Identity?.IsAuthenticated ?? false)
+            {
+                Response.Redirect("/Home/Index"); // Redirect authenticated users to the home page
+                return;
+            }
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -106,7 +111,8 @@ namespace MarketWebApp.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            
+                returnUrl ??= Url.Content("~/");
 
           //  ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
