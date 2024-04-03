@@ -56,51 +56,41 @@ namespace MarketWebApp.Controllers
 
         public IActionResult AcceptOrder(int Id)
         {
-            // Retrieve the order from the database
             var order = _context.Orders.Include(o => o.applicationUser).Include(o => o.OrderProducts).ThenInclude(op => op.Product)
                                .FirstOrDefault(o => o.ID == Id);
 
             if (order != null)
             {
-                // Check if the order state is not already "Shipping" and if there are products in the order
                 if (order.State != "Shipping" && order.OrderProducts.Any())
                 {
-                    // Set the order state to "Shipping"
                     order.State = "Shipping";
 
-                    // Now check if the order is in "Shipping" state
                     if (order.State == "Shipping")
                     {
                         foreach (var orderProduct in order.OrderProducts)
                         {
-                            // Retrieve the corresponding product
                             var product = orderProduct.Product;
 
-                            // Check if quantity is 0 or greater than the available stock
                             if (orderProduct.Quantity <= 0)
                             {
-                                // Quantity is 0
                                 TempData["ErrorMessage"] = "Quantity cannot be 0.";
                                 return RedirectToAction("GetUserList", "ConfirmOrder");
                             }
                             else if (orderProduct.Quantity > product.Stock)
                             {
-                                // Quantity ordered is greater than available stock
                                 TempData["ErrorMessage"] = $"Insufficient stock for product: {product.Name}. Available stock: {product.Stock}.";
                                 return RedirectToAction("GetUserList", "ConfirmOrder");
                             }
 
-                            // Reduce the stock quantity by the quantity in the order
                             product.Stock -= orderProduct.Quantity;
 
-                            // Update the product in the database
                             _context.Products.Update(product);
                         }
 
-                        // Save changes to update the stock levels
                         _context.SaveChanges();
                     }
                     _emailService.SendEmail(order.applicationUser.UserName, "Order Accepted", "Dear, Your order has been accepted and is now being shipped.");
+                    return RedirectToAction("PrintOrder","Billing", new { Id = Id });
                 }
                 else
                 {
@@ -120,7 +110,6 @@ namespace MarketWebApp.Controllers
 
         public IActionResult RejectOrder(int Id)
         {
-            // Retrieve the order from the database
             var order = _context.Orders.Include(o => o.applicationUser).Include(o => o.OrderProducts).ThenInclude(op => op.Product)
                                           .FirstOrDefault(o => o.ID == Id);
             if (order != null)

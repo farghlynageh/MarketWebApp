@@ -1,4 +1,8 @@
-﻿
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using DinkToPdf;
 using DinkToPdf.Contracts;
 using MarketWebApp.Data;
 using MarketWebApp.Repository.ProductRepository;
@@ -9,71 +13,118 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Azure.WebJobs;
-using PdfSharp;
-using PdfSharp.Pdf;
-
 
 namespace MarketWebApp.Controllers
 {
     public class ReportPDFController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationDbContext _context;
         private readonly IConverter _pdfConverter;
-        private readonly IProductRepository productReprository;
-        private readonly ICategoryRepository categoryReprositry;
-        private readonly ISupplierRepository supplierRepository;
-        private readonly IOrderAdminRepository orderReprository;
-        public ReportPDFController(IConverter pdfConverter, ApplicationDbContext context, IProductRepository productReprository,
-            ICategoryRepository categoryReprositry, ISupplierRepository supplierRepository
-            , IOrderAdminRepository orderReprository)
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly ISupplierRepository _supplierRepository;
+        private readonly IOrderAdminRepository _orderRepository;
+
+        public ReportPDFController(IConverter pdfConverter, ApplicationDbContext context,
+            IProductRepository productRepository, ICategoryRepository categoryRepository,
+            ISupplierRepository supplierRepository, IOrderAdminRepository orderRepository)
         {
-            this.context = context;
+            _context = context;
             _pdfConverter = pdfConverter;
-            this.productReprository = productReprository;
-            this.categoryReprositry = categoryReprositry;
-            this.supplierRepository = supplierRepository;
-            this.orderReprository = orderReprository;
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+            _supplierRepository = supplierRepository;
+            _orderRepository = orderRepository;
         }
+
         [HttpGet]
         public async Task<IActionResult> GeneratePDF(string InvoiceNo)
         {
-            ViewBag.productCount = productReprository.GetAll().Count();
-            ViewBag.CategoryCount = categoryReprositry.GetAll().Count();
-            ViewBag.SupplierCount = supplierRepository.GetAll().Count();
-            ViewBag.orderCount = orderReprository.GetAll().Count();
+            ViewBag.productCount = _productRepository.GetAll().Count();
+            ViewBag.CategoryCount = _categoryRepository.GetAll().Count();
+            ViewBag.SupplierCount = _supplierRepository.GetAll().Count();
+            ViewBag.orderCount = _orderRepository.GetAll().Count();
 
-            // Assuming context.Orders include a navigation property to Products
-            var monthOrders = context.Orders
+            var monthOrders = _context.Orders
                 .Where(c => c.Date.Month == DateTime.Now.Month)
-                .ToList(); // Retrieve orders for the current month and materialize the query
+                .ToList();
 
             float monthCost = monthOrders
-                .SelectMany(o => o.OrderProducts) // Flatten the nested collections of products
-                .Sum(p => p.Price); // Sum the prices of all products in the orders for the month
+                .SelectMany(o => o.OrderProducts)
+                .Sum(p => p.Price);
 
-          //  ViewBag.yearCost = context.Orders.Where(c => c.Date.Year == DateTime.Now.Year).Sum(c => c.Price);
-            ViewBag.monthOrders = context.Orders.Where(c => c.Date.Month == DateTime.Now.Month).Count();
-            ViewBag.yearOrders = context.Orders.Where(c => c.Date.Year == DateTime.Now.Year).Count();
+            ViewBag.monthOrders = _context.Orders.Where(c => c.Date.Month == DateTime.Now.Month).Count();
+            ViewBag.yearOrders = _context.Orders.Where(c => c.Date.Year == DateTime.Now.Year).Count();
 
-            //return View(orderreport);
-            var htmlContent = await this.RenderViewToStringAsync("GeneratePDF", null);
-            var document = new PdfDocument();
-            //string HtmlContent = "<h1>fgdhdhd</h1>";
-            // PdfGenerator.AddPdfPages(document, htmlContent, PageSize.A4);
+            // Render HTML content from a view to string
+            var htmlContent = await RenderViewToStringAsync("GeneratePDF", null);
 
-            byte[] response;
-            using (MemoryStream ms = new MemoryStream())
+            // Convert HTML content to PDF
+            var pdf = new HtmlToPdfDocument()
             {
-                document.Save(ms);
-                response = ms.ToArray();
-            }
-            string FileName = "Sales Report" + InvoiceNo + ".pdf";
-            return File(response, "application/pdf", FileName);
+                GlobalSettings = {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                },
+                Objects = {
+                    new ObjectSettings() {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            // Generate PDF bytes
+            var pdfBytes = _pdfConverter.Convert(pdf);
+
+            // Return PDF as a file
+            return File(pdfBytes, "application/pdf", $"SalesReport_{InvoiceNo}.pdf");
         }
+        public async Task<IActionResult> GenerateBillingPDF(string InvoiceNo)
+        {
+            ViewBag.productCount = _productRepository.GetAll().Count();
+            ViewBag.CategoryCount = _categoryRepository.GetAll().Count();
+            ViewBag.SupplierCount = _supplierRepository.GetAll().Count();
+            ViewBag.orderCount = _orderRepository.GetAll().Count();
+
+            var monthOrders = _context.Orders
+                .Where(c => c.Date.Month == DateTime.Now.Month)
+                .ToList();
+
+            float monthCost = monthOrders
+                .SelectMany(o => o.OrderProducts)
+                .Sum(p => p.Price);
+
+            ViewBag.monthOrders = _context.Orders.Where(c => c.Date.Month == DateTime.Now.Month).Count();
+            ViewBag.yearOrders = _context.Orders.Where(c => c.Date.Year == DateTime.Now.Year).Count();
+
+            // Render HTML content from a view to string
+            var htmlContent = await RenderViewToStringAsync("GeneratePDF", null);
+
+            // Convert HTML content to PDF
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                },
+                Objects = {
+                    new ObjectSettings() {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            // Generate PDF bytes
+            var pdfBytes = _pdfConverter.Convert(pdf);
+
+            // Return PDF as a file
+            return File(pdfBytes, "application/pdf", $"SalesReport_{InvoiceNo}.pdf");
+        }
+
         public async Task<string> RenderViewToStringAsync(string viewName, object model)
         {
-
             ViewData.Model = model;
 
             using (var writer = new StringWriter())
@@ -93,7 +144,6 @@ namespace MarketWebApp.Controllers
 
                 return writer.GetStringBuilder().ToString();
             }
-
         }
     }
 }
