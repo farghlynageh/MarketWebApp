@@ -361,3 +361,30 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+*.jpg
+*.cs
+MarketWebApp/Migrations/20240328031926_finalll.cs
+MarketWebApp/Migrations/20240328031926_finalll.Designer.cs
+MarketWebApp/Migrations/ApplicationDbContextModelSnapshot.cs
+MarketWebApp/wwwroot/img/categories/cat-1.jpg
+MarketWebApp/wwwroot/img/categories/cat-3.jpg
+MarketWebApp/wwwroot/img/product/product-2.jpg
+MarketWebApp/wwwroot/img/product/product-3.jpg
+MarketWebApp/wwwroot/img/product/product-4.jpg
+MarketWebApp/wwwroot/img/product/Tiger.jpg
+MarketWebApp/wwwroot/ProductImages/kkkk.jpg
+MarketWebApp/wwwroot/ProductImages/Tea.jpg
+MarketWebApp/wwwroot/ProductImages/Tea.png
+MarketWebApp/Migrations/20240328031926_finalll.cs
+MarketWebApp/Migrations/20240328031926_finalll.Designer.cs
+MarketWebApp/Migrations/ApplicationDbContextModelSnapshot.cs
+MarketWebApp/wwwroot/img/categories/cat-1.jpg
+MarketWebApp/wwwroot/img/categories/cat-3.jpg
+MarketWebApp/wwwroot/img/product/product-2.jpg
+MarketWebApp/wwwroot/img/product/product-3.jpg
+MarketWebApp/wwwroot/img/product/product-4.jpg
+MarketWebApp/wwwroot/img/product/Tiger.jpg
+MarketWebApp/wwwroot/ProductImages/kkkk.jpg
+MarketWebApp/wwwroot/ProductImages/Tea.jpg
+MarketWebApp/wwwroot/ProductImages/Tea.png
+*.png

@@ -17,7 +17,32 @@ namespace MarketWebApp.Controllers
             _context = context;
             _emailService = emailService;
         }
-       
+
+        public IActionResult GetConfirmOrder(int pageNumber, int pageSize = 5)
+        {
+            var orders = GetAll()
+                .OrderByDescending(o => o.Orders.FirstOrDefault()?.Date)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            return PartialView("_ordersTable", orders);
+        }
+        public IEnumerable<UserOrdersViewModel> GetAll()
+        {
+            var userOrdersViewModels = _context.Orders
+                .Where(order => order.State == "Pending")
+                .Include(order => order.OrderProducts)
+                    .ThenInclude(orderProduct => orderProduct.Product)
+                .Include(order => order.applicationUser)
+                .Select(order => new UserOrdersViewModel
+                {
+                    User = order.applicationUser,
+                    Orders = new List<Order> { order }
+                })
+                .ToList();
+
+            return userOrdersViewModels;
+        }
 
         [Authorize(Roles = "Admin,Cashier")]
         public IActionResult Index()
@@ -44,7 +69,7 @@ namespace MarketWebApp.Controllers
                 };
                 viewModelList.Add(userOrdersViewModel);
             }
-
+            ViewBag.PageCount = (int)Math.Ceiling((decimal)viewModelList.Count() / 5m);
             return View(viewModelList);
         }
 
@@ -74,12 +99,12 @@ namespace MarketWebApp.Controllers
                             if (orderProduct.Quantity <= 0)
                             {
                                 TempData["ErrorMessage"] = "Quantity cannot be 0.";
-                                return RedirectToAction("GetUserList", "ConfirmOrder");
+                                return RedirectToAction("Index", "ConfirmOrder");
                             }
                             else if (orderProduct.Quantity > product.Stock)
                             {
                                 TempData["ErrorMessage"] = $"Insufficient stock for product: {product.Name}. Available stock: {product.Stock}.";
-                                return RedirectToAction("GetUserList", "ConfirmOrder");
+                                return RedirectToAction("Index", "ConfirmOrder");
                             }
 
                             product.Stock -= orderProduct.Quantity;

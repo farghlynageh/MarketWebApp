@@ -57,7 +57,7 @@ using Microsoft.AspNetCore.Hosting;
                     UnitPrice = op.Product.Price,
                     Discount = op.Product.Discount,
                     TotalWithDiscount = op.Price - (op.Price * op.Product.Discount / 100),
-                    Total = op.Quantity * op.Product.Price
+                    Total = op.Quantity * (op.Price - (op.Price * op.Product.Discount / 100))
                 }).ToList(),
                 TotalAmount = order.OrderProducts.Sum(op => op.Quantity * op.Product.Price)
             };

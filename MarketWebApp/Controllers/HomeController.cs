@@ -19,7 +19,7 @@ namespace MarketWebApp.Controllers
 
         public IActionResult Index(int page = 1)
         {
-            int pageSize = 8; // Number of items per page
+            int pageSize = 8; 
             var totalItems = context.Products.Where(Product => Product.Discount >= 0&&Product.Stock>0).Count();
             var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
@@ -68,6 +68,11 @@ namespace MarketWebApp.Controllers
         public ActionResult Contact()
         {
             return View();
+        } 
+
+        public ActionResult Details(int id)
+        {
+            return View(context.Products.Find(id));
         }
 
 

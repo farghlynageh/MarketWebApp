@@ -251,7 +251,7 @@
             sum += parseFloat(priceElement.textContent.replace('L.E', ''));
         });
 
-        document.getElementById('Total').innerHTML = "<li>Total <span>" + sum + "L.E </span></li>";
+        document.getElementById('Total').innerHTML = "<li>Total <span>" + parseInt(sum) + "L.E </span></li>";
 
     }
     

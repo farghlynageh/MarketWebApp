@@ -17,6 +17,8 @@ namespace MarketWebApp.Models.Entity
         public float Discount { get; set; }
         [Display(Name = "Image")]
         public string Img { get; set; }
+        public string Detail { get; set; }
+        public string Unit { get; set; }
 
         [Required(ErrorMessage = "Stock is required")]
         public int Stock { get; set; }
