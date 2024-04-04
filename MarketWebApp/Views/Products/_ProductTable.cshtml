@@ -14,10 +14,12 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Discount)
                     </th>
-                    @*<th>
-                    @Html.DisplayNameFor(model => model.Img)
-
-                    </th> *@
+                    <th>
+                        @Html.DisplayNameFor(model => model.Detail)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Unit)
+                    </th>
                     <th>Picture</th>
                     <th>
                         @Html.DisplayNameFor(model => model.Stock)
@@ -44,6 +46,12 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Discount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Detail)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Unit)
                         </td>
                         <td><img src="~/img/product/@item.Img" accept=".png, .jpg, .jpeg" class="rounded-circle" height="40" width="40" /></td>
 

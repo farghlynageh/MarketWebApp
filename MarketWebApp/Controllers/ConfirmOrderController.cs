@@ -58,6 +58,7 @@ namespace MarketWebApp.Controllers
                 return NotFound();
             }
 
+            int pageCount = (int)Math.Ceiling((decimal)usersWithOrders.SelectMany(u => u.Orders).Count() / 5m);
             var viewModelList = new List<UserOrdersViewModel>();
 
             foreach (var user in usersWithOrders)
@@ -69,7 +70,8 @@ namespace MarketWebApp.Controllers
                 };
                 viewModelList.Add(userOrdersViewModel);
             }
-            ViewBag.PageCount = (int)Math.Ceiling((decimal)viewModelList.Count() / 5m);
+            ViewBag.PageCount = pageCount;
+
             return View(viewModelList);
         }
 

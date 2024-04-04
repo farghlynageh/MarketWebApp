@@ -149,6 +149,8 @@ namespace MarketWebApp.Controllers
             editProductViewModel.Name = product.Name;
             editProductViewModel.Image = product.Img;
             editProductViewModel.Price = product.Price;
+            editProductViewModel.Detail = product.Detail;
+            editProductViewModel.Unit = product.Unit;
             editProductViewModel.Discount = product.Discount;
             editProductViewModel.Stock = product.Stock;
             editProductViewModel.CategoryID = product.CategoryId;

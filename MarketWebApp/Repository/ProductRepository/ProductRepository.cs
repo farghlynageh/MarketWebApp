@@ -81,7 +81,8 @@ namespace MarketWebApp.Repository.ProductRepository
             product.Name = addProductViewModel.Name;
             product.Price = addProductViewModel.Price;
             product.Discount = addProductViewModel.Discount;
-
+            product.Detail = addProductViewModel.Detail;
+            product.Unit = addProductViewModel.Unit;
             product.CategoryId = addProductViewModel.CategoryID;
             product.Stock = addProductViewModel.Stock;
             product.SupplierId = addProductViewModel.SupplierId;
@@ -110,6 +111,8 @@ namespace MarketWebApp.Repository.ProductRepository
                 product.Name = editProductViewModel.Name;
                 product.Img = imageFullName;
                 product.Discount = editProductViewModel.Discount;
+                product.Detail=editProductViewModel.Detail;
+                product.Unit = editProductViewModel.Unit;
                 product.Price = editProductViewModel.Price;
                 product.Stock = editProductViewModel.Stock;
                 product.CategoryId = editProductViewModel.CategoryID;
@@ -128,6 +131,8 @@ namespace MarketWebApp.Repository.ProductRepository
                 product.Img = uniqueFileName;
                 product.Discount = editProductViewModel.Discount;
                 product.Price = editProductViewModel.Price;
+                product.Detail = editProductViewModel.Detail;
+                product.Unit = editProductViewModel.Unit;
                 product.Stock = editProductViewModel.Stock;
                 product.CategoryId = editProductViewModel.CategoryID;
                 product.SupplierId = editProductViewModel.SupplierId;
@@ -151,6 +156,8 @@ namespace MarketWebApp.Repository.ProductRepository
                 product.Img = uniqueFileName;
                 product.Discount = editProductViewModel.Discount;
                 product.Price = editProductViewModel.Price;
+                product.Detail = editProductViewModel.Detail;
+                product.Unit = editProductViewModel.Unit;
                 product.Stock = editProductViewModel.Stock;
                 product.CategoryId = editProductViewModel.CategoryID;
                 product.SupplierId = editProductViewModel.SupplierId;

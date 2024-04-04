@@ -42,5 +42,16 @@ namespace MarketWebApp.ViewModel.Product
         [Display(Name = "Department")]
         public int CategoryID { get; set; }
 
+        [Display(Name = "Detail")]
+        [MaxLength(50, ErrorMessage = "Product Detail Must Be Less Than 50 Char ")]
+        [Required(ErrorMessage = "Please Enter Product Detail")]
+
+        public string Detail { get; set; }
+
+        [Display(Name = "Unit")]
+        [Required(ErrorMessage = "Please Select Product Unit")]
+
+        public string Unit { get; set; }
+
     }
 }

@@ -27,9 +27,29 @@
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
-                       
+                            <div class="col">
+                                <label asp-for="Unit" class="control-label"></label>
+                                <div class="form-outline mb-4">
+                                    <select asp-for="Unit" class="form-control" asp-items="ViewBag.Unit">
+                                        <option value="kg">kg</option>
+                                        <option value="g">g</option>
+                                        <option value="piece">piece</option>
+                                    </select>
+                                    <span asp-validation-for="Unit" class="text-danger"></span>
+                                </div>
+                            </div>
                     </div>
 
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label asp-for="Detail" class="control-label"></label>
+                                <input asp-for="Detail" class="form-control" />
+                                <span asp-validation-for="Detail" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="row mb-4">
                          <div class="col">
                             <div class="form-outline">
