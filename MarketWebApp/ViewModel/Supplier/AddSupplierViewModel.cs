@@ -15,7 +15,7 @@ namespace MarketWebApp.ViewModel.Supplier
 
         [Display(Name = "Phone Number")]
         [Required(ErrorMessage = "Please Enter Phone Number")]
-        [RegularExpression(@"^01[0-9]{9}$", ErrorMessage = "Invalid Phone Number. Phone number should start with '01' and have 11 digits.")]
+        [RegularExpression(@"^(010|011|012|015)[0-9]{8}$", ErrorMessage = "Invalid Phone Number. Phone number should start with '010', '011', '012', or '015' and have 11 digits.")]
         public string Phone { get; set; }
 
         [Display(Name = "Location Name")]

@@ -2,12 +2,10 @@
 
 <div class="container">
     <div class="container mt-4" style="padding-bottom: 40px;">
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-bordered">
+            <thead class="table-success">
                 <tr>
-                    <th>Name</th>
-                    <th></th>
-                    <th></th>
+                    <th colspan="3">Name</th>
                     <th>Update</th>
                     <th>Delete</th>
                 </tr>
@@ -16,10 +14,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td></td>
-                        <td></td>
+                        <td colspan="3">@Html.DisplayFor(modelItem => item.Name)</td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-outline-success">
                                 <i class="fa fa-pencil"></i> Edit

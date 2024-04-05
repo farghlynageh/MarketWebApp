@@ -4,9 +4,14 @@
     ViewData["Title"] = "DetailsOfOrder";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<div class="container"> 
+    <div class="container">
+        <h2 class="text-center mb-4">Details Of Order</h2>
+    </div>
+    <div class="container" style="padding-bottom: 20px;">
+        <a asp-action="Index" class="btn btn-dark" style="background-color: black;"><i class="fa fa-backward"></i> Back</a>
+    </div>
 
-<div class="container">
-    <h2 class="text-center mb-4">DetailsOfOrder</h2>
 </div>
 
 @if (TempData["ErrorMessage"] != null)
@@ -17,7 +22,7 @@
 }
 <div class="table-responsive container">
     <table class="table table-bordered">
-        <thead class="thead-dark">
+        <thead class="table-secondary">
             <tr>
                 <th>Product</th>
                 <th>Quantity</th>
@@ -33,16 +38,18 @@
                     <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
                     <td>@(item.Quantity * item.Price)</td>
-
                 </tr>
             }
 
             @if (Model.Any() && Model.First().Order.State == "Pending")
             {
                 <tr>
-                    <td colspan="4">
-                        <a href="@Url.Action("AcceptOrder", "ConfirmOrder", new { Id = Model.First().OrderId })" class="btn btn-success mb-4">Confirm Order</a>
-                        <a href="@Url.Action("RejectOrder", "ConfirmOrder", new { Id = Model.First().OrderId })" class="btn btn-danger mb-4">Reject Order</a>
+                    <td colspan="3">
+                        <a href="@Url.Action("AcceptOrder", "ConfirmOrder", new { Id = Model.First().OrderId })" class="btn btn-outline-success mb-4">Confirm Order</a>
+                        <a href="@Url.Action("RejectOrder", "ConfirmOrder", new { Id = Model.First().OrderId })" class="btn btn-outline-danger mb-4">Reject Order</a>
+                    </td>
+                    <td>
+                        <strong>Total = @Model.Sum(item => item.Quantity * item.Price)</strong>
                     </td>
                 </tr>
             }
