@@ -24,11 +24,14 @@ namespace MarketWebApp.Areas.Identity.Pages.Account
         
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        IHttpContextAccessor _contx;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, IHttpContextAccessor contx)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _contx = contx;
         }
 
         /// <summary>
@@ -94,6 +97,7 @@ namespace MarketWebApp.Areas.Identity.Pages.Account
                 Response.Redirect("/Home/Index"); // Redirect authenticated users to the home page
                 return;
             }
+            _contx.HttpContext.Session.Clear();
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
