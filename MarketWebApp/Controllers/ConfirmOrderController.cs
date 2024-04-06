@@ -159,6 +159,34 @@ namespace MarketWebApp.Controllers
             return View(orderitem);
         }
 
+        public IActionResult UserHistory()
+        {
 
+            var usersWithOrderHistory = _context.Users
+                .Include(u => u.Orders.Where(o => o.State != "Pending"))
+                    .ThenInclude(o => o.OrderProducts)
+                        .ThenInclude(op => op.Product)
+                .ToList();
+
+            if (usersWithOrderHistory == null || usersWithOrderHistory.Count == 0)
+            {
+                return NotFound();
+            }
+
+            var viewModelList = new List<UserOrdersViewModel>();
+
+            foreach (var user in usersWithOrderHistory)
+            {
+                var userOrdersViewModel = new UserOrdersViewModel
+                {
+                    User = user,
+                    Orders = user.Orders.ToList()
+                };
+                viewModelList.Add(userOrdersViewModel);
+            }
+
+            ViewBag.PageCount = (int)Math.Ceiling((decimal)viewModelList.Count() / 5m);
+            return View(viewModelList);
+        }
     }
 }

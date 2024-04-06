@@ -115,6 +115,8 @@
                                 <a href="https://www.facebook.com/profile.php?id=100046884501118"><i class="fa fa-facebook"></i></a>
                                 <a href="https://api.whatsapp.com/send/?phone=201014403309&text&type=phone_number&app_absent=0"><i class="fa fa-whatsapp"></i></a>
                             </div>
+                            <div hidden id="auth-status" data-authenticated="@User.Identity.IsAuthenticated.ToString().ToLower()"></div>
+
                             <div class="header__top__right__auth">
                                 @if (User.Identity?.IsAuthenticated == false)
                                 {

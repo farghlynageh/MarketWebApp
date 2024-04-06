@@ -3,6 +3,9 @@ using MarketWebApp.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Net.Mail;
+using System.Net;
+using MarketWebApp.ViewModel;
 
 namespace MarketWebApp.Controllers
 {
@@ -76,6 +79,48 @@ namespace MarketWebApp.Controllers
         }
 
 
-       
+        [HttpPost]
+        public ActionResult SubmitContactForm(ContactViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+               
+                SendReviewEmail(model.Email);
+
+                return RedirectToAction("Contact", "Home");
+            }
+            else
+            {
+                return View("Contact", model); 
+            }
+        }
+        private void SendReviewEmail(string email)
+        {
+            
+            var fromAddress = new MailAddress("Se7teenW3fia@gmail.com", "Se7teenW3fia");
+            var toAddress = new MailAddress(email);
+            const string subject = "We'd love to hear your feedback!";
+            const string body = "Thank you for contacting us! We value your feedback. Please take a moment to review your experience with us.";
+
+            
+            using (var smtp = new SmtpClient())
+            {
+                var credentials = new NetworkCredential("mohamed.b97.2020@gmail.com", "zhvpbtzyffrppfvj"); 
+                smtp.Credentials = credentials;
+                smtp.Host = "smtp.gmail.com"; 
+                smtp.Port = 587; 
+                smtp.EnableSsl = true; 
+
+                var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                };
+                smtp.Send(message);
+            }
+
+          
+        }
+
     }
 }

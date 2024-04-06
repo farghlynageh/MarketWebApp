@@ -1,6 +1,7 @@
 ﻿using MarketWebApp.Data;
 using MarketWebApp.Models;
 using MarketWebApp.Models.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,7 @@ namespace MarketWebApp.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public IActionResult AddToCart(int id)
         {
             string userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;

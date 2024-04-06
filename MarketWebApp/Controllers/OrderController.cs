@@ -98,7 +98,7 @@ namespace MarketWebApp.Controllers
             _context.SaveChanges();
 
             // return RedirectToAction("OrderConfirmation", new { orderId = order.ID });
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("OrderHistory", "order");
         }
 
 
