@@ -1,4 +1,5 @@
-﻿using MarketWebApp.Data;
+﻿using BoldReports.Processing.ObjectModels;
+using MarketWebApp.Data;
 using MarketWebApp.Models.Entity;
 using MarketWebApp.ViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -74,8 +75,6 @@ namespace MarketWebApp.Controllers
 
             return View(viewModelList);
         }
-
-
 
 
         [HttpGet]
@@ -159,9 +158,39 @@ namespace MarketWebApp.Controllers
             return View(orderitem);
         }
 
+
+
+
+        public IActionResult GetUserHistory(int pageNumber, int pageSize = 1)
+        {
+            var orders = GetAllHistory()
+                .OrderByDescending(o => o.Orders.FirstOrDefault()?.Date)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            return PartialView("_userHistory", orders);
+        }
+        public IEnumerable<UserOrdersViewModel> GetAllHistory()
+        {
+            var usersWithOrderHistory = _context.Users
+                .Include(u => u.Orders.Where(o => o.State != "Pending"))
+                    .ThenInclude(o => o.OrderProducts)
+                        .ThenInclude(op => op.Product)
+                .ToList()
+                .Select(user => new UserOrdersViewModel
+                {
+                    User = user,
+                    Orders = user.Orders.ToList()
+                })
+                .ToList();
+
+            return usersWithOrderHistory;
+        }
+
+
+
         public IActionResult UserHistory()
         {
-
             var usersWithOrderHistory = _context.Users
                 .Include(u => u.Orders.Where(o => o.State != "Pending"))
                     .ThenInclude(o => o.OrderProducts)
@@ -185,7 +214,7 @@ namespace MarketWebApp.Controllers
                 viewModelList.Add(userOrdersViewModel);
             }
 
-            ViewBag.PageCount = (int)Math.Ceiling((decimal)viewModelList.Count() / 5m);
+            ViewBag.PageCount = (int)Math.Ceiling((decimal)usersWithOrderHistory.SelectMany(u => u.Orders).Count() / 5m);
             return View(viewModelList);
         }
     }

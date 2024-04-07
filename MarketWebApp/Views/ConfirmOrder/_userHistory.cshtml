@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<MarketWebApp.ViewModel.UserOrdersViewModel>
 
-<table class="table table-bordered table-hover">
-    <thead class="table-danger">
-        <tr>
+<div class="table-responsive container">
+    <table class="table table-bordered table-hover">
+        <thead class="table-success">
+            <tr>
                 <th class="text-center">User Name</th>
                 <th class="text-center">Order ID</th>
                 <th class="text-center">Order Date</th>
@@ -26,16 +27,12 @@
                         <td class="text-center">@userOrdersViewModel.Orders[i].Date</td>
                         <td class="text-center">@userOrdersViewModel.Orders[i].State</td>
                         <td>
-                        <a href="@Url.Action("AcceptOrder", "ConfirmOrder", new { Id = @userOrdersViewModel.Orders[i].ID })" class="btn btn-outline-success"><i class="fa fa-check"></i> Confirm Order</a>
-                        <a href="@Url.Action("RejectOrder", "ConfirmOrder", new { Id = @userOrdersViewModel.Orders[i].ID })" class="btn btn-outline-danger"><i class="fa fa-ban"></i> Reject Order</a>
-                        <a href="@Url.Action("DetailsOfOrder", "ConfirmOrder", new { Id = @userOrdersViewModel.Orders[i].ID })" class="btn btn-secondary"><i class="fa fa-info-circle"></i> Details</a> 
+
+                            <a href="@Url.Action("DetailsOfOrder", "ConfirmOrder", new { Id = @userOrdersViewModel.Orders[i].ID })" class="btn btn-secondary"><i class="fa fa-info-circle"></i> Details</a>
                         </td>
                     </tr>
                 }
             }
         </tbody>
-
-
-
-
     </table>
+</div>

@@ -190,6 +190,7 @@ namespace MarketWebApp.Controllers
             if (ModelState.IsValid)
             {
                 supplierRepository.Delete(Id);
+                supplierRepository.Save();
                 return RedirectToAction("Index");
             }
             return View("Delete");

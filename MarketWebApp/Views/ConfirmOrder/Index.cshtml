@@ -3,8 +3,15 @@
     ViewData["Title"] = "Order";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div class="container">
-    <h2 class="text-center mb-4">Users Orders</h2>
+<div class="container" style="padding-bottom:20px">
+    <div class="row">
+        <div class="col">
+            <h1>Users Orders</h1>
+        </div>
+        <div class="col-ms">
+            <a asp-action="UserHistory" asp-controller="ConfirmOrder" class="btn btn-outline-light custom-btn-style" role="button"><i class="fa fa-history"></i> History</a>
+        </div>
+    </div>
 </div>
 
 @if (TempData["ErrorMessage"] != null)

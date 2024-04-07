@@ -14,6 +14,7 @@ using NuGet.Protocol.Core.Types;
 using MarketWebApp.Repository.SupplierRepository;
 using MarketWebApp.ViewModel.Product;
 using MarketWebApp.ViewModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MarketWebApp.Controllers
 {
@@ -24,12 +25,14 @@ namespace MarketWebApp.Controllers
         private readonly IProductRepository repository;
         private readonly ICategoryRepository repositorycaty;
         private readonly ISupplierRepository repositorySupplier;
+        private readonly ApplicationDbContext context;
 
-        public ProductsController(IProductRepository repository, ICategoryRepository repositorycaty ,ISupplierRepository repositorySupplier)
+        public ProductsController(IProductRepository repository, ICategoryRepository repositorycaty ,ISupplierRepository repositorySupplier ,ApplicationDbContext _context)
         {
             this.repository = repository;
             this.repositorycaty = repositorycaty;
             this.repositorySupplier = repositorySupplier;
+            this.context = _context;
 
         }
 
@@ -228,12 +231,10 @@ namespace MarketWebApp.Controllers
 
         // GET: Products/Delete/5
         [HttpGet]
-
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(int Id)
         {
             return View(repository.GetProduct(Id));
-
         }
 
         // POST: Products/Delete/5
@@ -243,15 +244,26 @@ namespace MarketWebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult ConfirmDelete(int Id)
         {
+            var orderProductExists = context.OrderProduct.Any(op => op.ProductId == Id);
+            var orderPending = context.Orders.Any(o => o.State == "Pending" && o.OrderProducts.Any(op => op.ProductId == Id));
 
-            if (ModelState.IsValid)
+            if (!orderProductExists && !orderPending)
             {
-                repository.Delete(Id);
-                repository.Save();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    repository.Delete(Id);
+                    repository.Save();
+                    return RedirectToAction("Index");
+                }
+                return View("Delete", repository.GetProduct(Id));
             }
-            return View("Delete", repository.GetProduct(Id));
+            else
+            {
+                // Product has associated order products or is in pending orders, so return a view indicating it cannot be deleted.
+                return View("cantDelete", repository.GetProduct(Id));
+            }
         }
+
 
         [HttpGet]
 
