@@ -244,10 +244,9 @@ namespace MarketWebApp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult ConfirmDelete(int Id)
         {
-            var orderProductExists = context.OrderProduct.Any(op => op.ProductId == Id);
             var orderPending = context.Orders.Any(o => o.State == "Pending" && o.OrderProducts.Any(op => op.ProductId == Id));
 
-            if (!orderProductExists && !orderPending)
+            if (!orderPending)
             {
                 if (ModelState.IsValid)
                 {

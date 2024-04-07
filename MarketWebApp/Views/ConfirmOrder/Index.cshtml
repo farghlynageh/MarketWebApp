@@ -9,7 +9,7 @@
             <h1>Users Orders</h1>
         </div>
         <div class="col-ms">
-            <a asp-action="UserHistory" asp-controller="ConfirmOrder" class="btn btn-outline-light custom-btn-style" role="button"><i class="fa fa-history"></i> History</a>
+            <a onclick="RE()" asp-action="UserHistory" asp-controller="ConfirmOrder" class="btn btn-outline-light custom-btn-style" role="button"><i class="fa fa-history"></i> History</a>
         </div>
     </div>
 </div>
@@ -32,6 +32,7 @@
 
 @section scripts {
     <script>
+      
         $(document).ready(function () {
             loadProductData(1);
 

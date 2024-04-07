@@ -97,7 +97,7 @@ namespace MarketWebApp.Controllers
         private void SendReviewEmail(string email)
         {
             
-            var fromAddress = new MailAddress("Se7teenW3fia@gmail.com", "Se7teenW3fia");
+            var fromAddress = new MailAddress("mohamed.b97.2020@gmail.com", "Se7teenW3fia");
             var toAddress = new MailAddress(email);
             const string subject = "We'd love to hear your feedback!";
             const string body = "Thank you for contacting us! We value your feedback. Please take a moment to review your experience with us.";
