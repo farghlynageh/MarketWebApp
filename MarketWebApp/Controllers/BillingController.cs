@@ -59,7 +59,7 @@ using Microsoft.AspNetCore.Hosting;
                     TotalWithDiscount = op.Price - (op.Price * op.Product.Discount / 100),
                     Total = op.Quantity * (op.Price - (op.Price * op.Product.Discount / 100))
                 }).ToList(),
-                TotalAmount = order.OrderProducts.Sum(op => op.Quantity * op.Product.Price)
+                TotalAmount = order.OrderProducts.Sum(op => op.Quantity * (op.Price - (op.Price * op.Product.Discount / 100)))
             };
 
             var htmlContent = RenderViewToStringAsync("Billing", billingViewModel).GetAwaiter().GetResult();
